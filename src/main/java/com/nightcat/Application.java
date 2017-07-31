@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 @SpringBootApplication
 @ComponentScan("com.nightcat")
+
 public class Application {
 
     public static void main(String[] args) {
