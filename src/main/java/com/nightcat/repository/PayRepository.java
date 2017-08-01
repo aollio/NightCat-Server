@@ -4,4 +4,4 @@ import com.nightcat.entity.Pay;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class PayRepository extends AbstractDao<Pay> {}
+public class PayRepository extends AbstractRepository<Pay> {}

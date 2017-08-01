@@ -9,6 +9,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
+
 /**
  * @author finderlo
  * @date 15/05/2017
@@ -16,8 +17,11 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 @Component
 public class EnumPramMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
+
+    private static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(EnumPramMethodArgumentResolver.class);
+
     EnumPramMethodArgumentResolver() {
-        System.out.println("初始化");
+        logger.info("初始化: " + this.getClass().getCanonicalName());
     }
 
     @Override
@@ -28,7 +32,7 @@ public class EnumPramMethodArgumentResolver implements HandlerMethodArgumentReso
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        System.out.println("_________________开始执行");
+        logger.info("开始执行方法参数解析");
         String name = parameter.getParameterName();
         int origin = -1;
         try {

@@ -14,7 +14,7 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 /**
- * @author finderlo
+ * @author Aollio
  * @date 17/04/2017
  */
 @Configuration

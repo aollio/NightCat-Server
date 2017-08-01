@@ -3,9 +3,9 @@ package com.nightcat.common;
 import com.google.gson.Gson;
 
 /**
- * Created by finderlo on 2017/4/7.
+ * Created by Aollio on 2017/4/7.
  */
-public class SimResponse {
+public class Response {
 
     /**
      * 状态码
@@ -26,18 +26,18 @@ public class SimResponse {
      * @author finderlo
      * @date 17/04/2017
      */
-    public SimResponse() {
+    public Response() {
         this(200, null);
     }
 
-    public SimResponse(int status, String message, Object content) {
+    public Response(int status, String message, Object content) {
         this.status = status;
         this.message = message;
         this.content = content;
     }
 
 
-    private SimResponse(int status, Object content) {
+    private Response(int status, Object content) {
         this.status = status;
         this.content = content;
     }
@@ -46,12 +46,12 @@ public class SimResponse {
      * @author finderlo
      * @date 17/04/2017
      */
-    private SimResponse(ErrorCode errorCode) {
+    private Response(ErrorCode errorCode) {
         this(errorCode, null);
     }
 
 
-    private SimResponse(ErrorCode errorCode, Object content) {
+    private Response(ErrorCode errorCode, Object content) {
         this.status = errorCode.getCode();
         this.message = errorCode.getDescription();
         this.content = content;
@@ -63,38 +63,38 @@ public class SimResponse {
      * @param object
      * @return 返回一个承载对象的response.
      **/
-    public static SimResponse withObject(final Object object) {
-        return new SimResponse(ErrorCode.DEFAULT_SUCCESS, object);
+    public static Response withObject(final Object object) {
+        return new Response(ErrorCode.DEFAULT_SUCCESS, object);
     }
 
     /**
      * @return 返回一个默认成功的response.
      **/
-    public static SimResponse ok() {
-        return new SimResponse(ErrorCode.DEFAULT_SUCCESS);
+    public static Response ok() {
+        return new Response(ErrorCode.DEFAULT_SUCCESS);
     }
 
-    public static SimResponse ok(final Object object) {
-        return new SimResponse(ErrorCode.DEFAULT_SUCCESS, object);
+    public static Response ok(final Object object) {
+        return new Response(ErrorCode.DEFAULT_SUCCESS, object);
     }
 
 
     /**
      * @return 返回一个默认错误的response.
      **/
-    public static SimResponse error(int status, String message) {
-        return new SimResponse(status,message,null);
+    public static Response error(int status, String message) {
+        return new Response(status,message,null);
     }
 
     /**
      * @return 返回一个默认错误的response.
      **/
-    public static SimResponse error() {
-        return new SimResponse(ErrorCode.DEFAULT_ERROR);
+    public static Response error() {
+        return new Response(ErrorCode.DEFAULT_ERROR);
     }
 
-    public static SimResponse error(ErrorCode errorCode) {
-        return new SimResponse(errorCode);
+    public static Response error(ErrorCode errorCode) {
+        return new Response(errorCode);
     }
 
 

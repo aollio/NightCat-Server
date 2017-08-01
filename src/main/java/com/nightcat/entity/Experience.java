@@ -10,9 +10,9 @@ public class Experience {
     private String uid;
     private String name;
     private String description;
-    private Integer fav_count;
-    private Integer comment_count;
-    private Integer view_count;
+    private int fav_count;
+    private int comment_count;
+    private int view_count;
     private Timestamp create_time;
 
     @Id
@@ -36,7 +36,7 @@ public class Experience {
     }
 
     @Basic
-    @Column(name = "name",length = 100)
+    @Column(name = "name", length = 100)
     public String getName() {
         return name;
     }
@@ -46,7 +46,7 @@ public class Experience {
     }
 
     @Basic
-    @Column(name = "description",length = 300)
+    @Column(name = "description", length = 300)
     public String getDescription() {
         return description;
     }
@@ -57,31 +57,31 @@ public class Experience {
 
     @Basic
     @Column(name = "fav_count")
-    public Integer getFav_count() {
+    public int getFav_count() {
         return fav_count;
     }
 
-    public void setFav_count(Integer fav_count) {
+    public void setFav_count(int fav_count) {
         this.fav_count = fav_count;
     }
 
     @Basic
     @Column(name = "comment_count")
-    public Integer getComment_count() {
+    public int getComment_count() {
         return comment_count;
     }
 
-    public void setComment_count(Integer comment_count) {
+    public void setComment_count(int comment_count) {
         this.comment_count = comment_count;
     }
 
     @Basic
     @Column(name = "view_count")
-    public Integer getView_count() {
+    public int getView_count() {
         return view_count;
     }
 
-    public void setView_count(Integer view_count) {
+    public void setView_count(int view_count) {
         this.view_count = view_count;
     }
 
@@ -106,9 +106,9 @@ public class Experience {
         if (uid != null ? !uid.equals(that.uid) : that.uid != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (description != null ? !description.equals(that.description) : that.description != null) return false;
-        if (fav_count != null ? !fav_count.equals(that.fav_count) : that.fav_count != null) return false;
-        if (comment_count != null ? !comment_count.equals(that.comment_count) : that.comment_count != null) return false;
-        if (view_count != null ? !view_count.equals(that.view_count) : that.view_count != null) return false;
+        if (fav_count != that.fav_count) return false;
+        if (comment_count != that.comment_count) return false;
+        if (view_count != that.view_count) return false;
         if (create_time != null ? !create_time.equals(that.create_time) : that.create_time != null) return false;
 
         return true;
@@ -120,10 +120,10 @@ public class Experience {
         result = 31 * result + (uid != null ? uid.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (fav_count != null ? fav_count.hashCode() : 0);
-        result = 31 * result + (comment_count != null ? comment_count.hashCode() : 0);
-        result = 31 * result + (view_count != null ? view_count.hashCode() : 0);
-        result = 31 * result + (create_time != null ? create_time.hashCode() : 0);
+        result = 31 * result + fav_count;
+        result = 31 * result + comment_count;
+        result = 31 * result + view_count;
+        result = 31 * result + create_time.hashCode();
         return result;
     }
 }

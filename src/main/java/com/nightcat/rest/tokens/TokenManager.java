@@ -1,4 +1,4 @@
-package com.nightcat.rest.token;
+package com.nightcat.rest.tokens;
 
 import com.nightcat.entity.Token;
 

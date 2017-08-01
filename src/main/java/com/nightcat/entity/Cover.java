@@ -1,5 +1,7 @@
 package com.nightcat.entity;
 
+import com.nightcat.common.utility.Util;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -73,5 +75,10 @@ public class Cover {
         result = 31 * result + (img_url != null ? img_url.hashCode() : 0);
         result = 31 * result + (create_time != null ? create_time.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return Util.toJson(this);
     }
 }

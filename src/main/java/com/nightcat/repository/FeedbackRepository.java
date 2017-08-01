@@ -4,4 +4,4 @@ import com.nightcat.entity.Feedback;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class FeedbackRepository extends AbstractDao<Feedback> {}
+public class FeedbackRepository extends AbstractRepository<Feedback> {}

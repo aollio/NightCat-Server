@@ -10,16 +10,16 @@ public class DesignerProfile {
     private String uid;
     private String summary;
     private String type;
-    private Integer service_length;
-    private Integer bid_count;
+    private int service_length;
+    private int bid_count;
     private BigDecimal hourly_wage;
     private boolean official;
     private String overall_target;
-    private Integer total_works;
-    private Integer bid_success_count;
+    private int total_works;
+    private int bid_success_count;
     private BigDecimal account_balance;
     private Timestamp create_time;
-    private Integer star_level;
+    private int star_level;
     private String position;
     private String school;
 
@@ -56,21 +56,21 @@ public class DesignerProfile {
 
     @Basic
     @Column(name = "service_length")
-    public Integer getService_length() {
+    public int getService_length() {
         return service_length;
     }
 
-    public void setService_length(Integer service_length) {
+    public void setService_length(int service_length) {
         this.service_length = service_length;
     }
 
     @Basic
     @Column(name = "bid_count")
-    public Integer getBid_count() {
+    public int getBid_count() {
         return bid_count;
     }
 
-    public void setBid_count(Integer bid_count) {
+    public void setBid_count(int bid_count) {
         this.bid_count = bid_count;
     }
 
@@ -106,21 +106,21 @@ public class DesignerProfile {
 
     @Basic
     @Column(name = "total_works")
-    public Integer getTotal_works() {
+    public int getTotal_works() {
         return total_works;
     }
 
-    public void setTotal_works(Integer total_works) {
+    public void setTotal_works(int total_works) {
         this.total_works = total_works;
     }
 
     @Basic
     @Column(name = "big_success_count")
-    public Integer getBid_success_count() {
+    public int getBid_success_count() {
         return bid_success_count;
     }
 
-    public void setBid_success_count(Integer bid_success_count) {
+    public void setBid_success_count(int bid_success_count) {
         this.bid_success_count = bid_success_count;
     }
 
@@ -146,11 +146,11 @@ public class DesignerProfile {
 
     @Basic
     @Column(name = "star_level")
-    public Integer getStar_level() {
+    public int getStar_level() {
         return star_level;
     }
 
-    public void setStar_level(Integer star_level) {
+    public void setStar_level(int star_level) {
         this.star_level = star_level;
     }
 
@@ -184,20 +184,20 @@ public class DesignerProfile {
         if (uid != null ? !uid.equals(that.uid) : that.uid != null) return false;
         if (summary != null ? !summary.equals(that.summary) : that.summary != null) return false;
         if (type != null ? !type.equals(that.type) : that.type != null) return false;
-        if (service_length != null ? !service_length.equals(that.service_length) : that.service_length != null)
+        if (service_length != that.service_length)
             return false;
-        if (bid_count != null ? !bid_count.equals(that.bid_count) : that.bid_count != null) return false;
+        if (bid_count != that.bid_count) return false;
         if (hourly_wage != null ? !hourly_wage.equals(that.hourly_wage) : that.hourly_wage != null) return false;
         if (official == that.official) return false;
         if (overall_target != null ? !overall_target.equals(that.overall_target) : that.overall_target != null)
             return false;
-        if (total_works != null ? !total_works.equals(that.total_works) : that.total_works != null) return false;
-        if (bid_success_count != null ? !bid_success_count.equals(that.bid_success_count) : that.bid_success_count != null)
+        if (total_works != that.total_works) return false;
+        if (bid_success_count != that.bid_success_count)
             return false;
         if (account_balance != null ? !account_balance.equals(that.account_balance) : that.account_balance != null)
             return false;
         if (create_time != null ? !create_time.equals(that.create_time) : that.create_time != null) return false;
-        if (star_level != null ? !star_level.equals(that.star_level) : that.star_level != null) return false;
+        if (star_level != that.star_level) return false;
         if (position != null ? !position.equals(that.position) : that.position != null) return false;
         if (school != null ? !school.equals(that.school) : that.school != null) return false;
 
@@ -210,16 +210,16 @@ public class DesignerProfile {
         result = 31 * result + (uid != null ? uid.hashCode() : 0);
         result = 31 * result + (summary != null ? summary.hashCode() : 0);
         result = 31 * result + (type != null ? type.hashCode() : 0);
-        result = 31 * result + (service_length != null ? service_length.hashCode() : 0);
-        result = 31 * result + (bid_count != null ? bid_count.hashCode() : 0);
+        result = 31 * result + service_length;
+        result = 31 * result + bid_count;
         result = 31 * result + (hourly_wage != null ? hourly_wage.hashCode() : 0);
         result = 31 * result + (official ? 1 : 0);
         result = 31 * result + (overall_target != null ? overall_target.hashCode() : 0);
-        result = 31 * result + (total_works != null ? total_works.hashCode() : 0);
-        result = 31 * result + (bid_success_count != null ? bid_success_count.hashCode() : 0);
+        result = 31 * result + total_works;
+        result = 31 * result + bid_success_count;
         result = 31 * result + (account_balance != null ? account_balance.hashCode() : 0);
         result = 31 * result + (create_time != null ? create_time.hashCode() : 0);
-        result = 31 * result + (star_level != null ? star_level.hashCode() : 0);
+        result = 31 * result + star_level;
         result = 31 * result + (position != null ? position.hashCode() : 0);
         result = 31 * result + (school != null ? school.hashCode() : 0);
         return result;

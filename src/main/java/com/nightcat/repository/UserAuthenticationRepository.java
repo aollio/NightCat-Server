@@ -4,4 +4,4 @@ import com.nightcat.entity.UserAuthentication;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class UserAuthenticationRepository extends AbstractDao<UserAuthentication> {}
+public class UserAuthenticationRepository extends AbstractRepository<UserAuthentication> {}

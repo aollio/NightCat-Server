@@ -7,8 +7,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 
 /**
@@ -25,6 +27,30 @@ public class Util {
 
     public static <T> T fromJson(String json, Class<T> cls) {
         return gson.fromJson(json, cls);
+    }
+
+    public static String uuid() {
+        String raw = UUID.randomUUID().toString();
+        return raw.replace("-", "");
+    }
+
+    public static boolean emptyStr(String str) {
+        if (str == null || str.trim().equals("")) {
+            return true;
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(uuid().length());
+    }
+
+    public static Timestamp timeFromStr(String timestr) {
+        try {
+            return Timestamp.valueOf(timestr);
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
     }
 
     public static <T extends Enum<T>> T enumFromOrigin(int origin, Class<T> classT) {

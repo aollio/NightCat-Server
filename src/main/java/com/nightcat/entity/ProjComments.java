@@ -10,7 +10,7 @@ public class ProjComments {
     private String proj_id;
     private String uid;
     private boolean employer;
-    private Integer score;
+    private int score;
     private String content;
     private Timestamp comment_time;
     private String type;
@@ -57,11 +57,11 @@ public class ProjComments {
 
     @Basic
     @Column(name = "score")
-    public Integer getScore() {
+    public int getScore() {
         return score;
     }
 
-    public void setScore(Integer score) {
+    public void setScore(int score) {
         this.score = score;
     }
 
@@ -106,7 +106,7 @@ public class ProjComments {
         if (proj_id != null ? !proj_id.equals(that.proj_id) : that.proj_id != null) return false;
         if (uid != null ? !uid.equals(that.uid) : that.uid != null) return false;
         if (employer != that.employer) return false;
-        if (score != null ? !score.equals(that.score) : that.score != null) return false;
+        if (score !=that.score) return false;
         if (content != null ? !content.equals(that.content) : that.content != null) return false;
         if (comment_time != null ? !comment_time.equals(that.comment_time) : that.comment_time != null) return false;
         if (type != null ? !type.equals(that.type) : that.type != null) return false;
@@ -120,7 +120,7 @@ public class ProjComments {
         result = 31 * result + (proj_id != null ? proj_id.hashCode() : 0);
         result = 31 * result + (uid != null ? uid.hashCode() : 0);
         result = 31 * result + (employer ? 1 : 0);
-        result = 31 * result + (score != null ? score.hashCode() : 0);
+        result = 31 * result + score;
         result = 31 * result + (content != null ? content.hashCode() : 0);
         result = 31 * result + (comment_time != null ? comment_time.hashCode() : 0);
         result = 31 * result + (type != null ? type.hashCode() : 0);

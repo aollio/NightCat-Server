@@ -12,9 +12,9 @@ public class Project {
     private String type;
     private String content;
     private BigDecimal budget;
-    private Integer area;
+    private int area;
     private String depth;
-    private Integer period;
+    private int period;
     private Timestamp start_time;
     private Timestamp end_time;
     private String status;
@@ -27,8 +27,8 @@ public class Project {
     private Timestamp modify_time;
     private String description;
     private Timestamp due_time;
-    private Integer view_count;
-    private Integer fav_count;
+    private int view_count;
+    private int fav_count;
     private String bidder;
     private Timestamp bid_time;
 
@@ -86,11 +86,11 @@ public class Project {
 
     @Basic
     @Column(name = "area")
-    public Integer getArea() {
+    public int getArea() {
         return area;
     }
 
-    public void setArea(Integer area) {
+    public void setArea(int area) {
         this.area = area;
     }
 
@@ -106,11 +106,11 @@ public class Project {
 
     @Basic
     @Column(name = "period")
-    public Integer getPeriod() {
+    public int getPeriod() {
         return period;
     }
 
-    public void setPeriod(Integer period) {
+    public void setPeriod(int period) {
         this.period = period;
     }
 
@@ -165,7 +165,7 @@ public class Project {
     }
 
     @Basic
-    @Column(name = "good",length = 2)
+    @Column(name = "good", length = 2)
     public boolean isGood() {
         return good;
     }
@@ -195,7 +195,7 @@ public class Project {
     }
 
     @Basic
-    @Column(name = "description",length = 300)
+    @Column(name = "description", length = 300)
     public String getDescription() {
         return description;
     }
@@ -216,21 +216,21 @@ public class Project {
 
     @Basic
     @Column(name = "view_count")
-    public Integer getView_count() {
+    public int getView_count() {
         return view_count;
     }
 
-    public void setView_count(Integer view_count) {
+    public void setView_count(int view_count) {
         this.view_count = view_count;
     }
 
     @Basic
     @Column(name = "fav_count")
-    public Integer getFav_count() {
+    public int getFav_count() {
         return fav_count;
     }
 
-    public void setFav_count(Integer fav_count) {
+    public void setFav_count(int fav_count) {
         this.fav_count = fav_count;
     }
 
@@ -255,7 +255,7 @@ public class Project {
     }
 
     @Basic
-    @Column(name = "del",length = 2)
+    @Column(name = "del", length = 2)
     public boolean isDel() {
         return del;
     }
@@ -276,9 +276,9 @@ public class Project {
         if (type != null ? !type.equals(that.type) : that.type != null) return false;
         if (content != null ? !content.equals(that.content) : that.content != null) return false;
         if (budget != null ? !budget.equals(that.budget) : that.budget != null) return false;
-        if (area != null ? !area.equals(that.area) : that.area != null) return false;
+        if (area != that.area) return false;
         if (depth != null ? !depth.equals(that.depth) : that.depth != null) return false;
-        if (period != null ? !period.equals(that.period) : that.period != null) return false;
+        if (period != that.period) return false;
         if (start_time != null ? !start_time.equals(that.start_time) : that.start_time != null) return false;
         if (end_time != null ? !end_time.equals(that.end_time) : that.end_time != null) return false;
         if (status != null ? !status.equals(that.status) : that.status != null) return false;
@@ -291,8 +291,8 @@ public class Project {
         if (modify_time != null ? !modify_time.equals(that.modify_time) : that.modify_time != null) return false;
         if (description != null ? !description.equals(that.description) : that.description != null) return false;
         if (due_time != null ? !due_time.equals(that.due_time) : that.due_time != null) return false;
-        if (view_count != null ? !view_count.equals(that.view_count) : that.view_count != null) return false;
-        if (fav_count != null ? !fav_count.equals(that.fav_count) : that.fav_count != null) return false;
+        if (view_count != that.view_count) return false;
+        if (fav_count != that.fav_count) return false;
         if (bidder != null ? !bidder.equals(that.bidder) : that.bidder != null) return false;
         if (bid_time != null ? !bid_time.equals(that.bid_time) : that.bid_time != null) return false;
         if (del != that.del) {
@@ -309,9 +309,9 @@ public class Project {
         result = 31 * result + (type != null ? type.hashCode() : 0);
         result = 31 * result + (content != null ? content.hashCode() : 0);
         result = 31 * result + (budget != null ? budget.hashCode() : 0);
-        result = 31 * result + (area != null ? area.hashCode() : 0);
+        result = 31 * result + area;
         result = 31 * result + (depth != null ? depth.hashCode() : 0);
-        result = 31 * result + (period != null ? period.hashCode() : 0);
+        result = 31 * result + period;
         result = 31 * result + (start_time != null ? start_time.hashCode() : 0);
         result = 31 * result + (end_time != null ? end_time.hashCode() : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);
@@ -322,8 +322,8 @@ public class Project {
         result = 31 * result + (modify_time != null ? modify_time.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (due_time != null ? due_time.hashCode() : 0);
-        result = 31 * result + (view_count != null ? view_count.hashCode() : 0);
-        result = 31 * result + (fav_count != null ? fav_count.hashCode() : 0);
+        result = 31 * result + view_count;
+        result = 31 * result + fav_count;
         result = 31 * result + (bidder != null ? bidder.hashCode() : 0);
         result = 31 * result + (bid_time != null ? bid_time.hashCode() : 0);
         result = 31 * result + (del ? 1 : 0);

@@ -25,7 +25,7 @@ public class User {
     private String qq;
     private String weibo;
     private String platform;
-    private String clientId;
+    private String client_id;
     private String status;
     private String imtoken;
     private boolean del;
@@ -178,12 +178,12 @@ public class User {
 
     @Basic
     @Column(name = "client_id")
-    public String getClientId() {
-        return clientId;
+    public String getClient_id() {
+        return client_id;
     }
 
-    public void setClientId(String clientId) {
-        this.clientId = clientId;
+    public void setClient_id(String client_id) {
+        this.client_id = client_id;
     }
 
     @Basic
@@ -240,7 +240,7 @@ public class User {
         if (qq != null ? !qq.equals(user.qq) : user.qq != null) return false;
         if (weibo != null ? !weibo.equals(user.weibo) : user.weibo != null) return false;
         if (platform != null ? !platform.equals(user.platform) : user.platform != null) return false;
-        if (clientId != null ? !clientId.equals(user.clientId) : user.clientId != null) return false;
+        if (client_id != null ? !client_id.equals(user.client_id) : user.client_id != null) return false;
         if (status != null ? !status.equals(user.status) : user.status != null) return false;
         if (imtoken != null ? !imtoken.equals(user.imtoken) : user.imtoken != null) return false;
         if (isDel() != user.isDel()) {
@@ -265,7 +265,7 @@ public class User {
         result = 31 * result + (qq != null ? qq.hashCode() : 0);
         result = 31 * result + (weibo != null ? weibo.hashCode() : 0);
         result = 31 * result + (platform != null ? platform.hashCode() : 0);
-        result = 31 * result + (clientId != null ? clientId.hashCode() : 0);
+        result = 31 * result + (client_id != null ? client_id.hashCode() : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + (imtoken != null ? imtoken.hashCode() : 0);
         result = 31 * result + (del ? 1 : 0);

@@ -1,7 +1,9 @@
-package com.nightcat.repository;
+package com.nightcat.repositorytest;
 
 import com.nightcat.Application;
+import com.nightcat.common.utility.Util;
 import com.nightcat.entity.User;
+import com.nightcat.repository.UserRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +22,12 @@ public class UserTest {
     @Test
     public void test() {
         User user = new User();
-        user.setUid(UUID.randomUUID().toString());
+        user.setUid(Util.uuid());
         user.setRole(User.Role.DESIGNER);
-        user.setDel(true);
-        userRepository.save(user);
+        user.setPhone("123456");
+        user.setPassword("123456");
+        user.setDel(false);
+        userRepository.saveOrUpdate(user);
     }
 
 }

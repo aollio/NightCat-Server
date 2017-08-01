@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import java.util.List;
 
 /**
- * @author finderlo
+ * @author Aollio
  * @date 15/05/2017
  */
 @Configuration
@@ -29,7 +29,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
     /**
      * 增加参数解析器
-     * @author Ticknick Hou
+     * @author Aollio
      * @date 15/05/2017
      */
     @Override

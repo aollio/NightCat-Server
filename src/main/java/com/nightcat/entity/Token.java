@@ -8,26 +8,26 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "ym_users_token", schema = "nightcat", catalog = "")
 public class Token {
-    private String id;
+    private String token;
     private String uid;
     private Timestamp last_active_time;
 
     public Token() {
     }
 
-    public Token(String id, String uid) {
-        this.id = id;
+    public Token(String token, String uid) {
+        this.token = token;
         this.uid = uid;
     }
 
     @Id
-    @Column(name = "id")
-    public String getId() {
-        return id;
+    @Column(name = "tokens")
+    public String getToken() {
+        return token;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setToken(String token) {
+        this.token = token;
     }
 
     @Basic
@@ -58,7 +58,7 @@ public class Token {
 
         Token that = (Token) o;
 
-        if (!id.equals(that.id)) return false;
+        if (!token.equals(that.token)) return false;
         if (uid != null ? !uid.equals(that.uid) : that.uid != null) return false;
         if (last_active_time != null ?
                 !last_active_time.equals(that.last_active_time)
@@ -69,7 +69,7 @@ public class Token {
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
+        int result = token.hashCode();
         result = 31 * result + (uid != null ? uid.hashCode() : 0);
         result = 31 * result + (last_active_time != null ? last_active_time.hashCode() : 0);
         return result;

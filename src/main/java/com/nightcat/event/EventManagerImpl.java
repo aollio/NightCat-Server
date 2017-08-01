@@ -8,10 +8,10 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
- * Created by finderlo on 15/04/2017.
+ * Created by Aollio on 15/04/2017.
  * 事件发布系统
  *
- * @author finderlo
+ * @author Aollio
  */
 @Component
 public class EventManagerImpl implements EventManager {

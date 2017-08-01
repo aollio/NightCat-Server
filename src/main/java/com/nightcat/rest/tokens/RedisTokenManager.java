@@ -1,6 +1,7 @@
-package com.nightcat.rest.token;
+package com.nightcat.rest.tokens;
 
 import com.nightcat.common.constant.Constant;
+import com.nightcat.common.utility.Util;
 import com.nightcat.entity.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,10 +32,10 @@ public class RedisTokenManager implements TokenManager {
 
     @Override
     public Token createToken(String uid) {
-        String token = UUID.randomUUID().toString().replace("_", "");
+        String token = Util.uuid().replace("_", "");
         token = uid + "_" + token;
-        logger.info("create token. uid:" + uid + "  token:" + token);
-        Token tokenModel = new Token(uid, token);
+        logger.info("create tokens. uid:" + uid + "  tokens:" + token);
+        Token tokenModel = new Token(token, uid);
         //set expire time
         redis.boundValueOps(uid).set(token, Constant.TOKEN_EXPIRES_HOUR, TimeUnit.HOURS);
         return tokenModel;
@@ -46,20 +47,22 @@ public class RedisTokenManager implements TokenManager {
             logger.warn("model is null");
             return false;
         }
+
         String token = redis.boundValueOps(model.getUid()).get();
 
-        if (token == null || !token.equals(model.getId())) {
+        if (token == null || !token.equals(model.getToken())) {
             return false;
         }
 
         redis.boundValueOps(model.getUid()).expire(Constant.TOKEN_EXPIRES_HOUR, TimeUnit.HOURS);
-        logger.info("check model is right, update the token expires time. uid :" + model.getUid());
+        logger.info("check model is right, update the tokens expires time. uid: " + model.getUid());
         return true;
     }
 
     @Override
     public Token getToken(String authentication) {
         if (authentication == null || authentication.length() == 0) {
+            logger.error("authentication is null or length is 0");
             return null;
         }
         String[] param = authentication.split("_");
@@ -74,7 +77,7 @@ public class RedisTokenManager implements TokenManager {
 
 
     @Override
-    public void delToken(String userId) {
-        redis.delete(userId);
+    public void delToken(String uid) {
+        redis.delete(uid);
     }
 }

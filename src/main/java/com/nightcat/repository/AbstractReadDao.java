@@ -31,6 +31,7 @@ public abstract class AbstractReadDao<T>  {
     protected SessionFactory sessionFactory;
 
     protected List<String> ids = new ArrayList<>();
+
     protected String id;
 
     public List<T> sort(List<T> T) {
