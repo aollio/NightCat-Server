@@ -4,23 +4,71 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+/**
+ * 设计师用户详情
+ */
 @Entity
 @Table(name = "ym_designer_profile", schema = "nightcat", catalog = "")
 public class DesignerProfile {
+    /**
+     * 用户标识
+     */
     private String uid;
+    /**
+     * 用户简介
+     */
     private String summary;
+    /**
+     * 设计师类别
+     */
     private String type;
+    /**
+     * 工龄
+     */
     private int service_length;
+    /**
+     * 接单数
+     */
     private int bid_count;
+    /**
+     * 时薪
+     */
     private BigDecimal hourly_wage;
+    /**
+     * 是否官方认证
+     */
     private boolean official;
+    /**
+     * 综合指标
+     */
     private String overall_target;
+    /**
+     * 总工时
+     */
     private int total_works;
+    /**
+     * 接单成功数
+     */
     private int bid_success_count;
+    /**
+     * 账户余额
+     */
     private BigDecimal account_balance;
+    /**
+     * 用户创建时间
+     */
     private Timestamp create_time;
+    /**
+     * 星级
+     */
     private int star_level;
+    /**
+     * 职位
+     */
     private String position;
+    /**
+     * 学校
+     */
     private String school;
 
 

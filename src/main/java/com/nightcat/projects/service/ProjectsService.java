@@ -1,4 +1,4 @@
-package com.nightcat.service.projects;
+package com.nightcat.projects.service;
 
 import com.nightcat.config.annotation.Authorization;
 import com.nightcat.entity.FeaturedProject;
@@ -33,6 +33,13 @@ public class ProjectsService {
         return result;
     }
 
+    public List<Project> findTimelineByUid(String uid,
+                                           String type,
+                                           int limit,
+                                           Timestamp since_time,
+                                           Timestamp max_time) {
+        return projectRepository.findByTypeAndUid(uid, type, limit, since_time, max_time);
+    }
 
     public List<Project> findByType(String type, int limit, Timestamp since_time, Timestamp max_time) {
         return projectRepository.findByType(type, limit, since_time, max_time);

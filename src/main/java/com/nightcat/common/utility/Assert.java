@@ -7,6 +7,8 @@ import com.nightcat.common.constant.HttpStatus;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
+import java.util.Locale;
+import java.util.Objects;
 
 /**
  * @author finderlo
@@ -17,6 +19,12 @@ public class Assert {
     public static void notNull(Object o, int status, String message) {
         if (o == null) {
             throw new CatException(status, message);
+        }
+    }
+
+    public static void equals(Object src, Object tar, int staus, String message) {
+        if (!Objects.equals(src, tar)) {
+            throw new CatException(staus, message);
         }
     }
 
@@ -41,6 +49,20 @@ public class Assert {
             throw new CatException(status, message);
         }
     }
+
+
+    public static void isFalse(boolean b, String message) {
+        if (b) {
+            throw new CatException(HttpStatus.BAD_REQUEST, message);
+        }
+    }
+
+    public static void isFalse(boolean b, int status, String message) {
+        if (b) {
+            throw new CatException(status, message);
+        }
+    }
+
 
     public static void strExist(String s) {
         if (s == null || "".equals(s.trim())) {

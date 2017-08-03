@@ -1,6 +1,7 @@
 package com.nightcat.common;
 
 import com.google.gson.Gson;
+import com.nightcat.common.utility.Util;
 
 /**
  * Created by Aollio on 2017/4/7.
@@ -135,7 +136,7 @@ public class Response {
 
     @Override
     public String toString() {
-        return new Gson().toJson(this);
+        return Util.toJson(this);
     }
 
 }

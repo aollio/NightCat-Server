@@ -1,4 +1,4 @@
-package com.nightcat.rest.tokens;
+package com.nightcat.users.service;
 
 import com.nightcat.common.constant.Constant;
 import com.nightcat.common.utility.Util;
@@ -10,7 +10,6 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -18,9 +17,9 @@ import java.util.concurrent.TimeUnit;
  * @date 15/05/2017
  */
 @Component
-public class RedisTokenManager implements TokenManager {
+public class RedisTokenService implements TokenService {
 
-    private Logger logger = LoggerFactory.getLogger(RedisTokenManager.class);
+    private Logger logger = LoggerFactory.getLogger(RedisTokenService.class);
 
     private StringRedisTemplate redis;
 

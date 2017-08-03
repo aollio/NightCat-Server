@@ -4,8 +4,7 @@ import com.nightcat.common.Response;
 import com.nightcat.common.constant.Constant;
 import com.nightcat.common.constant.HttpStatus;
 import com.nightcat.entity.Token;
-import com.nightcat.repository.UserRepository;
-import com.nightcat.rest.tokens.TokenManager;
+import com.nightcat.users.service.TokenService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 
 /**
+ *
+ * 用户认证拦截器. 使用请求头部
  * @author Aollio
  * @date 15/05/2017
  */
@@ -28,14 +29,11 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
     private Logger logger = LoggerFactory.getLogger(AuthorizationInterceptor.class);
 
     @Autowired
-    private TokenManager manager;
+    private TokenService manager;
 
-    @Autowired
-    private UserRepository userRepository;
 
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) throws Exception {
-        logger.info("preHandle: request:" + request.getRequestURI() + "  " + request.getMethod());
 
         if (!(handler instanceof HandlerMethod)) {
             return true;
@@ -76,7 +74,5 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView
             modelAndView) throws Exception {
         super.postHandle(request, response, handler, modelAndView);
-        logger.info("postHandle request: " + request.getRequestURI() + "  " + request.getMethod());
-        logger.info("postHandle response: " + response);
     }
 }

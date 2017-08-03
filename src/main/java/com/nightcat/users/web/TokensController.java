@@ -1,11 +1,11 @@
-package com.nightcat.rest.tokens;
+package com.nightcat.users.web;
 
-import com.nightcat.common.ErrorCode;
 import com.nightcat.common.Response;
 import com.nightcat.common.utility.Assert;
 import com.nightcat.entity.Token;
 import com.nightcat.entity.User;
 import com.nightcat.repository.UserRepository;
+import com.nightcat.users.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +23,7 @@ public class TokensController {
     private UserRepository userRepository;
 
     @Autowired
-    private TokenManager tokenManager;
+    private TokenService tokenService;
 
     /**
      * 登陆, 返回TOKEN，缺少必选参数时，返回400HTTP状态码Status
@@ -38,25 +38,22 @@ public class TokensController {
         Assert.strExist(phone, BAD_REQUEST, "phone parameter not exist");
 
         User user;
-
         Token tokenModel;
-
         user = userRepository.findByPhone(phone);
 
         //check user password
-        if (user == null ||
-                !user.getPassword().equals(password)) {
-            return Response.error(ErrorCode.PHONE_OR_PASSWORD_ERROR);
-        }
+        Assert.notNull(user, BAD_REQUEST, "用户不存在");
+        Assert.equals(user.getPassword(), password, BAD_REQUEST, "密码不正确");
 
-        tokenModel = tokenManager.createToken(user.getUid());
+
+        tokenModel = tokenService.createToken(user.getUid());
         return Response.ok(tokenModel);
     }
 
 //    @DeleteMapping
 //    @Authorization
 //    public Response logout(@CurrentUser UserEntity user) {
-//        tokenManager.delToken(user.getUid());
+//        tokenService.delToken(user.getUid());
 //        return Response.ok();
 //    }
 

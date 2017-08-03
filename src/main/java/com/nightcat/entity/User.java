@@ -12,13 +12,12 @@ import java.sql.Timestamp;
 @Table(name = "ym_user", schema = "nightcat", catalog = "")
 public class User {
     private String uid;
-    private String user_name;
     private String password;
     private String realname;
     private String nickname;
     private String img_url;
     private String phone;
-    private Timestamp register_time;
+    private Timestamp create_time;
     private Timestamp last_login_time;
     private Role role;
     private String wechat;
@@ -26,7 +25,6 @@ public class User {
     private String weibo;
     private String platform;
     private String client_id;
-    private String status;
     private String imtoken;
     private boolean del;
 
@@ -45,15 +43,6 @@ public class User {
         this.uid = id;
     }
 
-    @Basic
-    @Column(name = "username")
-    public String getUser_name() {
-        return user_name;
-    }
-
-    public void setUser_name(String userName) {
-        this.user_name = userName;
-    }
 
     @Basic
     @Column(name = "password")
@@ -107,13 +96,13 @@ public class User {
     }
 
     @Basic
-    @Column(name = "register_time")
-    public Timestamp getRegister_time() {
-        return register_time;
+    @Column(name = "create_time")
+    public Timestamp getCreate_time() {
+        return create_time;
     }
 
-    public void setRegister_time(Timestamp register_time) {
-        this.register_time = register_time;
+    public void setCreate_time(Timestamp register_time) {
+        this.create_time = register_time;
     }
 
     @Basic
@@ -186,15 +175,6 @@ public class User {
         this.client_id = client_id;
     }
 
-    @Basic
-    @Column(name = "status")
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 
     @Basic
     @Column(name = "im_token")
@@ -224,13 +204,12 @@ public class User {
         User user = (User) o;
 
         if (uid != null ? !uid.equals(user.uid) : user.uid != null) return false;
-        if (user_name != null ? !user_name.equals(user.user_name) : user.user_name != null) return false;
         if (password != null ? !password.equals(user.password) : user.password != null) return false;
         if (realname != null ? !realname.equals(user.realname) : user.realname != null) return false;
         if (nickname != null ? !nickname.equals(user.nickname) : user.nickname != null) return false;
         if (img_url != null ? !img_url.equals(user.img_url) : user.img_url != null) return false;
         if (phone != null ? !phone.equals(user.phone) : user.phone != null) return false;
-        if (register_time != null ? !register_time.equals(user.register_time) : user.register_time != null)
+        if (create_time != null ? !create_time.equals(user.create_time) : user.create_time != null)
             return false;
         if (last_login_time != null ? !last_login_time.equals(user.last_login_time) : user.last_login_time != null)
             return false;
@@ -241,7 +220,6 @@ public class User {
         if (weibo != null ? !weibo.equals(user.weibo) : user.weibo != null) return false;
         if (platform != null ? !platform.equals(user.platform) : user.platform != null) return false;
         if (client_id != null ? !client_id.equals(user.client_id) : user.client_id != null) return false;
-        if (status != null ? !status.equals(user.status) : user.status != null) return false;
         if (imtoken != null ? !imtoken.equals(user.imtoken) : user.imtoken != null) return false;
         if (isDel() != user.isDel()) {
             return false;
@@ -252,13 +230,12 @@ public class User {
     @Override
     public int hashCode() {
         int result = uid != null ? uid.hashCode() : 0;
-        result = 31 * result + (user_name != null ? user_name.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (realname != null ? realname.hashCode() : 0);
         result = 31 * result + (nickname != null ? nickname.hashCode() : 0);
         result = 31 * result + (img_url != null ? img_url.hashCode() : 0);
         result = 31 * result + (phone != null ? phone.hashCode() : 0);
-        result = 31 * result + (register_time != null ? register_time.hashCode() : 0);
+        result = 31 * result + (create_time != null ? create_time.hashCode() : 0);
         result = 31 * result + (last_login_time != null ? last_login_time.hashCode() : 0);
         result = 31 * result + (role != null ? role.hashCode() : 0);
         result = 31 * result + (wechat != null ? wechat.hashCode() : 0);
@@ -266,7 +243,6 @@ public class User {
         result = 31 * result + (weibo != null ? weibo.hashCode() : 0);
         result = 31 * result + (platform != null ? platform.hashCode() : 0);
         result = 31 * result + (client_id != null ? client_id.hashCode() : 0);
-        result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + (imtoken != null ? imtoken.hashCode() : 0);
         result = 31 * result + (del ? 1 : 0);
         return result;

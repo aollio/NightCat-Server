@@ -1,4 +1,4 @@
-package com.nightcat.service.users;
+package com.nightcat.users.service;
 
 import com.nightcat.common.utility.Assert;
 import com.nightcat.common.utility.Util;
@@ -20,22 +20,17 @@ import static com.nightcat.common.constant.HttpStatus.*;
 public class UserService {
 
 
-
-
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private CoverRepository coverRepository;
 
 
 
     public void save(User user) {
-        user.setUid(Util.uuid());
-
         User olduser = userRepository.findByPhone(user.getPhone());
         Assert.isNull(olduser, BAD_REQUEST, "手机号已被使用");
 
+        user.setUid(Util.uuid());
+        user.setImtoken(user.getUid());
         userRepository.save(user);
     }
 

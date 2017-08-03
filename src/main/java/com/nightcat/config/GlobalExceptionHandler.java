@@ -15,21 +15,21 @@ public class GlobalExceptionHandler {
 
     private Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
+
     /**
      * 系统异常处理，比如：404,500
-     *
      */
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
     public Response defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
-        logger.error("", e);
+
 
         Response response = new Response();
         response.setMessage(e.getMessage());
 
         if (e instanceof org.springframework.web.servlet.NoHandlerFoundException) {
             response.setStatus(404);
-        }else if (e instanceof CatException){
+        } else if (e instanceof CatException) {
             CatException sed = (CatException) e;
             response.setStatus(sed.getStatus());
             response.setMessage(sed.getMessage());
@@ -38,6 +38,9 @@ public class GlobalExceptionHandler {
         }
 
         response.setContent(null);
+
+        logger.error("出现异常! 异常返回信息: " + response.toString(), e);
+
         return response;
     }
 }

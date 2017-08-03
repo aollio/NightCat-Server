@@ -1,4 +1,4 @@
-package com.nightcat.rest.users;
+package com.nightcat.users.web;
 
 import com.nightcat.common.Response;
 import com.nightcat.common.utility.Assert;
@@ -7,12 +7,9 @@ import com.nightcat.config.annotation.Authorization;
 import com.nightcat.config.annotation.CurrentUser;
 import com.nightcat.entity.Honor;
 import com.nightcat.entity.User;
-import com.nightcat.service.users.HonorsService;
+import com.nightcat.users.service.HonorsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import javax.jws.soap.SOAPBinding;
 
 import java.sql.Timestamp;
 
@@ -42,6 +39,9 @@ public class HonorsController {
             @RequestParam String img_url,
             @RequestParam String get_time
     ) {
+
+        Assert.isTrue(user.getRole() == User.Role.DESIGNER,
+                BAD_REQUEST, "设计师才可以上传荣耀");
 
         Assert.strExist(name, BAD_REQUEST, "荣誉名称不存在");
         Assert.strExist(img_url, BAD_REQUEST, "荣誉图片路径不存在");

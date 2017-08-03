@@ -1,8 +1,10 @@
 package com.nightcat.repository;
 
 import com.nightcat.entity.Project;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
@@ -13,20 +15,21 @@ public class ProjectRepository extends AbstractRepository<Project> {
 
 
     public List<Project> findByType(String type, int limit, Timestamp since_time, Timestamp max_time) {
-        Session session = sessionFactory.getCurrentSession();
-        Query query = session
-                .createQuery(
-                        "From Project p where (p.type like :typestr) and (p.create_time between :low and :high)"
-                );
+        return (List<Project>) getCriteriaWithTimeAndType(type, limit, since_time, max_time).list();
+    }
 
-        query.setTimestamp("low", since_time);
-        query.setTimestamp("high", max_time);
-        query.setString("typestr", type);
+    public List<Project> findByTypeAndUid(String uid, String type, int limit, Timestamp since_time, Timestamp max_time) {
+        Criteria criteria = getCriteriaWithTimeAndType(type, limit, since_time, max_time);
+        criteria.add(Restrictions.eq("uid", uid));
+        return (List<Project>) criteria.list();
+    }
 
-        query.setFirstResult(0);
-        query.setMaxResults(limit);
+    private Criteria getCriteriaWithTimeAndType(String type, int limit, Timestamp since_time, Timestamp max_time) {
 
-        List<Project> projects = query.list();
-        return projects;
+        Criteria criteria = getCriteria(limit);
+        criteria.add(Restrictions.like("type", type));
+        criteria.add(Restrictions.between("create_time", since_time, max_time));
+
+        return criteria;
     }
 }

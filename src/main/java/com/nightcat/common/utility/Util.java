@@ -2,15 +2,17 @@ package com.nightcat.common.utility;
 
 
 import com.google.gson.Gson;
+import org.omg.CORBA.TIMEOUT;
+import sun.misc.BASE64Encoder;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 
 /**
@@ -41,17 +43,15 @@ public class Util {
         return false;
     }
 
-    public static void main(String[] args) {
-        System.out.println(uuid().length());
-    }
 
     public static Timestamp timeFromStr(String timestr) {
         try {
-            return Timestamp.valueOf(timestr);
-        } catch (IllegalArgumentException e) {
+            return new Timestamp(Long.parseLong(timestr));
+        } catch (Exception e) {
             return null;
         }
     }
+
 
     public static <T extends Enum<T>> T enumFromOrigin(int origin, Class<T> classT) {
         T[] values = classT.getEnumConstants();
@@ -106,14 +106,24 @@ public class Util {
         return new Timestamp(System.currentTimeMillis());
     }
 
-//    public static boolean isHaveEnoughInfoToUpgrade(UserEntity user) {
-//        try {
-//            Assert.strExist(user.getSchoolCard());
-//            Assert.strExist(user.getIdCard());
-//            Assert.strExist(user.getAliPay());
-//            return true;
-//        } catch (Exception e) {
-//            return false;
-//        }
-//    }
+
+    public static String md5(String str) {
+
+        try {
+            // 确定计算方法
+            MessageDigest md5 = MessageDigest.getInstance("MD5");
+            BASE64Encoder base64en = new BASE64Encoder();
+            // 加密后的字符串
+            return base64en.encode(md5.digest(str.getBytes("utf-8"))).replace("=", "");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static String uniqueFileName(String filename) {
+        String suffix = filename.substring(filename.lastIndexOf(".") + 1);
+        return System.currentTimeMillis() + "" + new Random().nextInt(10000) + "." + suffix;
+    }
+
 }

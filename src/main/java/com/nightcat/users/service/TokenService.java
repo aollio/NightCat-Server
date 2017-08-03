@@ -1,4 +1,4 @@
-package com.nightcat.rest.tokens;
+package com.nightcat.users.service;
 
 import com.nightcat.entity.Token;
 
@@ -6,7 +6,7 @@ import com.nightcat.entity.Token;
  * @author Aollio
  * @date 15/05/2017
  */
-public interface TokenManager {
+public interface TokenService {
     Token createToken(String uid);
 
     boolean checkToken(Token tokenModel);

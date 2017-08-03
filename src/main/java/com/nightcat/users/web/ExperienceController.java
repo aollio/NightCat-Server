@@ -1,4 +1,4 @@
-package com.nightcat.rest.users;
+package com.nightcat.users.web;
 
 import com.nightcat.common.Response;
 import com.nightcat.common.utility.Assert;
@@ -7,9 +7,8 @@ import com.nightcat.config.annotation.Authorization;
 import com.nightcat.config.annotation.CurrentUser;
 import com.nightcat.entity.Experience;
 import com.nightcat.entity.User;
-import com.nightcat.service.users.UsersExperienceService;
+import com.nightcat.users.service.UsersExperienceService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import static com.nightcat.common.constant.HttpStatus.BAD_REQUEST;
@@ -41,13 +40,18 @@ public class ExperienceController {
             @RequestParam String description
     ) {
 
+        Assert.isTrue(user.getRole() == User.Role.DESIGNER,
+                BAD_REQUEST, "设计师才可以上传荣耀");
+
         Assert.strExist(name, BAD_REQUEST, "经历名称不存在");
         Assert.strExist(description, BAD_REQUEST, "经历描述不能为空");
 
         Experience experience = new Experience();
-        experience.setCreate_time(Util.now());
+        experience.setName(name);
         experience.setDescription(description);
+
         experience.setUid(user.getUid());
+        experience.setCreate_time(Util.now());
 
         experienceService.save(experience);
         return Response.ok(experience);

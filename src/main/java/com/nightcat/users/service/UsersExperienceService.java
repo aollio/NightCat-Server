@@ -1,4 +1,4 @@
-package com.nightcat.service.users;
+package com.nightcat.users.service;
 
 import com.nightcat.common.utility.Assert;
 import com.nightcat.common.utility.Util;

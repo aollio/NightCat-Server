@@ -3,6 +3,7 @@ package com.nightcat.repository;
 import com.nightcat.common.CatException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ import static com.nightcat.common.ErrorCode.SYSTEM_PERSISTENT_INCORRECT_KEY;
  * Created by finderlo on 16-12-17.
  */
 @Transactional
-public abstract class AbstractReadDao<T>  {
+public abstract class AbstractReadDao<T> {
 
     protected Logger logger = LogManager.getLogger(this.getClass());
 
@@ -183,6 +184,17 @@ public abstract class AbstractReadDao<T>  {
         return ids;
     }
 
+    protected Criteria getCriteria() {
+        return sessionFactory.getCurrentSession().createCriteria(bindClass());
+    }
+
+    protected Criteria getCriteria(int limit) {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(bindClass());
+        criteria.setFirstResult(0);
+        criteria.setMaxResults(limit);
+        return criteria;
+    }
+
     protected String getId() {
         if (id == null) {
             findIds();
@@ -232,7 +244,7 @@ public abstract class AbstractReadDao<T>  {
         return mTClass;
     }
 
-    public  List<T> findBy(Map<String, String> attr, boolean likeQuery){
+    public List<T> findBy(Map<String, String> attr, boolean likeQuery) {
         String[] key = new String[attr.size()];
         String[] val = new String[attr.size()];
         int i = 0;
@@ -241,6 +253,6 @@ public abstract class AbstractReadDao<T>  {
             val[i] = entry.getValue();
             i++;
         }
-        return findBy(key,val,likeQuery);
+        return findBy(key, val, likeQuery);
     }
 }

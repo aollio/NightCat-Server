@@ -1,4 +1,4 @@
-package com.nightcat.service.users;
+package com.nightcat.users.service;
 
 import com.nightcat.common.utility.Assert;
 import com.nightcat.common.utility.Util;
@@ -8,10 +8,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.*;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import static com.nightcat.common.constant.HttpStatus.NOT_FOUND;
 

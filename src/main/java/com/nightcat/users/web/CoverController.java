@@ -1,4 +1,4 @@
-package com.nightcat.rest.users;
+package com.nightcat.users.web;
 
 import com.nightcat.common.Response;
 import com.nightcat.common.utility.Assert;
@@ -6,7 +6,7 @@ import com.nightcat.config.annotation.Authorization;
 import com.nightcat.config.annotation.CurrentUser;
 import com.nightcat.entity.Cover;
 import com.nightcat.entity.User;
-import com.nightcat.service.users.CoverService;
+import com.nightcat.users.service.CoverService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -14,7 +14,7 @@ public class Constant {
     public static final int USER_CREATE_ORDER_MAX_COUNT = 10;
     public static final String SYSTEM_MESSAGE_SENDER = "0";
 
-    public static int TOKEN_EXPIRES_HOUR = 10;
+    public static int TOKEN_EXPIRES_HOUR = 240;
 
 
 }
