@@ -184,11 +184,11 @@ public abstract class AbstractReadDao<T> {
         return ids;
     }
 
-    protected Criteria getCriteria() {
+    public Criteria getCriteria() {
         return sessionFactory.getCurrentSession().createCriteria(bindClass());
     }
 
-    protected Criteria getCriteria(int limit) {
+    public Criteria getCriteria(int limit) {
         Criteria criteria = sessionFactory.getCurrentSession().createCriteria(bindClass());
         criteria.setFirstResult(0);
         criteria.setMaxResults(limit);

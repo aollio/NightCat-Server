@@ -1,20 +1,64 @@
 package com.nightcat.entity;
 
+import com.nightcat.common.utility.Util;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+/**
+ * 用户认证信息审核表
+ */
 @Entity
 @Table(name = "ym_user_authentication", schema = "nightcat", catalog = "")
 public class UserAuthentication {
     private String id;
+    /**
+     * 用户uid
+     */
     private String uid;
-    private String type;
+    /**
+     * 认证类型
+     */
+    private Type type;
+    /**
+     * 证件级别. 人工审核填写
+     */
     private String level;
+    /**
+     * 证件名称, 用户上传用于审核
+     */
     private String name;
+    /**
+     * 证件号码. 人工审核填写
+     */
     private String id_number;
+    /**
+     * 证件图片, 用户上传
+     */
     private String img_url;
-    private String status;
-    private Timestamp create_time;
+    /**
+     * 审核状态, 默认审核中
+     */
+    private Status status = Status.Comfirming;
+    /**
+     * 创建时间, 默认创建时时间
+     */
+    private Timestamp create_time = Util.now();
+
+    public enum Type {
+        /**
+         * 职称认证
+         */
+        Position,
+        /**
+         * 学历认证
+         */
+        School
+    }
+
+    public enum Status {
+        Comfirming, Success, Fail
+    }
 
     @Id
     @Column(name = "id")
@@ -38,11 +82,11 @@ public class UserAuthentication {
 
     @Basic
     @Column(name = "type")
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Type type) {
         this.type = type;
     }
 
@@ -88,11 +132,11 @@ public class UserAuthentication {
 
     @Basic
     @Column(name = "status")
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 

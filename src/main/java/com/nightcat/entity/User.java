@@ -13,12 +13,35 @@ import java.sql.Timestamp;
 public class User {
     private String uid;
     private String password;
+    /**
+     * 真实姓名
+     */
     private String realname;
+
+    /**
+     * 身份证号码
+     */
+    private String id_card;
+    /**
+     * 昵称
+     */
     private String nickname;
+    /**
+     * 头像url
+     */
     private String img_url;
+    /**
+     * 手机号
+     */
     private String phone;
     private Timestamp create_time;
+    /**
+     * 上次登录时间
+     */
     private Timestamp last_login_time;
+    /**
+     * 用户角色. 0: 设计师; 1: 雇员
+     */
     private Role role;
     private String wechat;
     private String qq;
@@ -27,6 +50,14 @@ public class User {
     private String client_id;
     private String imtoken;
     private boolean del;
+
+    public String getId_card() {
+        return id_card;
+    }
+
+    public void setId_card(String id_card) {
+        this.id_card = id_card;
+    }
 
 
     public enum Role {

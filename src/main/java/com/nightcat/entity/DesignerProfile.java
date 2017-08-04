@@ -23,9 +23,10 @@ public class DesignerProfile {
      */
     private String type;
     /**
-     * 工龄
+     * 工龄, 单位年
+     * e.g. 3.5年工龄
      */
-    private int service_length;
+    private double service_length;
     /**
      * 接单数
      */
@@ -63,13 +64,24 @@ public class DesignerProfile {
      */
     private int star_level;
     /**
-     * 职位
+     * 职称
      */
     private String position;
+
+    /**
+     * 职称是否认证, 认证后用户无法修改学校信息
+     */
+    private boolean official_position;
+
     /**
      * 学校
      */
     private String school;
+
+    /**
+     * 学校是否认证, 认证后用户无法修改学校信息
+     */
+    private boolean official_school;
 
 
     @Id
@@ -104,11 +116,11 @@ public class DesignerProfile {
 
     @Basic
     @Column(name = "service_length")
-    public int getService_length() {
+    public double getService_length() {
         return service_length;
     }
 
-    public void setService_length(int service_length) {
+    public void setService_length(double service_length) {
         this.service_length = service_length;
     }
 
@@ -236,7 +248,7 @@ public class DesignerProfile {
             return false;
         if (bid_count != that.bid_count) return false;
         if (hourly_wage != null ? !hourly_wage.equals(that.hourly_wage) : that.hourly_wage != null) return false;
-        if (official == that.official) return false;
+        if (official != that.official) return false;
         if (overall_target != null ? !overall_target.equals(that.overall_target) : that.overall_target != null)
             return false;
         if (total_works != that.total_works) return false;
@@ -249,6 +261,9 @@ public class DesignerProfile {
         if (position != null ? !position.equals(that.position) : that.position != null) return false;
         if (school != null ? !school.equals(that.school) : that.school != null) return false;
 
+        if (official_school != that.official_school) return false;
+        if (official_position != that.official_position) return false;
+
         return true;
     }
 
@@ -258,7 +273,7 @@ public class DesignerProfile {
         result = 31 * result + (uid != null ? uid.hashCode() : 0);
         result = 31 * result + (summary != null ? summary.hashCode() : 0);
         result = 31 * result + (type != null ? type.hashCode() : 0);
-        result = 31 * result + service_length;
+        result = 31 * result + Double.hashCode(service_length);
         result = 31 * result + bid_count;
         result = 31 * result + (hourly_wage != null ? hourly_wage.hashCode() : 0);
         result = 31 * result + (official ? 1 : 0);
@@ -270,6 +285,26 @@ public class DesignerProfile {
         result = 31 * result + star_level;
         result = 31 * result + (position != null ? position.hashCode() : 0);
         result = 31 * result + (school != null ? school.hashCode() : 0);
+
+        result = 31 * result + (official_position ? 1 : 0);
+        result = 31 * result + (official_school ? 1 : 0);
+
         return result;
+    }
+
+    public boolean isOfficial_position() {
+        return official_position;
+    }
+
+    public void setOfficial_position(boolean official_position) {
+        this.official_position = official_position;
+    }
+
+    public boolean isOfficial_school() {
+        return official_school;
+    }
+
+    public void setOfficial_school(boolean official_school) {
+        this.official_school = official_school;
     }
 }

@@ -2,7 +2,6 @@ package com.nightcat.users.web;
 
 import com.nightcat.common.Response;
 import com.nightcat.common.utility.Assert;
-import com.nightcat.common.utility.Util;
 import com.nightcat.config.annotation.Authorization;
 import com.nightcat.config.annotation.CurrentUser;
 import com.nightcat.config.annotation.EnumParam;
@@ -17,6 +16,7 @@ import java.math.BigDecimal;
 
 import static com.nightcat.common.constant.HttpStatus.*;
 import static com.nightcat.common.utility.Util.emptyStr;
+import static com.nightcat.common.utility.Util.now;
 
 @RestController
 @RequestMapping("/users")
@@ -59,7 +59,7 @@ public class UsersController {
     /**
      * 用户上传设计师详细信息
      */
-    @PostMapping("profile")
+    @PostMapping("/profile")
     @Authorization
     public Response profile(
             @CurrentUser User user,
@@ -84,15 +84,7 @@ public class UsersController {
             //用户详情不存在, 创建一个新的记录
             profile = new DesignerProfile();
             profile.setUid(user.getUid());
-            profile.setService_length(service_length);
-            profile.setPosition(position);
-            profile.setSchool(school);
-            profile.setHourly_wage(hourly_wage);
-            profile.setType(type);
-            profile.setSummary(summary);
-            profile.setCreate_time(Util.now());
-            designerService.save(profile);
-            return Response.ok(designerService);
+            profile.setCreate_time(now());
         }
 
         // 用户详情已经存在了
@@ -102,7 +94,7 @@ public class UsersController {
         if (hourly_wage.equals(BigDecimal.ZERO)) profile.setHourly_wage(hourly_wage);
         if (!emptyStr(type)) profile.setType(type);
         if (!emptyStr(summary)) profile.setSummary(summary);
-        designerService.update(profile);
+        designerService.saveOrUpdate(profile);
         return Response.ok(profile);
     }
 
@@ -111,7 +103,7 @@ public class UsersController {
      */
     @GetMapping("/show")
     @Authorization
-    public Response show(@RequestParam String uid) {
+    public Response show(String uid) {
         User target = userService.findById(uid);
         Assert.notNull(target, BAD_REQUEST, "用户不存在");
         return Response.ok(target);
