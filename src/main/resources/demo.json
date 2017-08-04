@@ -1,0 +1,216 @@
+[
+    {
+        "url": "/tokens",
+        "method": "post",
+        "params": {
+            "phone": "111111",
+            "password": "123456"
+        },
+        "return": {
+            "status": 200,
+            "message": "ok",
+            "content": {
+                "uid": "005a9015c52c4ccbb5c669b960ef0bb7",
+                "password": "123456",
+                "realname": null,
+                "id_card": null,
+                "nickname": "薄荷创意",
+                "img_url": null,
+                "phone": "111111",
+                "create_time": 1501860374000,
+                "last_login_time": null,
+                "role": 0,
+                "wechat": null,
+                "qq": null,
+                "weibo": null,
+                "platform": null,
+                "client_id": null,
+                "imtoken": null,
+                "del": false
+            }
+        }
+    },
+    {
+        "url": "/users",
+        "method": "post",
+        "params": {
+            "phone": "18200000000",
+            "role": "0",
+            "nickname": "小明",
+            "password": "123456"
+        },
+        "return:": {
+            "status": 200,
+            "message": "ok",
+            "content": {
+                "uid": "b5e6c6245a9847e48047a229a0ae3ffb",
+                "password": "123456",
+                "realname": null,
+                "id_card": null,
+                "nickname": "小明",
+                "img_url": "http://up.qqjia.com/z/face01/face06/facejunyong/junyong04.jpg",
+                "phone": "18200000000",
+                "create_time": null,
+                "last_login_time": null,
+                "role": 0,
+                "wechat": null,
+                "qq": null,
+                "weibo": null,
+                "platform": null,
+                "client_id": null,
+                "imtoken": "b5e6c6245a9847e48047a229a0ae3ffb",
+                "del": false
+            }
+        }
+    },
+    {
+        "url": "/projects",
+        "method": "get",
+        "return": {
+            "status": 200,
+            "message": "ok",
+            "content": [
+                {
+                    "id": "id0",
+                    "title": null,
+                    "type": "建筑设计",
+                    "content": "大厦装修设计图, 一楼大厅",
+                    "budget": 13000.00,
+                    "area": 100,
+                    "depth": null,
+                    "period": 0,
+                    "start_time": null,
+                    "end_time": null,
+                    "status": 0,
+                    "create_by": "450be21f7c714357a1892ca5291a859c",
+                    "create_time": 1501860375000,
+                    "good": false,
+                    "modify_by": null,
+                    "modify_time": null,
+                    "modify_mark": null,
+                    "due_time": null,
+                    "view_count": 0,
+                    "fav_count": 0,
+                    "bidder": null,
+                    "bid_time": null,
+                    "del": false
+                },
+                {
+                    "id": "id2",
+                    "title": null,
+                    "type": "建筑设计",
+                    "content": "结构设计要求如下：1.按照所提供的三维模型设计达到指定功能要求。2.复杂完整的模型图。3.根据手绘完成设计图",
+                    "budget": 23000.00,
+                    "area": 200,
+                    "depth": null,
+                    "period": 0,
+                    "start_time": null,
+                    "end_time": null,
+                    "status": 0,
+                    "create_by": "450be21f7c714357a1892ca5291a859c",
+                    "create_time": 1501860376000,
+                    "good": false,
+                    "modify_by": null,
+                    "modify_time": null,
+                    "modify_mark": null,
+                    "due_time": null,
+                    "view_count": 0,
+                    "fav_count": 0,
+                    "bidder": null,
+                    "bid_time": null,
+                    "del": false
+                },
+                {
+                    "id": "id3",
+                    "title": null,
+                    "type": "建筑设计",
+                    "content": "能够实地考察后, 画出详细的设计图. 要求较高的精确度",
+                    "budget": 33000.00,
+                    "area": 300,
+                    "depth": null,
+                    "period": 0,
+                    "start_time": null,
+                    "end_time": null,
+                    "status": 0,
+                    "create_by": "450be21f7c714357a1892ca5291a859c",
+                    "create_time": 1501860376000,
+                    "good": false,
+                    "modify_by": null,
+                    "modify_time": null,
+                    "modify_mark": null,
+                    "due_time": null,
+                    "view_count": 0,
+                    "fav_count": 0,
+                    "bidder": null,
+                    "bid_time": null,
+                    "del": false
+                },
+                {
+                    "id": "id4",
+                    "title": null,
+                    "type": "建筑设计",
+                    "content": "根据用户的需要, 画出完善的复合需求的设计图. 可能会有多次修改, 需要设计师较好的沟通能力",
+                    "budget": 43000.00,
+                    "area": 400,
+                    "depth": null,
+                    "period": 0,
+                    "start_time": null,
+                    "end_time": null,
+                    "status": 0,
+                    "create_by": "450be21f7c714357a1892ca5291a859c",
+                    "create_time": 1501860377000,
+                    "good": false,
+                    "modify_by": null,
+                    "modify_time": null,
+                    "modify_mark": null,
+                    "due_time": null,
+                    "view_count": 0,
+                    "fav_count": 0,
+                    "bidder": null,
+                    "bid_time": null,
+                    "del": false
+                }
+            ]
+        }
+    },
+    {
+        "url": "/notis",
+        "method": "get",
+        "return": {
+            "status": 200,
+            "message": "ok",
+            "content": [
+                {
+                    "id": "id0",
+                    "content": "恭喜你被评为5星用户",
+                    "uid": "asda",
+                    "create_time": 1501860377000,
+                    "status": null,
+                    "read": false,
+                    "type": "系统消息",
+                    "del": false
+                },
+                {
+                    "id": "id2",
+                    "content": "你的项目沟通已经有了进展, 请你近日到服务大厅进行了解",
+                    "uid": "asda",
+                    "create_time": 1501860378000,
+                    "status": null,
+                    "read": false,
+                    "type": "订单消息",
+                    "del": false
+                },
+                {
+                    "id": "id3",
+                    "content": "最近, 你过得还好吗. 上海等地今日长期高温, 建议您少外出, 多家里乘凉.",
+                    "uid": "asda",
+                    "create_time": 1501860379000,
+                    "status": null,
+                    "read": false,
+                    "type": "推行消息",
+                    "del": false
+                }
+            ]
+        }
+    }
+]

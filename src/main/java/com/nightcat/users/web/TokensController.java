@@ -45,9 +45,9 @@ public class TokensController {
         Assert.notNull(user, BAD_REQUEST, "用户不存在");
         Assert.equals(user.getPassword(), password, BAD_REQUEST, "密码不正确");
 
-
-        tokenModel = tokenService.createToken(user.getUid());
-        return Response.ok(tokenModel);
+        return Response.ok(user);
+//        tokenModel = tokenService.createToken(user.getUid());
+//        return Response.ok(tokenModel);
     }
 
 //    @DeleteMapping

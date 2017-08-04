@@ -60,7 +60,6 @@ public class UsersController {
      * 用户上传设计师详细信息
      */
     @PostMapping("/profile")
-    @Authorization
     public Response profile(
             @CurrentUser User user,
             @RequestParam String nickname,
@@ -102,7 +101,6 @@ public class UsersController {
      * 获取用户详情
      */
     @GetMapping("/show")
-    @Authorization
     public Response show(String uid) {
         User target = userService.findById(uid);
         Assert.notNull(target, BAD_REQUEST, "用户不存在");

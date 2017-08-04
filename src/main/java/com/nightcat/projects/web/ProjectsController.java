@@ -29,6 +29,12 @@ public class ProjectsController {
     @Autowired
     private ProjectsService projectsService;
 
+
+    @GetMapping
+    public Response all() {
+        return Response.ok(projectsService.findAll());
+    }
+
     /**
      * 返回项目首页的timeline
      */
