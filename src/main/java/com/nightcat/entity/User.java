@@ -9,7 +9,7 @@ import java.sql.Timestamp;
  * 夜猫用户表
  */
 @Entity
-@Table(name = "ym_user", schema = "nightcat", catalog = "")
+@Table(name = "ym_user")
 public class User {
     private String uid;
     private String password;

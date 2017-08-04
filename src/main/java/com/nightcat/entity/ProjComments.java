@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "ym_comments", schema = "nightcat", catalog = "")
+@Table(name = "ym_comments")
 public class ProjComments {
     private String id;
     private String proj_id;

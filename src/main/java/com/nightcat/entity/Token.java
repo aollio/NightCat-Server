@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "ym_users_token", schema = "nightcat", catalog = "")
+@Table(name = "ym_users_token")
 public class Token {
     private String token;
     private String uid;

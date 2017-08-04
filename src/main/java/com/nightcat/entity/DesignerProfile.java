@@ -8,7 +8,7 @@ import java.sql.Timestamp;
  * 设计师用户详情
  */
 @Entity
-@Table(name = "ym_designer_profile", schema = "nightcat", catalog = "")
+@Table(name = "ym_designer_profile", catalog = "")
 public class DesignerProfile {
     /**
      * 用户标识

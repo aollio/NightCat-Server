@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "ym_user_honor", schema = "nightcat", catalog = "")
+@Table(name = "ym_user_honor", catalog = "")
 public class Honor {
     private String id;
     private String uid;
@@ -34,7 +34,7 @@ public class Honor {
     }
 
     @Basic
-    @Column(name = "name",length = 100)
+    @Column(name = "name", length = 100)
     public String getName() {
         return name;
     }
@@ -54,7 +54,7 @@ public class Honor {
     }
 
     @Basic
-    @Column(name = "img_url",length = 300)
+    @Column(name = "img_url", length = 300)
     public String getImg_url() {
         return img_url;
     }

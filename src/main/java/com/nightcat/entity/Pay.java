@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "ym_pay", schema = "nightcat", catalog = "")
+@Table(name = "ym_pay")
 public class Pay {
     private String id;
     private String order_id;
