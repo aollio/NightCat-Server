@@ -127,7 +127,8 @@ public class Project {
         /**
          * 订单非正常完成. e.g. 项目超时未抢单; 会审失败; 雇主没有支付; 等等
          */
-        Cancel;
+        Break;
+
 
 
     }
@@ -333,7 +334,7 @@ public class Project {
     }
 
     @Basic
-    @Column(name = "bidder")
+    @Column(name = "proj_bidder")
     public String getBidder() {
         return bidder;
     }

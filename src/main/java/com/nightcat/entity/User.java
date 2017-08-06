@@ -51,12 +51,33 @@ public class User {
     private String imtoken;
     private boolean del;
 
+    private String summary;
+    private String type;
+
     public String getId_card() {
         return id_card;
     }
 
     public void setId_card(String id_card) {
         this.id_card = id_card;
+    }
+    @Basic
+    @Column(name = "user_summary")
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+    @Basic
+    @Column(name = "user_type")
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
 

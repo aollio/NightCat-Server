@@ -30,6 +30,14 @@ public class UsersController {
     private DesignerProfileService designerService;
 
     /**
+     *
+     */
+    @GetMapping
+    public Response all() {
+        return Response.ok(userService.findAll());
+    }
+
+    /**
      * 注册一个用户
      */
     @PostMapping

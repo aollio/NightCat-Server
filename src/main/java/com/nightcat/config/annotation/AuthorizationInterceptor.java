@@ -35,6 +35,9 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) throws Exception {
 
+        //
+//        response.addHeader();
+
         if (!(handler instanceof HandlerMethod)) {
             return true;
         }
