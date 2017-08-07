@@ -2,6 +2,7 @@ package com.nightcat.config;
 
 import com.nightcat.common.base.BaseObject;
 import com.nightcat.common.utility.Util;
+import com.nightcat.entity.DesignerProfile;
 import com.nightcat.entity.Project;
 import com.nightcat.entity.User;
 import com.nightcat.projects.service.ProjectsService;
@@ -79,6 +80,60 @@ public class ApplicationStartup extends BaseObject implements ApplicationListene
 
     private void saveUser() {
         //TODO 生成会员. 会员属性要有雇主或者设计师
+        String[] empNickname = {"良锋", "诚凯", "辰鸿", "谷吉", "骏休", "琛运", "杰信", "振文", "鸿加", "腾骏"};
+        String[] desNickname = {"妍柏", "云蕾", "桂淑", "桂媛", "璇梦", "莲萱", "婧梓", "曼玉", "楠阳", "梦璐"};
+        String[] desImgUrl = {
+                "assets/img/if_cat_emoji_face_smily-9-01_2361853.png",
+                "assets/img/if_cat_emoji_face_smily-20-01_2361861.png",
+                "assets/img/if_cat_emoji_face_smily-24-01_2361865.png",
+                "assets/img/if_cat_emoji_face_smily-29-01_2361869.png",
+                "assets/img/if_cat_emoji_face_smily-35-01_2361874.png",
+                "assets/img/if_cat_emoji_face_smily-38-01_2361877.png",
+                "assets/img/if_cat_emoji_face_smily-9-01_2361853.png",
+                "assets/img/if_cat_emoji_face_smily-20-01_2361861.png",
+                "assets/img/if_cat_emoji_face_smily-24-01_2361865.png",
+                "assets/img/if_cat_emoji_face_smily-29-01_2361869.png",
+                "assets/img/if_cat_emoji_face_smily-35-01_2361874.png",
+        };
+        String[] empImgUrl = {
+                "assets/img/if_cat_emoji_face_smily-9-01_2361853.png",
+                "assets/img/if_cat_emoji_face_smily-20-01_2361861.png",
+                "assets/img/if_cat_emoji_face_smily-24-01_2361865.png",
+                "assets/img/if_cat_emoji_face_smily-29-01_2361869.png",
+                "assets/img/if_cat_emoji_face_smily-35-01_2361874.png",
+                "assets/img/if_cat_emoji_face_smily-9-01_2361853.png",
+                "assets/img/if_cat_emoji_face_smily-20-01_2361861.png",
+                "assets/img/if_cat_emoji_face_smily-24-01_2361865.png",
+                "assets/img/if_cat_emoji_face_smily-29-01_2361869.png",
+                "assets/img/if_cat_emoji_face_smily-35-01_2361874.png",
+                "assets/img/if_cat_emoji_face_smily-38-01_2361877.png",
+
+        };
+
+        for (int i = 0; i < empNickname.length; i++) {
+            User user = new User();
+            user.setNickname(empNickname[i]);
+            user.setPassword("123456");
+            user.setPhone("1390000000" + i);
+            user.setDel(false);
+            user.setUid("emp" + i);
+            user.setRole(User.Role.EMPLOYER);
+            user.setImg_url(empImgUrl[i]);
+        }
+        for (int i = 0; i < desNickname.length; i++) {
+            User user = new User();
+            user.setNickname(desNickname[i]);
+            user.setPassword("123456");
+            user.setPhone("1330000000" + i);
+            user.setDel(false);
+            user.setUid("des" + i);
+            user.setImg_url(desImgUrl[i]);
+            user.setRole(User.Role.DESIGNER);
+            DesignerProfile profile = new DesignerProfile();
+            profile.setUid(user.getUid());
+           // profile
+
+        }
     }
 
     private void saveProjects() {
