@@ -47,6 +47,6 @@ public class EnumPramMethodArgumentResolver implements HandlerMethodArgumentReso
                 return e;
             }
         }
-        throw new Exception("the param " + name + " has a wrong enum type origin value. Enum :" + parameter.getParameterType().getCanonicalName());
+        throw new CatException(HttpStatus.BAD_REQUEST, "the param " + name + " has a wrong enum type origin value. Enum :" + parameter.getParameterType().getCanonicalName());
     }
 }

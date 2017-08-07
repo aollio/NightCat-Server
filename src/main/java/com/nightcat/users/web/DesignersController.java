@@ -1,41 +1,68 @@
 package com.nightcat.users.web;
 
 import com.nightcat.common.Response;
+import com.nightcat.users.service.DesignerService;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+
 @RestController
 @RequestMapping("/users/designers")
 public class DesignersController {
 
+
+    @Autowired
+    private DesignerService designerService;
+
     @GetMapping
     public Response query(
             // 查询设计师类型
-            @RequestParam(required = false, defaultValue = "-1") String type,
+            @RequestParam(required = false) String type,
             // 设计师昵称
-            @RequestParam(required = false, defaultValue = "-1") String nickname,
-            // 简介
-            @RequestParam(required = false, defaultValue = "-1") String summary,
-            @RequestParam(required = false, defaultValue = "-1") String phone,
-            @RequestParam(required = false, defaultValue = "-1") String position,
-            @RequestParam(required = false, defaultValue = "-1") String official,
-            @RequestParam(required = false, defaultValue = "0") String min_service_length,
-            @RequestParam(required = false, defaultValue = "100") String max_service_length,
-            @RequestParam(required = false, defaultValue = "0") String min_hourly_wage,
-            @RequestParam(required = false, defaultValue = "100000") String max_hourly_wage,
-            //最低星级
-            @RequestParam(required = false, defaultValue = "0") String min_star_level,
-            //最高星级
-            @RequestParam(required = false, defaultValue = "10") String max_star_level,
-            @RequestParam(required = false, defaultValue = "1") String page,
-            @RequestParam(required = false, defaultValue = "20") String limit
-    )
-    {
+            @RequestParam(required = false) String nickname,
+            @RequestParam(required = false) String position,
+            @RequestParam(required = false) String official,
+            @RequestParam(required = false) String page,
+            @RequestParam(required = false) String limit) {
+        DesignerService.Official official1 = DesignerService.Official.ALL;
 
+        if ("1".equals(official)) {
+            official1 = DesignerService.Official.OFFICIAL;
+        } else if ("2".equals(official)) {
+            official1 = DesignerService.Official.NOT_OFFICIAL;
+        }
 
-        return null;
+        int page_int = 0;
+        int limit_int = 0;
+
+        try {
+            if (isNotEmpty(page)) {
+                int x = Integer.parseInt(page);
+                page_int = x;
+            }
+            if (isNotEmpty(limit)) {
+                int y = Integer.parseInt(limit);
+                limit_int = y;
+            }
+        } catch (Exception e) {
+
+        }
+
+        DesignerService.QueryBuilder builder = designerService
+                .query()
+                .type(type)
+                .nickname(nickname)
+                .position(position)
+                .official(official1)
+                .limit(limit_int)
+                .page(page_int);
+
+        return Response.ok(builder.list());
     }
 
 }

@@ -126,4 +126,21 @@ public class Util {
         return System.currentTimeMillis() + "" + new Random().nextInt(10000) + "." + suffix;
     }
 
+    public static String join(String sep, List<String> stringList) {
+        if (stringList == null) {
+            return null;
+        }
+        StringBuilder result = new StringBuilder();
+        boolean flag = false;
+        for (String string : stringList) {
+            if (flag) {
+                result.append(sep);
+            } else {
+                flag = true;
+            }
+            result.append(string);
+        }
+        return result.toString();
+    }
+
 }

@@ -15,6 +15,10 @@ public class DesignerProfile {
      */
     private String uid;
     /**
+     * 用户昵称
+     */
+    private String nickname;
+    /**
      * 用户简介
      */
     private String summary;
@@ -92,6 +96,17 @@ public class DesignerProfile {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+
+    @Basic
+    @Column(name = "nickname")
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     @Basic
@@ -307,4 +322,5 @@ public class DesignerProfile {
     public void setOfficial_school(boolean official_school) {
         this.official_school = official_school;
     }
+
 }
