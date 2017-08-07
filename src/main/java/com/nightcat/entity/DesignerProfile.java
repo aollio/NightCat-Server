@@ -21,7 +21,7 @@ public class DesignerProfile {
     /**
      * 设计师类别
      */
-    private String type;
+    private Type type;
 
     public enum Type{
         //十三项
@@ -136,11 +136,11 @@ public class DesignerProfile {
 
     @Basic
     @Column(name = "type")
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Type type) {
         this.type = type;
     }
 
