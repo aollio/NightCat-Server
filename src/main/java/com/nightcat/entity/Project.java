@@ -13,7 +13,7 @@ public class Project {
     /**
      * 项目类型
      */
-    private String type;
+    private DesignerProfile.Type type;
     private String content;
     /**
      * 项目预算
@@ -154,11 +154,11 @@ public class Project {
 
     @Basic
     @Column(name = "type")
-    public String getType() {
+    public DesignerProfile.Type getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(DesignerProfile.Type type) {
         this.type = type;
     }
 

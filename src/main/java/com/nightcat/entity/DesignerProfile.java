@@ -25,7 +25,37 @@ public class DesignerProfile {
     /**
      * 设计师类别
      */
-    private String type;
+    private Type type;
+
+    public enum Type{
+        //十三项
+        Types_0("undefined"),
+        Types_1("概预算"),
+        Types_2("项目经理"),
+        Types_3("给排水设计"),
+        Types_4("策划"),
+        Types_5("规划设计"),
+        Types_6("建筑设计"),
+        Types_7("电气设计"),
+        Types_8("结构设计"),
+        Types_9("审图"),
+        Types_10("软装设计"),
+        Types_11("室内设计"),
+        Types_12("暖通设计"),
+        Types_13("景观设计");
+
+
+        String text;
+        private Type( String text){
+            this.text = text;
+        }
+
+
+        public String getText() {
+            return text;
+        }
+    }
+
     /**
      * 工龄, 单位年
      * e.g. 3.5年工龄
@@ -121,11 +151,11 @@ public class DesignerProfile {
 
     @Basic
     @Column(name = "type")
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Type type) {
         this.type = type;
     }
 
