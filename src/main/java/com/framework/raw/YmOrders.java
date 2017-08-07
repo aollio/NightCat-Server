@@ -1,4 +1,4 @@
-package com.nightcat.raw;
+package com.framework.raw;
 
 import javax.persistence.*;
 import java.math.BigDecimal;

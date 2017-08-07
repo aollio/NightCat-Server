@@ -1,8 +1,8 @@
-package com.nightcat.config;
+package com.framework.config;
 
-import com.nightcat.config.annotation.AuthorizationInterceptor;
-import com.nightcat.config.annotation.CurrentUserMethodArgumentResolver;
-import com.nightcat.config.annotation.EnumPramMethodArgumentResolver;
+import com.framework.annotation.AuthorizationInterceptor;
+import com.framework.annotation.CurrentUserMethodArgumentResolver;
+import com.framework.annotation.EnumPramMethodArgumentResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;

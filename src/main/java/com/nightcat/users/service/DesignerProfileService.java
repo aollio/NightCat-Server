@@ -1,6 +1,5 @@
 package com.nightcat.users.service;
 
-import com.nightcat.config.annotation.Authorization;
 import com.nightcat.entity.DesignerProfile;
 import com.nightcat.repository.DesignerProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;

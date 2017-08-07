@@ -6,8 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
 @SpringBootApplication
-@ComponentScan("com.nightcat")
-
+@ComponentScan("com")
 public class Application {
 
     public static void main(String[] args) {

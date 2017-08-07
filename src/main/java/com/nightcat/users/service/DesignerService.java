@@ -59,7 +59,8 @@ public class DesignerService {
             criteria.setMaxResults(limit);
 
             //(type) 'AND' 其他查询条件
-            criteria.add(Restrictions.eq("type", type));
+            if (type != DesignType.UNDEFINDED) criteria.add(Restrictions.eq("type", type));
+            
             Disjunction disjunction = Restrictions.disjunction();
             if (isNotEmpty(nickname)) disjunction.add(like("nickname", nickname));
             if (isNotEmpty(position)) disjunction.add(like("position", position));

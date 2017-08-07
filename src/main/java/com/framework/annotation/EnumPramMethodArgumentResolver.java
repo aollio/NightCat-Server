@@ -1,4 +1,4 @@
-package com.nightcat.config.annotation;
+package com.framework.annotation;
 
 import com.nightcat.common.CatException;
 import com.nightcat.common.constant.HttpStatus;

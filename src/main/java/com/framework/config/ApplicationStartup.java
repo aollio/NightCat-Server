@@ -1,10 +1,9 @@
-package com.nightcat.config;
+package com.framework.config;
 
 import com.nightcat.common.base.BaseObject;
 
 import java.util.*;
 
-import com.nightcat.common.utility.Util;
 import com.nightcat.entity.DesignType;
 import com.nightcat.entity.DesignerProfile;
 import com.nightcat.entity.Project;
@@ -12,7 +11,6 @@ import com.nightcat.entity.User;
 import com.nightcat.projects.service.ProjectsService;
 import com.nightcat.repository.NotificationRepository;
 import com.nightcat.repository.UserRepository;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -21,12 +19,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.Calendar;
-
 import static com.nightcat.common.utility.Util.now;
-import static com.nightcat.entity.Project.Status.BothConfirm_WaitEmployerPay;
 
 @Profile({"dev", "aollio"})
 @Configuration
@@ -149,6 +142,7 @@ public class ApplicationStartup extends BaseObject implements ApplicationListene
             DesignerProfile profile = new DesignerProfile();
             profile.setUid(user.getUid());
             profile.setType(DesignType.values()[i % DesignType.values().length]);
+            profile.setNickname(user.getNickname());
             sessionFactory.getCurrentSession().save(profile);
             sessionFactory.getCurrentSession().save(user);
 

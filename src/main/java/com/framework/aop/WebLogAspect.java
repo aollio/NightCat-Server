@@ -1,14 +1,10 @@
-package com.nightcat.config.aop;
+package com.framework.aop;
 
 import com.nightcat.common.base.BaseObject;
 import com.nightcat.common.constant.Constant;
 import com.nightcat.common.utility.Util;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
-import org.hibernate.engine.transaction.jta.platform.internal.WeblogicJtaPlatform;
-import org.springframework.core.annotation.Order;
-import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;

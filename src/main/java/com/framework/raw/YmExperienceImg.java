@@ -1,14 +1,14 @@
-package com.nightcat.raw;
+package com.framework.raw;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "ym_pro_collect", schema = "nightcat", catalog = "")
-public class YmProCollect {
+@Table(name = "ym_experience_img", schema = "nightcat", catalog = "")
+public class YmExperienceImg {
     private String id;
-    private String userId;
-    private String proId;
+    private String expeId;
+    private String imgPath;
     private Timestamp createDate;
 
     @Id
@@ -22,23 +22,23 @@ public class YmProCollect {
     }
 
     @Basic
-    @Column(name = "USER_ID")
-    public String getUserId() {
-        return userId;
+    @Column(name = "EXPE_ID")
+    public String getExpeId() {
+        return expeId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setExpeId(String expeId) {
+        this.expeId = expeId;
     }
 
     @Basic
-    @Column(name = "PRO_ID")
-    public String getProId() {
-        return proId;
+    @Column(name = "IMG_PATH")
+    public String getImgPath() {
+        return imgPath;
     }
 
-    public void setProId(String proId) {
-        this.proId = proId;
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
     }
 
     @Basic
@@ -56,11 +56,11 @@ public class YmProCollect {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        YmProCollect that = (YmProCollect) o;
+        YmExperienceImg that = (YmExperienceImg) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
-        if (proId != null ? !proId.equals(that.proId) : that.proId != null) return false;
+        if (expeId != null ? !expeId.equals(that.expeId) : that.expeId != null) return false;
+        if (imgPath != null ? !imgPath.equals(that.imgPath) : that.imgPath != null) return false;
         if (createDate != null ? !createDate.equals(that.createDate) : that.createDate != null) return false;
 
         return true;
@@ -69,8 +69,8 @@ public class YmProCollect {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (userId != null ? userId.hashCode() : 0);
-        result = 31 * result + (proId != null ? proId.hashCode() : 0);
+        result = 31 * result + (expeId != null ? expeId.hashCode() : 0);
+        result = 31 * result + (imgPath != null ? imgPath.hashCode() : 0);
         result = 31 * result + (createDate != null ? createDate.hashCode() : 0);
         return result;
     }

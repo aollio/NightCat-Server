@@ -2,16 +2,13 @@ package com.nightcat.users.web;
 
 import com.nightcat.common.Response;
 import com.nightcat.common.utility.Assert;
-import com.nightcat.config.annotation.Authorization;
-import com.nightcat.config.annotation.CurrentUser;
+import com.framework.annotation.Authorization;
+import com.framework.annotation.CurrentUser;
 import com.nightcat.entity.User;
-import com.nightcat.entity.UserAuthentication;
-import com.nightcat.repository.UserAuthenticationRepository;
 import com.nightcat.users.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import static com.nightcat.common.constant.HttpStatus.*;

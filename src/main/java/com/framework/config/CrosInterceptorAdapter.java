@@ -1,4 +1,4 @@
-package com.nightcat.config;
+package com.framework.config;
 
 import com.nightcat.users.service.TokenService;
 import org.slf4j.Logger;

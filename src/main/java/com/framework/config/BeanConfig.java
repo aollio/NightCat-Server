@@ -1,4 +1,4 @@
-package com.nightcat.config;
+package com.framework.config;
 
 import org.springframework.context.annotation.Configuration;
 

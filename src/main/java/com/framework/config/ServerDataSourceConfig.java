@@ -1,4 +1,4 @@
-package com.nightcat.config;
+package com.framework.config;
 
 
 import org.springframework.beans.factory.annotation.Value;
@@ -63,20 +63,9 @@ public class ServerDataSourceConfig {
         Properties hibernateProperties = new Properties();
         hibernateProperties.put("hibernate.dialect", HIBERNATE_DIALECT);
         hibernateProperties.put("hibernate.show_sql", HIBERNATE_SHOW_SQL);
-//        hibernateProperties.put("hibernate.hbm2ddl.auto", HIBERNATE_HBM2DDL_AUTO);
         sessionFactoryBean.setHibernateProperties(hibernateProperties);
 
         return sessionFactoryBean;
     }
-//
-//    @Bean
-//    public HibernateTransactionManager transactionManager() {
-    //<editor-fold desc="Description">
-    //        HibernateTransactionManager transactionManager =
-//                new HibernateTransactionManager();
-//        transactionManager.setSessionFactory(sessionFactory().getObject());
-//        return transactionManager;
-    //</editor-fold>
-//    }
 
 }

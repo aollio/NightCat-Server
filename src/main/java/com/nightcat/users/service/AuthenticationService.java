@@ -1,9 +1,6 @@
 package com.nightcat.users.service;
 
-import com.nightcat.common.Response;
-import com.nightcat.common.utility.Assert;
 import com.nightcat.common.utility.Util;
-import com.nightcat.config.annotation.CurrentUser;
 import com.nightcat.entity.User;
 import com.nightcat.entity.UserAuthentication;
 import com.nightcat.repository.UserAuthenticationRepository;
@@ -14,8 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
-
-import static com.nightcat.common.constant.HttpStatus.BAD_REQUEST;
 
 @Service
 public class AuthenticationService {

@@ -1,14 +1,14 @@
-package com.nightcat.raw;
+package com.framework.raw;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "ym_experience_img", schema = "nightcat", catalog = "")
-public class YmExperienceImg {
+@Table(name = "ym_concerned_user", schema = "nightcat", catalog = "")
+public class YmConcernedUser {
     private String id;
-    private String expeId;
-    private String imgPath;
+    private String userId;
+    private String concernedId;
     private Timestamp createDate;
 
     @Id
@@ -22,23 +22,23 @@ public class YmExperienceImg {
     }
 
     @Basic
-    @Column(name = "EXPE_ID")
-    public String getExpeId() {
-        return expeId;
+    @Column(name = "USER_ID")
+    public String getUserId() {
+        return userId;
     }
 
-    public void setExpeId(String expeId) {
-        this.expeId = expeId;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     @Basic
-    @Column(name = "IMG_PATH")
-    public String getImgPath() {
-        return imgPath;
+    @Column(name = "CONCERNED_ID")
+    public String getConcernedId() {
+        return concernedId;
     }
 
-    public void setImgPath(String imgPath) {
-        this.imgPath = imgPath;
+    public void setConcernedId(String concernedId) {
+        this.concernedId = concernedId;
     }
 
     @Basic
@@ -56,11 +56,11 @@ public class YmExperienceImg {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        YmExperienceImg that = (YmExperienceImg) o;
+        YmConcernedUser that = (YmConcernedUser) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (expeId != null ? !expeId.equals(that.expeId) : that.expeId != null) return false;
-        if (imgPath != null ? !imgPath.equals(that.imgPath) : that.imgPath != null) return false;
+        if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
+        if (concernedId != null ? !concernedId.equals(that.concernedId) : that.concernedId != null) return false;
         if (createDate != null ? !createDate.equals(that.createDate) : that.createDate != null) return false;
 
         return true;
@@ -69,8 +69,8 @@ public class YmExperienceImg {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (expeId != null ? expeId.hashCode() : 0);
-        result = 31 * result + (imgPath != null ? imgPath.hashCode() : 0);
+        result = 31 * result + (userId != null ? userId.hashCode() : 0);
+        result = 31 * result + (concernedId != null ? concernedId.hashCode() : 0);
         result = 31 * result + (createDate != null ? createDate.hashCode() : 0);
         return result;
     }

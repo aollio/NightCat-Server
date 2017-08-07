@@ -1,4 +1,4 @@
-package com.nightcat.config;
+package com.framework.config;
 
 import com.nightcat.common.CatException;
 import com.nightcat.common.Response;

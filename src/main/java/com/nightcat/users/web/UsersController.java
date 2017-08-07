@@ -2,9 +2,9 @@ package com.nightcat.users.web;
 
 import com.nightcat.common.Response;
 import com.nightcat.common.utility.Assert;
-import com.nightcat.config.annotation.Authorization;
-import com.nightcat.config.annotation.CurrentUser;
-import com.nightcat.config.annotation.EnumParam;
+import com.framework.annotation.Authorization;
+import com.framework.annotation.CurrentUser;
+import com.framework.annotation.EnumParam;
 import com.nightcat.entity.DesignType;
 import com.nightcat.entity.DesignerProfile;
 import com.nightcat.entity.User;
