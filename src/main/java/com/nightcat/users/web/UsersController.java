@@ -5,6 +5,7 @@ import com.nightcat.common.utility.Assert;
 import com.nightcat.config.annotation.Authorization;
 import com.nightcat.config.annotation.CurrentUser;
 import com.nightcat.config.annotation.EnumParam;
+import com.nightcat.entity.DesignType;
 import com.nightcat.entity.DesignerProfile;
 import com.nightcat.entity.User;
 import com.nightcat.users.service.DesignerProfileService;
@@ -68,7 +69,7 @@ public class UsersController {
             @RequestParam String position,
             @RequestParam String school,
             @RequestParam BigDecimal hourly_wage,
-            @RequestParam String type,
+            @EnumParam DesignType type,
             @RequestParam String summary) {
 
         Assert.isTrue(user.getRole() == User.Role.DESIGNER,
@@ -85,6 +86,7 @@ public class UsersController {
             profile = new DesignerProfile();
             profile.setUid(user.getUid());
             profile.setCreate_time(now());
+            profile.setNickname(user.getNickname());
         }
 
         // 用户详情已经存在了
@@ -92,7 +94,7 @@ public class UsersController {
         if (!emptyStr(position)) profile.setPosition(position);
         if (!emptyStr(school)) profile.setSchool(school);
         if (hourly_wage.equals(BigDecimal.ZERO)) profile.setHourly_wage(hourly_wage);
-        if (!emptyStr(type)) profile.setType(type);
+        profile.setType(type);
         if (!emptyStr(summary)) profile.setSummary(summary);
         designerService.saveOrUpdate(profile);
         return Response.ok(profile);

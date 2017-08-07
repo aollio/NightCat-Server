@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "ym_user_notification", schema = "nightcat", catalog = "")
-public class Notification {
+@Table(name = "ym_user_notice")
+public class Notice {
     private String id;
     private String content;
     private String uid;
@@ -80,7 +80,7 @@ public class Notification {
     }
 
     @Basic
-    @Column(name = "read",length = 2)
+    @Column(name = "is_read",length = 2)
     public boolean isRead() {
         return read;
     }
@@ -91,7 +91,7 @@ public class Notification {
 
 
     @Basic
-    @Column(name = "type",length = 2)
+    @Column(name = "notice_type",length = 2)
     public String getType() {
         return type;
     }
@@ -101,7 +101,7 @@ public class Notification {
     }
 
     @Basic
-    @Column(name = "del",length = 2)
+    @Column(name = "is_del",length = 2)
     public boolean isDel() {
         return del;
     }
@@ -115,7 +115,7 @@ public class Notification {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Notification that = (Notification) o;
+        Notice that = (Notice) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (content != null ? !content.equals(that.content) : that.content != null) return false;

@@ -3,12 +3,18 @@ package com.nightcat.entity;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+/**
+ * 项目动态表
+ */
 @Entity
-@Table(name = "ym_dynamic", schema = "nightcat", catalog = "")
-public class Dynamic {
+@Table(name = "ym_proj_dynamic")
+public class ProjDynamic {
     private String id;
     private String proj_id;
     private String uid;
+    /**
+     * 是否是项目发布者发出的动态
+     */
     private boolean publisher;
     private String type;
     private String content;
@@ -86,7 +92,7 @@ public class Dynamic {
     }
 
     @Basic
-    @Column(name = "CREATE_DATE")
+    @Column(name = "create_time")
     public Timestamp getCreate_time() {
         return create_time;
     }
@@ -100,17 +106,18 @@ public class Dynamic {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Dynamic dynamic = (Dynamic) o;
+        ProjDynamic projDynamic = (ProjDynamic) o;
 
-        if (id != null ? !id.equals(dynamic.id) : dynamic.id != null) return false;
-        if (proj_id != null ? !proj_id.equals(dynamic.proj_id) : dynamic.proj_id != null) return false;
-        if (uid != null ? !uid.equals(dynamic.uid) : dynamic.uid != null) return false;
-        if (publisher != dynamic.publisher)
+        if (id != null ? !id.equals(projDynamic.id) : projDynamic.id != null) return false;
+        if (proj_id != null ? !proj_id.equals(projDynamic.proj_id) : projDynamic.proj_id != null) return false;
+        if (uid != null ? !uid.equals(projDynamic.uid) : projDynamic.uid != null) return false;
+        if (publisher != projDynamic.publisher)
             return false;
-        if (type != null ? !type.equals(dynamic.type) : dynamic.type != null) return false;
-        if (content != null ? !content.equals(dynamic.content) : dynamic.content != null) return false;
-        if (img_url != null ? !img_url.equals(dynamic.img_url) : dynamic.img_url != null) return false;
-        if (create_time != null ? !create_time.equals(dynamic.create_time) : dynamic.create_time != null) return false;
+        if (type != null ? !type.equals(projDynamic.type) : projDynamic.type != null) return false;
+        if (content != null ? !content.equals(projDynamic.content) : projDynamic.content != null) return false;
+        if (img_url != null ? !img_url.equals(projDynamic.img_url) : projDynamic.img_url != null) return false;
+        if (create_time != null ? !create_time.equals(projDynamic.create_time) : projDynamic.create_time != null)
+            return false;
 
         return true;
     }

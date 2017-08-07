@@ -68,22 +68,6 @@ public class Util {
         response.getWriter().append(o.toString()).flush();
     }
 
-
-//    public static void saveOrderLog(String order_id, OrderEntity.OrderState orderState, OrderLogDao orderLogDao) {
-//        try {
-//            OrderLogEntity log = new OrderLogEntity();
-//            log.setOrder_id(order_id);
-//            log.setChangeTime(new Timestamp(System.currentTimeMillis()));
-//            log.setOrderState(orderState);
-//            orderLogDao.save(log);
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            throw new CatException(ORDER_OPERATION_LOG_PUBLISH_ERROR);
-//        }
-//    }
-
-
     public static Map<String, Object> entityToMap(Object object) {
         Map<String, Object> attr = new HashMap<>();
         if (object == null) {
@@ -142,5 +126,6 @@ public class Util {
         }
         return result.toString();
     }
+
 
 }

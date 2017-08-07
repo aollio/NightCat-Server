@@ -8,7 +8,7 @@ import java.sql.Timestamp;
  * 设计师用户详情
  */
 @Entity
-@Table(name = "ym_designer_profile", schema = "nightcat", catalog = "")
+@Table(name = "ym_designer_profile")
 public class DesignerProfile {
     /**
      * 用户标识
@@ -25,36 +25,8 @@ public class DesignerProfile {
     /**
      * 设计师类别
      */
-    private Type type;
+    private DesignType type;
 
-    public enum Type{
-        //十三项
-        Types_0("undefined"),
-        Types_1("概预算"),
-        Types_2("项目经理"),
-        Types_3("给排水设计"),
-        Types_4("策划"),
-        Types_5("规划设计"),
-        Types_6("建筑设计"),
-        Types_7("电气设计"),
-        Types_8("结构设计"),
-        Types_9("审图"),
-        Types_10("软装设计"),
-        Types_11("室内设计"),
-        Types_12("暖通设计"),
-        Types_13("景观设计");
-
-
-        String text;
-        private Type( String text){
-            this.text = text;
-        }
-
-
-        public String getText() {
-            return text;
-        }
-    }
 
     /**
      * 工龄, 单位年
@@ -150,12 +122,12 @@ public class DesignerProfile {
     }
 
     @Basic
-    @Column(name = "type")
-    public Type getType() {
+    @Column(name = "design_type")
+    public DesignType getType() {
         return type;
     }
 
-    public void setType(Type type) {
+    public void setType(DesignType type) {
         this.type = type;
     }
 
@@ -190,7 +162,7 @@ public class DesignerProfile {
     }
 
     @Basic
-    @Column(name = "official")
+    @Column(name = "is_official")
     public boolean isOfficial() {
         return official;
     }
@@ -230,7 +202,7 @@ public class DesignerProfile {
     }
 
     @Basic
-    @Column(name = "account")
+    @Column(name = "account_balance")
     public BigDecimal getAccount_balance() {
         return account_balance;
     }

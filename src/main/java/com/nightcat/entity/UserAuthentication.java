@@ -9,7 +9,7 @@ import java.sql.Timestamp;
  * 用户认证信息审核表
  */
 @Entity
-@Table(name = "ym_user_authentication", schema = "nightcat", catalog = "")
+@Table(name = "ym_user_authentication")
 public class UserAuthentication {
     private String id;
     /**

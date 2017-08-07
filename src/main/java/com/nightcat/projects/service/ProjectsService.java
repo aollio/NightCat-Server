@@ -1,9 +1,7 @@
 package com.nightcat.projects.service;
 
-import com.nightcat.config.annotation.Authorization;
-import com.nightcat.entity.FeaturedProject;
+import com.nightcat.entity.DesignType;
 import com.nightcat.entity.Project;
-import com.nightcat.repository.FeaturedProjectRepository;
 import com.nightcat.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,29 +17,16 @@ public class ProjectsService {
     @Autowired
     private ProjectRepository projectRepository;
 
-    @Autowired
-    private FeaturedProjectRepository featuredProjectRepository;
-
-    /**
-     * 返回精选项目列表
-     */
-    public List<Project> findFeature(int limit, Timestamp since_time, Timestamp max_time) {
-        List<FeaturedProject> featuredProjects =
-                featuredProjectRepository.findAll(limit, since_time, max_time);
-        List<Project> result = new LinkedList<>();
-        featuredProjects.forEach(fp -> result.add(projectRepository.findById(fp.getProj_id())));
-        return result;
-    }
 
     public List<Project> findTimelineByUid(String uid,
-                                           String type,
+                                           DesignType type,
                                            int limit,
                                            Timestamp since_time,
                                            Timestamp max_time) {
         return projectRepository.findByTypeAndUid(uid, type, limit, since_time, max_time);
     }
 
-    public List<Project> findByType(String type, int limit, Timestamp since_time, Timestamp max_time) {
+    public List<Project> findByType(DesignType type, int limit, Timestamp since_time, Timestamp max_time) {
         return projectRepository.findByType(type, limit, since_time, max_time);
     }
 

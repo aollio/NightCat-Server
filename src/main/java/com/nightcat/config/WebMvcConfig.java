@@ -27,8 +27,12 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     @Autowired
     private AuthorizationInterceptor authorizationInterceptor;
 
+    @Autowired
+    private CrosInterceptorAdapter crosInterceptorAdapter;
+
     /**
      * 增加参数解析器
+     *
      * @author Aollio
      * @date 15/05/2017
      */
@@ -40,9 +44,9 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     }
 
 
-
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(crosInterceptorAdapter);
         registry.addInterceptor(authorizationInterceptor);
     }
 }

@@ -5,6 +5,7 @@ import com.nightcat.common.base.BaseObject;
 import java.util.*;
 
 import com.nightcat.common.utility.Util;
+import com.nightcat.entity.DesignType;
 import com.nightcat.entity.DesignerProfile;
 import com.nightcat.entity.Project;
 import com.nightcat.entity.User;
@@ -18,15 +19,18 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
+import static com.nightcat.common.utility.Util.now;
 import static com.nightcat.entity.Project.Status.BothConfirm_WaitEmployerPay;
 
 @Profile({"dev", "aollio"})
 @Configuration
+@Transactional
 public class ApplicationStartup extends BaseObject implements ApplicationListener<ContextRefreshedEvent> {
 
 
@@ -122,21 +126,6 @@ public class ApplicationStartup extends BaseObject implements ApplicationListene
                 "assets/img/if_cat_emoji_face_smily-38-01_2361877.png",
 
         };
-        DesignerProfile.Type[] desType = {
-                DesignerProfile.Type.Types_1,
-                DesignerProfile.Type.Types_2,
-                DesignerProfile.Type.Types_3,
-                DesignerProfile.Type.Types_4,
-                DesignerProfile.Type.Types_5,
-                DesignerProfile.Type.Types_6,
-                DesignerProfile.Type.Types_7,
-                DesignerProfile.Type.Types_8,
-                DesignerProfile.Type.Types_9,
-                DesignerProfile.Type.Types_10,
-                DesignerProfile.Type.Types_11,
-                DesignerProfile.Type.Types_12,
-                DesignerProfile.Type.Types_13,
-        };
         for (int i = 0; i < empNickname.length; i++) {
             User user = new User();
             user.setNickname(empNickname[i]);
@@ -159,7 +148,7 @@ public class ApplicationStartup extends BaseObject implements ApplicationListene
             user.setRole(User.Role.DESIGNER);
             DesignerProfile profile = new DesignerProfile();
             profile.setUid(user.getUid());
-            profile.setType(desType[i]);
+            profile.setType(DesignType.values()[i % DesignType.values().length]);
             sessionFactory.getCurrentSession().save(profile);
             sessionFactory.getCurrentSession().save(user);
 
@@ -167,70 +156,6 @@ public class ApplicationStartup extends BaseObject implements ApplicationListene
     }
 
     private void saveProjects() {
-        //TODO 生成项目类型
-
-        DesignerProfile.Type[] projectType = {
-                DesignerProfile.Type.Types_1,
-                DesignerProfile.Type.Types_2,
-                DesignerProfile.Type.Types_3,
-                DesignerProfile.Type.Types_4,
-                DesignerProfile.Type.Types_5,
-                DesignerProfile.Type.Types_6,
-                DesignerProfile.Type.Types_7,
-                DesignerProfile.Type.Types_8,
-                DesignerProfile.Type.Types_9,
-                DesignerProfile.Type.Types_10,
-                DesignerProfile.Type.Types_11,
-                DesignerProfile.Type.Types_12,
-                DesignerProfile.Type.Types_13,
-                DesignerProfile.Type.Types_1,
-                DesignerProfile.Type.Types_2,
-                DesignerProfile.Type.Types_3,
-                DesignerProfile.Type.Types_4,
-                DesignerProfile.Type.Types_5,
-                DesignerProfile.Type.Types_6,
-                DesignerProfile.Type.Types_7,
-                DesignerProfile.Type.Types_8,
-                DesignerProfile.Type.Types_9,
-                DesignerProfile.Type.Types_10,
-                DesignerProfile.Type.Types_11,
-                DesignerProfile.Type.Types_12,
-                DesignerProfile.Type.Types_13,
-                DesignerProfile.Type.Types_1,
-                DesignerProfile.Type.Types_2,
-                DesignerProfile.Type.Types_3,
-                DesignerProfile.Type.Types_4,
-                DesignerProfile.Type.Types_5,
-                DesignerProfile.Type.Types_6,
-                DesignerProfile.Type.Types_7,
-                DesignerProfile.Type.Types_8,
-                DesignerProfile.Type.Types_9,
-                DesignerProfile.Type.Types_10,
-                DesignerProfile.Type.Types_11,
-                DesignerProfile.Type.Types_12,
-                DesignerProfile.Type.Types_13,
-                DesignerProfile.Type.Types_1,
-                DesignerProfile.Type.Types_2,
-                DesignerProfile.Type.Types_3,
-                DesignerProfile.Type.Types_4,
-                DesignerProfile.Type.Types_5,
-                DesignerProfile.Type.Types_6,
-                DesignerProfile.Type.Types_7,
-                DesignerProfile.Type.Types_8,
-                DesignerProfile.Type.Types_9,
-                DesignerProfile.Type.Types_10,
-                DesignerProfile.Type.Types_11,
-                DesignerProfile.Type.Types_12,
-                DesignerProfile.Type.Types_13,
-                DesignerProfile.Type.Types_1,
-                DesignerProfile.Type.Types_2,
-                DesignerProfile.Type.Types_3,
-                DesignerProfile.Type.Types_4,
-                DesignerProfile.Type.Types_5,
-                DesignerProfile.Type.Types_6,
-                DesignerProfile.Type.Types_7,
-                DesignerProfile.Type.Types_8,
-        };
 
 
         for (int i = 0; i < 40; i++) {
@@ -241,10 +166,11 @@ public class ApplicationStartup extends BaseObject implements ApplicationListene
             project.setTitle(i + "CAD施工图、平面图、效果图、" + i +
                     "装修图等，图纸分类有建筑设计、房屋设计、别墅设计" +
                     "、房屋装修、结构");
-            project.setType(projectType[i]);
+            project.setType(DesignType.values()[i % DesignType.values().length]);
             project.setBidder("des" + Math.abs(random.nextInt()) % 13);
             project.setStatus(Project.Status.BothConfirm_WaitEmployerPay);
-
+            project.setCreate_time(now());
+            project.setCreate_by("emp"+ (Math.abs(random.nextInt() % 13)));
             sessionFactory.getCurrentSession().save(project);
 
         }
@@ -255,8 +181,10 @@ public class ApplicationStartup extends BaseObject implements ApplicationListene
             project.setTitle(i + "CAD施工图、平面图、效果图、" + i +
                     "装修图等，图纸分类有建筑设计、房屋设计、别墅设计" +
                     "、房屋装修、结构");
-            project.setType(projectType[i]);
+            project.setType(DesignType.values()[i % DesignType.values().length]);
             project.setStatus(Project.Status.Publish);
+            project.setCreate_time(now());
+            project.setCreate_by("emp"+ (Math.abs(new Random().nextInt() % 13)));
             sessionFactory.getCurrentSession().save(project);
 
         }

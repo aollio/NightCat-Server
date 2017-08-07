@@ -2,17 +2,13 @@ package com.nightcat.users.service;
 
 import com.nightcat.common.utility.Assert;
 import com.nightcat.common.utility.Util;
-import com.nightcat.config.annotation.Authorization;
-import com.nightcat.entity.Cover;
 import com.nightcat.entity.User;
-import com.nightcat.repository.CoverRepository;
 import com.nightcat.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import static com.nightcat.common.constant.HttpStatus.*;
 

@@ -5,13 +5,19 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "ym_pay", schema = "nightcat", catalog = "")
+@Table(name = "ym_pay_orders", schema = "nightcat", catalog = "")
 public class Pay {
+    /**
+    * 支付订单id
+    */
     private String id;
-    private String order_id;
+    /**
+    * 项目id
+    */
+    private String proj_id;
     private String uid;
     private BigDecimal price;
-    private String status;
+    private Status status;
     private String description;
     private Timestamp pay_time;
     private Type type;
@@ -20,6 +26,11 @@ public class Pay {
     public enum Type {
         INCOME, EXPENDITURE
     }
+
+    public enum Status{
+        Created,Success,fail,
+    }
+
 
     @Id
     @Column(name = "id")
@@ -32,13 +43,13 @@ public class Pay {
     }
 
     @Basic
-    @Column(name = "order_id")
-    public String getOrder_id() {
-        return order_id;
+    @Column(name = "proj_id")
+    public String getProj_id() {
+        return proj_id;
     }
 
-    public void setOrder_id(String order_id) {
-        this.order_id = order_id;
+    public void setProj_id(String order_id) {
+        this.proj_id = order_id;
     }
 
     @Basic
@@ -63,11 +74,11 @@ public class Pay {
 
     @Basic
     @Column(name = "status")
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
@@ -102,7 +113,7 @@ public class Pay {
     }
 
     @Basic
-    @Column(name = "del")
+    @Column(name = "is_del")
     public boolean isDel() {
         return del;
     }
@@ -119,7 +130,7 @@ public class Pay {
         Pay pay = (Pay) o;
 
         if (id != null ? !id.equals(pay.id) : pay.id != null) return false;
-        if (order_id != null ? !order_id.equals(pay.order_id) : pay.order_id != null) return false;
+        if (proj_id != null ? !proj_id.equals(pay.proj_id) : pay.proj_id != null) return false;
         if (uid != null ? !uid.equals(pay.uid) : pay.uid != null) return false;
         if (price != null ? !price.equals(pay.price) : pay.price != null) return false;
         if (status != null ? !status.equals(pay.status) : pay.status != null) return false;
@@ -134,7 +145,7 @@ public class Pay {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (order_id != null ? order_id.hashCode() : 0);
+        result = 31 * result + (proj_id != null ? proj_id.hashCode() : 0);
         result = 31 * result + (uid != null ? uid.hashCode() : 0);
         result = 31 * result + (price != null ? price.hashCode() : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);

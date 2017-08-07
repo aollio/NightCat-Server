@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "ym_project", schema = "nightcat", catalog = "")
+@Table(name = "ym_projects")
 public class Project {
 
     private String id;
@@ -13,7 +13,7 @@ public class Project {
     /**
      * 项目类型
      */
-    private DesignerProfile.Type type;
+    private DesignType type;
     private String content;
     /**
      * 项目预算
@@ -69,10 +69,6 @@ public class Project {
      */
     private Timestamp due_time;
     /**
-     * 项目查看数
-     */
-    private int view_count;
-    /**
      * 项目喜欢数
      */
     private int fav_count;
@@ -89,6 +85,18 @@ public class Project {
      * 项目是否被删除
      */
     private boolean del;
+
+    private String cancel_reason;
+
+    @Basic
+    @Column(name = "cancel_reason")
+    public String getCancel_reason() {
+        return cancel_reason;
+    }
+
+    public void setCancel_reason(String cancel_reason) {
+        this.cancel_reason = cancel_reason;
+    }
 
     /**
      * 订单的状态流程图
@@ -154,11 +162,11 @@ public class Project {
 
     @Basic
     @Column(name = "type")
-    public DesignerProfile.Type getType() {
+    public DesignType getType() {
         return type;
     }
 
-    public void setType(DesignerProfile.Type type) {
+    public void setType(DesignType type) {
         this.type = type;
     }
 
@@ -263,7 +271,7 @@ public class Project {
     }
 
     @Basic
-    @Column(name = "good", length = 2)
+    @Column(name = "is_good", length = 2)
     public boolean isGood() {
         return good;
     }
@@ -312,15 +320,6 @@ public class Project {
         this.due_time = due_time;
     }
 
-    @Basic
-    @Column(name = "view_count")
-    public int getView_count() {
-        return view_count;
-    }
-
-    public void setView_count(int view_count) {
-        this.view_count = view_count;
-    }
 
     @Basic
     @Column(name = "fav_count")
@@ -389,7 +388,6 @@ public class Project {
         if (modify_time != null ? !modify_time.equals(that.modify_time) : that.modify_time != null) return false;
         if (modify_mark != null ? !modify_mark.equals(that.modify_mark) : that.modify_mark != null) return false;
         if (due_time != null ? !due_time.equals(that.due_time) : that.due_time != null) return false;
-        if (view_count != that.view_count) return false;
         if (fav_count != that.fav_count) return false;
         if (bidder != null ? !bidder.equals(that.bidder) : that.bidder != null) return false;
         if (bid_time != null ? !bid_time.equals(that.bid_time) : that.bid_time != null) return false;
@@ -420,7 +418,6 @@ public class Project {
         result = 31 * result + (modify_time != null ? modify_time.hashCode() : 0);
         result = 31 * result + (modify_mark != null ? modify_mark.hashCode() : 0);
         result = 31 * result + (due_time != null ? due_time.hashCode() : 0);
-        result = 31 * result + view_count;
         result = 31 * result + fav_count;
         result = 31 * result + (bidder != null ? bidder.hashCode() : 0);
         result = 31 * result + (bid_time != null ? bid_time.hashCode() : 0);

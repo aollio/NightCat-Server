@@ -3,8 +3,11 @@ package com.nightcat.entity;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+/**
+ * 项目抢单表
+ */
 @Entity
-@Table(name = "ym_proj_bidder", schema = "nightcat", catalog = "")
+@Table(name = "ym_proj_bidder")
 public class ProjBidder {
     private String id;
     private String proj_id;
