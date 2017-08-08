@@ -65,7 +65,7 @@ public class ProjectsController {
     @GetMapping("user_timeline")
     @Authorization
     public Response user_time(@CurrentUser User user,
-                              @RequestParam Integer type,
+                              @RequestParam(required = false) Integer type,
                               @RequestParam(required = false) Integer limit,
                               @RequestParam(name = "since_time", required = false, defaultValue = "0") String since_time_str,
                               @RequestParam(name = "max_time", required = false) String max_time_str) {
@@ -90,8 +90,7 @@ public class ProjectsController {
      * 显示项目详细信息
      */
     @GetMapping("/show")
-    public Response show(
-            @RequestParam String id) {
+    public Response show(String id) {
         Assert.strExist(id, BAD_REQUEST, "参数id不存在");
 
         Project project = projectsService.findById(id);
@@ -99,6 +98,17 @@ public class ProjectsController {
         Assert.notNull(project, NOT_FOUND, "项目不存在");
         return Response.ok(project);
     }
+
+    /**
+     * 获取每个项目的图片
+     */
+    @GetMapping("/imgs")
+    public Response pictures(String id) {
+        Assert.strExist(id, BAD_REQUEST, "参数id不存在");
+        return Response.ok(projectsService.findPicturesByProjId(id));
+    }
+
+
 
 
 }

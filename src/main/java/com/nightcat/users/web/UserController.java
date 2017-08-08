@@ -21,7 +21,7 @@ import static com.nightcat.common.utility.Util.now;
 
 @RestController
 @RequestMapping("/users")
-public class UsersController {
+public class UserController {
 
     @Autowired
     private UserService userService;
@@ -86,7 +86,6 @@ public class UsersController {
             profile = new DesignerProfile();
             profile.setUid(user.getUid());
             profile.setCreate_time(now());
-            profile.setNickname(user.getNickname());
         }
 
         // 用户详情已经存在了
@@ -109,6 +108,19 @@ public class UsersController {
         User target = userService.findById(uid);
         Assert.notNull(target, BAD_REQUEST, "用户不存在");
         return Response.ok(target);
+    }
+
+    /**
+     * 获取用户信息, 不需要认证. 只返回少数信息
+     */
+    @GetMapping("/show_simple")
+    public Response show_simple(String uid) {
+        User oriuser = userService.findById(uid);
+        User result = new User();
+        result.setUid(oriuser.getUid());
+        result.setNickname(oriuser.getNickname());
+        result.setImg_url(oriuser.getImg_url());
+        return Response.ok(result);
     }
 
 

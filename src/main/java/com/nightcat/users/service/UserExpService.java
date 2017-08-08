@@ -13,7 +13,7 @@ import java.util.Map;
 import static com.nightcat.common.constant.HttpStatus.*;
 
 @Service
-public class UsersExperienceService {
+public class UserExpService {
 
     @Autowired
     private ExperienceRepository experienceRepository;

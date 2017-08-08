@@ -15,7 +15,7 @@ import static com.nightcat.common.constant.HttpStatus.*;
 
 @RestController
 @RequestMapping("/users/authentication")
-public class UserAuthenticationController {
+public class UserAuthController {
 
     @Autowired
     private AuthenticationService authService;

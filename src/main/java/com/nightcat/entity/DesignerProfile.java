@@ -14,10 +14,7 @@ public class DesignerProfile {
      * 用户标识
      */
     private String uid;
-    /**
-     * 用户昵称
-     */
-    private String nickname;
+
     /**
      * 用户简介
      */
@@ -100,16 +97,6 @@ public class DesignerProfile {
         this.uid = uid;
     }
 
-
-    @Basic
-    @Column(name = "nickname")
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
 
     @Basic
     @Column(name = "summary")
@@ -324,5 +311,4 @@ public class DesignerProfile {
     public void setOfficial_school(boolean official_school) {
         this.official_school = official_school;
     }
-
 }
