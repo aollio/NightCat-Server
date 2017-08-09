@@ -2,9 +2,9 @@ package com.nightcat.projects.service;
 
 import com.nightcat.common.timing.Timer;
 import com.nightcat.entity.DesignType;
-import com.nightcat.entity.ProjImage;
+import com.nightcat.entity.ProjectImage;
 import com.nightcat.entity.Project;
-import com.nightcat.repository.ProjImagesRepository;
+import com.nightcat.repository.ProjectImagesRepository;
 import com.nightcat.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,19 +14,19 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class ProjectsService {
+public class ProjectService {
 
     @Autowired
     private ProjectRepository projectRepository;
 
     @Autowired
-    private ProjImagesRepository projImagesRepository;
+    private ProjectImagesRepository projectImagesRepository;
 
     @Autowired
     private Timer timer;
 
-    public List<ProjImage> findPicturesByProjId(String proj_id) {
-        return projImagesRepository.findByProjId(proj_id);
+    public List<ProjectImage> findPicturesByProjId(String proj_id) {
+        return projectImagesRepository.findByProjId(proj_id);
     }
 
     public List<Project> findTimelineByUid(String uid,

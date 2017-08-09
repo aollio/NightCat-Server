@@ -9,7 +9,7 @@ import com.framework.annotation.CurrentUser;
 import com.nightcat.entity.DesignType;
 import com.nightcat.entity.Project;
 import com.nightcat.entity.User;
-import com.nightcat.projects.service.ProjectsService;
+import com.nightcat.projects.service.ProjectService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,7 +30,7 @@ public class ProjectsController {
     private static Logger logger = Logger.getLogger(ProjectsController.class);
 
     @Autowired
-    private ProjectsService projectsService;
+    private ProjectService projService;
 
     /**
      * 返回项目首页的timeline
@@ -55,7 +55,7 @@ public class ProjectsController {
 
         limit = limit == null ? Constant.DEFAULT_LIMIT : limit;
 
-        return Response.ok(projectsService.findByType(designType, limit, since_time, max_time));
+        return Response.ok(projService.findByType(designType, limit, since_time, max_time));
     }
 
 
@@ -82,7 +82,7 @@ public class ProjectsController {
 
         Timestamp since_time = timeFromStr(since_time_str);
         Timestamp max_time = emptyStr(max_time_str) ? now() : timeFromStr(max_time_str);
-        return Response.ok(projectsService.findTimelineByUid(user.getUid(), designType, limit, since_time, max_time));
+        return Response.ok(projService.findTimelineByUid(user.getUid(), designType, limit, since_time, max_time));
     }
 
 
@@ -93,7 +93,7 @@ public class ProjectsController {
     public Response show(String id) {
         Assert.strExist(id, BAD_REQUEST, "参数id不存在");
 
-        Project project = projectsService.findById(id);
+        Project project = projService.findById(id);
 
         Assert.notNull(project, NOT_FOUND, "项目不存在");
         return Response.ok(project);
@@ -105,7 +105,7 @@ public class ProjectsController {
     @GetMapping("/imgs")
     public Response pictures(String id) {
         Assert.strExist(id, BAD_REQUEST, "参数id不存在");
-        return Response.ok(projectsService.findPicturesByProjId(id));
+        return Response.ok(projService.findPicturesByProjId(id));
     }
 
 

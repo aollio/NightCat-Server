@@ -6,8 +6,8 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "ym_proj_comments")
-public class ProjComment {
+@Table(name = "ym_project_comments")
+public class ProjectComment {
     /**
      * 评论id
      */
@@ -126,7 +126,7 @@ public class ProjComment {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ProjComment that = (ProjComment) o;
+        ProjectComment that = (ProjectComment) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (proj_id != null ? !proj_id.equals(that.proj_id) : that.proj_id != null) return false;

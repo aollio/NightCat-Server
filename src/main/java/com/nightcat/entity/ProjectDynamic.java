@@ -7,8 +7,8 @@ import java.sql.Timestamp;
  * 项目动态表
  */
 @Entity
-@Table(name = "ym_proj_dynamic")
-public class ProjDynamic {
+@Table(name = "ym_project_dynamic")
+public class ProjectDynamic {
     private String id;
     private String proj_id;
     private String uid;
@@ -106,17 +106,17 @@ public class ProjDynamic {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ProjDynamic projDynamic = (ProjDynamic) o;
+        ProjectDynamic projectDynamic = (ProjectDynamic) o;
 
-        if (id != null ? !id.equals(projDynamic.id) : projDynamic.id != null) return false;
-        if (proj_id != null ? !proj_id.equals(projDynamic.proj_id) : projDynamic.proj_id != null) return false;
-        if (uid != null ? !uid.equals(projDynamic.uid) : projDynamic.uid != null) return false;
-        if (publisher != projDynamic.publisher)
+        if (id != null ? !id.equals(projectDynamic.id) : projectDynamic.id != null) return false;
+        if (proj_id != null ? !proj_id.equals(projectDynamic.proj_id) : projectDynamic.proj_id != null) return false;
+        if (uid != null ? !uid.equals(projectDynamic.uid) : projectDynamic.uid != null) return false;
+        if (publisher != projectDynamic.publisher)
             return false;
-        if (type != null ? !type.equals(projDynamic.type) : projDynamic.type != null) return false;
-        if (content != null ? !content.equals(projDynamic.content) : projDynamic.content != null) return false;
-        if (img_url != null ? !img_url.equals(projDynamic.img_url) : projDynamic.img_url != null) return false;
-        if (create_time != null ? !create_time.equals(projDynamic.create_time) : projDynamic.create_time != null)
+        if (type != null ? !type.equals(projectDynamic.type) : projectDynamic.type != null) return false;
+        if (content != null ? !content.equals(projectDynamic.content) : projectDynamic.content != null) return false;
+        if (img_url != null ? !img_url.equals(projectDynamic.img_url) : projectDynamic.img_url != null) return false;
+        if (create_time != null ? !create_time.equals(projectDynamic.create_time) : projectDynamic.create_time != null)
             return false;
 
         return true;

@@ -3,8 +3,10 @@ package com.framework.config;
 import com.framework.annotation.AuthorizationInterceptor;
 import com.framework.annotation.CurrentUserMethodArgumentResolver;
 import com.framework.annotation.EnumPramMethodArgumentResolver;
+import com.framework.formatter.TimestampFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -30,6 +32,9 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     @Autowired
     private CrosInterceptorAdapter crosInterceptorAdapter;
 
+    @Autowired
+    private TimestampFormatter timestampFormatter;
+
     /**
      * 增加参数解析器
      *
@@ -43,6 +48,14 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         super.addArgumentResolvers(argumentResolvers);
     }
 
+    /**
+     * 参数解析器
+     */
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        super.addFormatters(registry);
+        registry.addFormatter(timestampFormatter);
+    }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {

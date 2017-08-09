@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "ym_proj_images")
-public class ProjImage {
+@Table(name = "ym_project_images")
+public class ProjectImage {
 
     private String id;
     private String proj_id;
@@ -58,7 +58,7 @@ public class ProjImage {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ProjImage that = (ProjImage) o;
+        ProjectImage that = (ProjectImage) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (proj_id != null ? !proj_id.equals(that.proj_id) : that.proj_id != null) return false;

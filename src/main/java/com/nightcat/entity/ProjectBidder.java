@@ -3,16 +3,32 @@ package com.nightcat.entity;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+import static com.nightcat.common.utility.Util.now;
+import static com.nightcat.common.utility.Util.uuid;
+
 /**
  * 项目抢单表
  */
 @Entity
-@Table(name = "ym_proj_bidder")
-public class ProjBidder {
-    private String id;
+@Table(name = "ym_project_bidders")
+public class ProjectBidder {
+    private String id = uuid();
     private String proj_id;
     private String uid;
-    private Timestamp create_time;
+    private Timestamp create_time = now();
+
+    /**
+     * 报价
+     */
+    private double price;
+    /**
+     * 任务周期
+     */
+    private String cycle;
+    /**
+     * 方案说明
+     */
+    private String description;
 
     @Id
     @Column(name = "id")
@@ -54,12 +70,44 @@ public class ProjBidder {
         this.create_time = create_time;
     }
 
+
+    @Basic
+    @Column(name = "description")
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Basic
+    @Column(name = "cycle")
+    public String getCycle() {
+        return cycle;
+    }
+
+    public void setCycle(String cycle) {
+        this.cycle = cycle;
+    }
+
+    @Basic
+    @Column(name = "price")
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ProjBidder that = (ProjBidder) o;
+        ProjectBidder that = (ProjectBidder) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (proj_id != null ? !proj_id.equals(that.proj_id) : that.proj_id != null) return false;

@@ -1,5 +1,7 @@
 package com.nightcat.entity;
 
+import com.nightcat.common.utility.Util;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -8,95 +10,6 @@ import java.sql.Timestamp;
 @Table(name = "ym_projects")
 public class Project {
 
-    private String id;
-    private String title;
-    /**
-     * 项目类型
-     */
-    private DesignType type;
-    private String content;
-    /**
-     * 项目预算
-     */
-    private BigDecimal budget;
-    private int area;
-    private String depth;
-    /**
-     * 项目需要的工时
-     */
-    private int period;
-    /**
-     * 项目开始时间
-     */
-    private Timestamp start_time;
-    /**
-     * 项目截止时间
-     */
-    private Timestamp end_time;
-
-    /**
-     * 项目状态
-     */
-    private Status status;
-    /**
-     * 项目创建人uid
-     */
-    private String create_by;
-    /**
-     * 项目的创建时间
-     */
-    private Timestamp create_time;
-
-    /**
-     * 项目是否优秀
-     */
-    private boolean good;
-
-    /**
-     * 修改人uid
-     */
-    private String modify_by;
-    /**
-     * 修改人修改项目时间
-     */
-    private Timestamp modify_time;
-    /**
-     * 项目备注
-     */
-    private String modify_mark;
-    /**
-     * 抢单截止时间
-     */
-    private Timestamp due_time;
-    /**
-     * 项目喜欢数
-     */
-    private int fav_count;
-    /**
-     * 竞标人 竞标设计师
-     */
-    private String bidder;
-    /**
-     * 竞标人 竞标截止时间
-     */
-    private Timestamp bid_time;
-
-    /**
-     * 项目是否被删除
-     */
-    private boolean del;
-
-    private String cancel_reason;
-
-    @Basic
-    @Column(name = "cancel_reason")
-    public String getCancel_reason() {
-        return cancel_reason;
-    }
-
-    public void setCancel_reason(String cancel_reason) {
-        this.cancel_reason = cancel_reason;
-    }
 
     /**
      * 订单的状态流程图
@@ -140,6 +53,128 @@ public class Project {
 
     }
 
+    public enum Depth {
+        Schema("方案"),
+        Expansion("扩出"),
+        Construction("施工");
+
+        String text;
+
+        Depth(String text) {
+            this.text = text;
+        }
+
+        public String getText() {
+            return text;
+        }
+    }
+
+    private String id;
+    private String title;
+    /**
+     * 项目类型
+     */
+    private DesignType type;
+    /**
+     * 项目内容
+     */
+    private String content;
+    /**
+     * 项目预算
+     */
+    private BigDecimal budget;
+    /**
+     * 设计面积
+     */
+    private int area;
+
+    /**
+     * 设计面积个数
+     */
+    private int area_count;
+
+    /**
+     * 项目深度
+     */
+    private Depth depth;
+    /**
+     * 项目需要的工时
+     */
+    private int period;
+    /**
+     * 项目开始时间
+     */
+    private Timestamp start_time;
+    /**
+     * 项目截止时间
+     */
+    private Timestamp end_time;
+
+    /**
+     * 项目状态
+     */
+    private Status status = Status.Publish;
+    /**
+     * 项目创建人uid
+     */
+    private String create_by;
+    /**
+     * 项目的创建时间
+     */
+    private Timestamp create_time;
+
+    /**
+     * 项目是否优秀
+     */
+    private boolean good;
+
+    /**
+     * 修改人uid
+     */
+    private String modify_by;
+    /**
+     * 修改人修改项目时间
+     */
+    private Timestamp modify_time;
+    /**
+     * 项目备注
+     */
+    private String modify_mark;
+    /**
+     * 抢单截止时间
+     */
+    private Timestamp due_time;
+    /**
+     * 项目喜欢数
+     */
+    private int fav_count;
+    /**
+     * 竞标人 竞标设计师
+     */
+    private String bidder;
+    /**
+     * 竞标人 竞标时间
+     */
+    private Timestamp bid_time;
+
+    /**
+     * 项目是否被删除
+     */
+    private boolean del;
+
+    private String cancel_reason;
+
+
+    @Basic
+    @Column(name = "cancel_reason")
+    public String getCancel_reason() {
+        return cancel_reason;
+    }
+
+    public void setCancel_reason(String cancel_reason) {
+        this.cancel_reason = cancel_reason;
+    }
+
     @Id
     @Column(name = "id")
     public String getId() {
@@ -151,7 +186,7 @@ public class Project {
     }
 
     @Basic
-    @Column(name = "title")
+    @Column(name = "title", length = 100)
     public String getTitle() {
         return title;
     }
@@ -161,7 +196,7 @@ public class Project {
     }
 
     @Basic
-    @Column(name = "type")
+    @Column(name = "type", length = 2)
     public DesignType getType() {
         return type;
     }
@@ -171,7 +206,7 @@ public class Project {
     }
 
     @Basic
-    @Column(name = "content")
+    @Column(name = "content", length = 200)
     public String getContent() {
         return content;
     }
@@ -202,12 +237,23 @@ public class Project {
 
     @Basic
     @Column(name = "depth")
-    public String getDepth() {
+    public Depth getDepth() {
         return depth;
     }
 
-    public void setDepth(String depth) {
+    public void setDepth(Depth depth) {
         this.depth = depth;
+    }
+
+
+    @Basic
+    @Column(name = "area_count")
+    public int getArea_count() {
+        return area_count;
+    }
+
+    public void setArea_count(int area_count) {
+        this.area_count = area_count;
     }
 
     @Basic
@@ -301,7 +347,7 @@ public class Project {
     }
 
     @Basic
-    @Column(name = "description", length = 300)
+    @Column(name = "modify_marl", length = 300)
     public String getModify_mark() {
         return modify_mark;
     }
@@ -360,6 +406,7 @@ public class Project {
     public void setDel(boolean del) {
         this.del = del;
     }
+
 
     @Override
     public boolean equals(Object o) {

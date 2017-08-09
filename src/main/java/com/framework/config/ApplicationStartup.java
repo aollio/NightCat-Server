@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 import java.util.*;
 
 import com.nightcat.entity.*;
-import com.nightcat.projects.service.ProjectsService;
+import com.nightcat.projects.service.ProjectService;
 import com.nightcat.repository.NotificationRepository;
 import com.nightcat.repository.UserRepository;
 import org.hibernate.SessionFactory;
@@ -41,7 +41,7 @@ public class ApplicationStartup extends BaseObject implements ApplicationListene
 
 
     @Autowired
-    private ProjectsService projectsService;
+    private ProjectService projService;
 
 
     @Autowired
@@ -213,11 +213,11 @@ public class ApplicationStartup extends BaseObject implements ApplicationListene
             sessionFactory.getCurrentSession().save(project);
 
 
-            ProjImage projImage = new ProjImage();
-            projImage.setId(uuid());
-            projImage.setProj_id("projects" + i);
-            projImage.setImg_url("https://cdn.pixabay.com/photo/2013/04/06/11/50/image-editing-101040_960_720.jpg");
-            sessionFactory.getCurrentSession().save(projImage);
+            ProjectImage proectImage = new ProjectImage();
+            proectImage.setId(uuid());
+            proectImage.setProj_id("projects" + i);
+            proectImage.setImg_url("https://cdn.pixabay.com/photo/2013/04/06/11/50/image-editing-101040_960_720.jpg");
+            sessionFactory.getCurrentSession().save(proectImage);
 
         }
         for (int i = 40; i < 60; i++) {
@@ -239,11 +239,11 @@ public class ApplicationStartup extends BaseObject implements ApplicationListene
 
             project.setCreate_by("emp" + (Math.abs(new Random().nextInt() % 13)));
 
-            ProjImage projImage = new ProjImage();
-            projImage.setId(uuid());
-            projImage.setProj_id("projects" + i);
-            projImage.setImg_url("https://cdn.pixabay.com/photo/2013/04/06/11/50/image-editing-101040_960_720.jpg");
-            sessionFactory.getCurrentSession().save(projImage);
+            ProjectImage proectImage = new ProjectImage();
+            proectImage.setId(uuid());
+            proectImage.setProj_id("projects" + i);
+            proectImage.setImg_url("https://cdn.pixabay.com/photo/2013/04/06/11/50/image-editing-101040_960_720.jpg");
+            sessionFactory.getCurrentSession().save(proectImage);
             sessionFactory.getCurrentSession().save(project);
 
         }
