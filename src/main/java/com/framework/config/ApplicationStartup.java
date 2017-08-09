@@ -8,10 +8,11 @@ import java.util.*;
 
 import com.nightcat.entity.*;
 import com.nightcat.projects.service.ProjectService;
-import com.nightcat.repository.NotificationRepository;
+import com.nightcat.repository.NoticeRepository;
 import com.nightcat.repository.UserRepository;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -27,13 +28,18 @@ import static com.nightcat.common.utility.Util.uuid;
 public class ApplicationStartup extends BaseObject implements ApplicationListener<ContextRefreshedEvent> {
 
 
+    @Value("${hibernate.hbm2ddl.auto}")
+    private String HIBERNATE_HBM2DDL_AUTO;
+
     /**
      * 生成测试数据
      */
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        logger.info("开始生成测试数据");
-        saveTestData();
+        if ("create".equals(HIBERNATE_HBM2DDL_AUTO)) {
+            logger.info("开始生成测试数据");
+            saveTestData();
+        }
     }
 
     @Autowired
@@ -45,7 +51,7 @@ public class ApplicationStartup extends BaseObject implements ApplicationListene
 
 
     @Autowired
-    private NotificationRepository notificationRepository;
+    private NoticeRepository noticeRepository;
 
 
     String empUid = "450be21f7c714357a1892ca5291a859c";

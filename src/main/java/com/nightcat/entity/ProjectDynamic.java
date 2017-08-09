@@ -3,6 +3,8 @@ package com.nightcat.entity;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+import static com.nightcat.common.utility.Util.now;
+
 /**
  * 项目动态表
  */
@@ -16,10 +18,38 @@ public class ProjectDynamic {
      * 是否是项目发布者发出的动态
      */
     private boolean publisher;
-    private String type;
+    private Type type;
     private String content;
     private String img_url;
-    private Timestamp create_time;
+
+    private Timestamp create_time = now();
+
+    public ProjectDynamic() {
+    }
+
+    public ProjectDynamic(String id, String proj_id, String uid, boolean publisher, Type type, String content, String img_url, Timestamp create_time) {
+        this.id = id;
+        this.proj_id = proj_id;
+        this.uid = uid;
+        this.publisher = publisher;
+        this.type = type;
+        this.content = content;
+        this.img_url = img_url;
+        this.create_time = create_time;
+    }
+
+
+    public enum Type {
+        Publish,
+        /**
+         * 被设计师抢单
+         */
+        Grabbed,
+        /**
+         * 设计师确认
+         */
+        Designer_Confirm
+    }
 
     @Id
     @Column(name = "id")
@@ -63,11 +93,11 @@ public class ProjectDynamic {
 
     @Basic
     @Column(name = "type")
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Type type) {
         this.type = type;
     }
 

@@ -34,7 +34,7 @@ public class EventManagerImpl implements EventManager {
      *
      * @param event    事件
      * @param executor 事件发生时的执行器
-     * @author finderlo
+     * @author Aollio
      */
     @Override
     public void register(Event event, EventExecutor executor) {
@@ -47,7 +47,7 @@ public class EventManagerImpl implements EventManager {
      *
      * @param event   事件
      * @param context 事件相关的上下文信息
-     * @author finderlo
+     * @author Aollio
      */
     @Override
     public void publish(Event event, EventContext context) {

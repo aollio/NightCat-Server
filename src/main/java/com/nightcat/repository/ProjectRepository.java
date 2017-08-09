@@ -18,22 +18,31 @@ public class ProjectRepository extends AbstractRepository<Project> {
 
     private static final String TABLE_NAME = "ym_projects";
 
+    /**
+     * 查询方法 只查询状态为发布状态
+     */
     public List<Project> findByType(DesignType type, int limit, Timestamp since_time, Timestamp max_time) {
         return (List<Project>) getCriteriaWithTimeAndType(type, limit, since_time, max_time).list();
     }
 
+    /**
+     * 查询方法 只查询状态为发布状态
+     */
     public List<Project> findByTypeAndUid(String uid, DesignType type, int limit, Timestamp since_time, Timestamp max_time) {
         Criteria criteria = getCriteriaWithTimeAndType(type, limit, since_time, max_time);
-        criteria.add(Restrictions.eq("uid", uid));
+        criteria.add(Restrictions.eq("create_by", uid));
         return (List<Project>) criteria.list();
     }
 
+    /**
+     * 查询方法 只查询状态为发布状态
+     */
     private Criteria getCriteriaWithTimeAndType(DesignType type, int limit, Timestamp since_time, Timestamp max_time) {
 
         Criteria criteria = getCriteria(limit);
         if (type != DesignType.UNDEFINDED) criteria.add(Restrictions.like("type", type));
         criteria.add(Restrictions.between("create_time", since_time, max_time));
-
+        criteria.add(Restrictions.eq("status", Project.Status.Publish));
         return criteria;
     }
 

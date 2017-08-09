@@ -9,36 +9,17 @@ package com.nightcat.event;
  */
 public enum Event {
 
-    ComplaintResultEvent,
 
-    UserUpgradeSuccessEvent,
-    UserUpgradeFailEvent,
-
-    OrderPublishedEvent,
-    OrderAcceptedEvent,
-    OrderCompleteSuccessEvent,
-    OrderReplacementCancelEvent,
-    OrderOutExpireEvent,
-    OrderCommentSuccessEvent,
-
-    UserRegisterEvent,
-    UserAutoUpgradeSuccessEvent,
-
-    FundsDepositEvent,
-    FundsFetchEvent,
-    FundsWithDrawEvent, Manual_NewUpgradeEvent, Manual_NewComplaint;
-
-    Class contextType;
+    /**
+     * 项目发布事件
+     */
+    ProjectPublishedEvent,
+    /**
+     * 项目被抢单事件
+     */
+    ProjectGrabEvent,
 
     Event() {
-    }
-
-    Event(Class context) {
-        this.contextType = context;
-    }
-
-    public Class getContextType() {
-        return contextType;
     }
 
 }

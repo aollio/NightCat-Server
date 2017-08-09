@@ -6,17 +6,36 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "ym_user_notice")
 public class Notice {
+
+
+    public enum Type {
+        SYSTEM,
+        NOTICE,
+        PROJECT,
+    }
+
     private String id;
     private String content;
     private String uid;
-    private String description;
     private Timestamp create_time;
 
-    private String status;
 
     private boolean read;
-    private String type;
+    private Type type;
     private boolean del;
+
+    public Notice() {
+    }
+
+    public Notice(String id, String content, String uid,  Timestamp create_time, boolean read, Type type, boolean del) {
+        this.id = id;
+        this.content = content;
+        this.uid = uid;
+        this.create_time = create_time;
+        this.read = read;
+        this.type = type;
+        this.del = del;
+    }
 
     @Id
     @Column(name = "id")
@@ -48,15 +67,6 @@ public class Notice {
         this.uid = uid;
     }
 
-    @Basic
-    @Column(name = "description",length = 100)
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     @Basic
     @Column(name = "create_time")
@@ -69,18 +79,9 @@ public class Notice {
     }
 
 
-    @Basic
-    @Column(name = "status",length = 10)
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 
     @Basic
-    @Column(name = "is_read",length = 2)
+    @Column(name = "is_read", length = 2)
     public boolean isRead() {
         return read;
     }
@@ -91,17 +92,17 @@ public class Notice {
 
 
     @Basic
-    @Column(name = "notice_type",length = 2)
-    public String getType() {
+    @Column(name = "notice_type", length = 2)
+    public Type getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Type type) {
         this.type = type;
     }
 
     @Basic
-    @Column(name = "is_del",length = 2)
+    @Column(name = "is_del", length = 2)
     public boolean isDel() {
         return del;
     }
@@ -120,9 +121,7 @@ public class Notice {
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (content != null ? !content.equals(that.content) : that.content != null) return false;
         if (uid != null ? !uid.equals(that.uid) : that.uid != null) return false;
-        if (description != null ? !description.equals(that.description) : that.description != null) return false;
         if (create_time != null ? !create_time.equals(that.create_time) : that.create_time != null) return false;
-        if (status != null ? !status.equals(that.status) : that.status != null) return false;
         if (read != that.read) return false;
         if (type != null ? !type.equals(that.type) : that.type != null) return false;
         if (del != that.del) return false;
@@ -135,9 +134,7 @@ public class Notice {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (content != null ? content.hashCode() : 0);
         result = 31 * result + (uid != null ? uid.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (create_time != null ? create_time.hashCode() : 0);
-        result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + (read ? 1 : 0);
         result = 31 * result + (type != null ? type.hashCode() : 0);
         result = 31 * result + (del ? 1 : 0);

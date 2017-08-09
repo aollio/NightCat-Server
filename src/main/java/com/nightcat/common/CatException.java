@@ -9,6 +9,9 @@ public class CatException extends RuntimeException {
 
     private int status = 500;
 
+    public CatException(String message) {
+        this(500, message, null);
+    }
 
     public CatException(int status, String message) {
         this(status, message, null);
@@ -21,11 +24,11 @@ public class CatException extends RuntimeException {
     }
 
     public CatException(ErrorCode errorCode, Exception e) {
-        this(errorCode.getCode(),errorCode.getDescription(),e);
+        this(errorCode.getCode(), errorCode.getDescription(), e);
     }
 
     public CatException(ErrorCode errorCode) {
-        this(errorCode,null);
+        this(errorCode, null);
     }
 
 

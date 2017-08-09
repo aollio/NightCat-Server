@@ -42,7 +42,7 @@ public class ProjectsController {
             @RequestParam(name = "since_time", required = false, defaultValue = "0") String since_time_str,
             @RequestParam(name = "max_time", required = false) String max_time_str) {
 
-        Timestamp since_time = timeFromStr(since_time_str);
+        Timestamp since_time = emptyStr(since_time_str) ? new Timestamp(0) : timeFromStr(since_time_str);
         Timestamp max_time = emptyStr(max_time_str) ? now() : timeFromStr(max_time_str);
 
         DesignType designType = DesignType.UNDEFINDED;
@@ -107,8 +107,6 @@ public class ProjectsController {
         Assert.strExist(id, BAD_REQUEST, "参数id不存在");
         return Response.ok(projService.findPicturesByProjId(id));
     }
-
-
 
 
 }

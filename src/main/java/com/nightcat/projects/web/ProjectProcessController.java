@@ -67,7 +67,6 @@ public class ProjectProcessController {
             Timestamp start_time,
             Timestamp due_time
     ) {
-        System.out.println(end_time);
 
         Assert.isEmployer(user, BAD_REQUEST, "发布项目必须为雇主");
 
@@ -108,6 +107,7 @@ public class ProjectProcessController {
         project.setStart_time(start_time);
         project.setDue_time(due_time);
 
+        project.setCreate_by(user.getUid());
 
         Project newProj = processServ.publish(project);
 
@@ -133,12 +133,6 @@ public class ProjectProcessController {
         price = revise(price);
         Assert.notZero(price, BAD_REQUEST, "'price' not exist or wrong value");
 
-        //check user is already grab this project
-        Assert.isNull(bidderServ.findByUidAndProjectId(user.getUid(), id), PROJECT_ALREADY_GRAB, "already grab this project");
-
-        //check the project exist
-        Assert.notNull(projServ.findById(id), BAD_REQUEST,
-                "the project is not exist");
 
         //generate bidder record
         ProjectBidder bidder = new ProjectBidder();
@@ -148,14 +142,10 @@ public class ProjectProcessController {
         bidder.setProj_id(id);
         bidder.setDescription(description);
         bidder.setCycle(cycle);
+        bidder.setPrice(price);
 
-        Project project = projServ.findById(id);
-        Assert.isTrue(project.getStatus() == Project.Status.Publish,
-                PROJECT_NOT_PUBLISH, "项目无法抢单了");
-
-        //save
-        bidderServ.save(bidder);
-        //todo 消息通知双方 项目动态
+        //log
+        processServ.grab(bidder);
         return Response.ok(bidder);
     }
 
