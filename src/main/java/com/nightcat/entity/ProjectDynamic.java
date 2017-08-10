@@ -3,12 +3,14 @@ package com.nightcat.entity;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+import static com.nightcat.common.utility.Util.now;
+
 /**
  * 项目动态表
  */
 @Entity
-@Table(name = "ym_proj_dynamic")
-public class ProjDynamic {
+@Table(name = "ym_project_dynamic")
+public class ProjectDynamic {
     private String id;
     private String proj_id;
     private String uid;
@@ -16,10 +18,38 @@ public class ProjDynamic {
      * 是否是项目发布者发出的动态
      */
     private boolean publisher;
-    private String type;
+    private Type type;
     private String content;
     private String img_url;
-    private Timestamp create_time;
+
+    private Timestamp create_time = now();
+
+    public ProjectDynamic() {
+    }
+
+    public ProjectDynamic(String id, String proj_id, String uid, boolean publisher, Type type, String content, String img_url, Timestamp create_time) {
+        this.id = id;
+        this.proj_id = proj_id;
+        this.uid = uid;
+        this.publisher = publisher;
+        this.type = type;
+        this.content = content;
+        this.img_url = img_url;
+        this.create_time = create_time;
+    }
+
+
+    public enum Type {
+        Publish,
+        /**
+         * 被设计师抢单
+         */
+        Grabbed,
+        /**
+         * 设计师确认
+         */
+        Designer_Confirm
+    }
 
     @Id
     @Column(name = "id")
@@ -63,11 +93,11 @@ public class ProjDynamic {
 
     @Basic
     @Column(name = "type")
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Type type) {
         this.type = type;
     }
 
@@ -106,17 +136,17 @@ public class ProjDynamic {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ProjDynamic projDynamic = (ProjDynamic) o;
+        ProjectDynamic projectDynamic = (ProjectDynamic) o;
 
-        if (id != null ? !id.equals(projDynamic.id) : projDynamic.id != null) return false;
-        if (proj_id != null ? !proj_id.equals(projDynamic.proj_id) : projDynamic.proj_id != null) return false;
-        if (uid != null ? !uid.equals(projDynamic.uid) : projDynamic.uid != null) return false;
-        if (publisher != projDynamic.publisher)
+        if (id != null ? !id.equals(projectDynamic.id) : projectDynamic.id != null) return false;
+        if (proj_id != null ? !proj_id.equals(projectDynamic.proj_id) : projectDynamic.proj_id != null) return false;
+        if (uid != null ? !uid.equals(projectDynamic.uid) : projectDynamic.uid != null) return false;
+        if (publisher != projectDynamic.publisher)
             return false;
-        if (type != null ? !type.equals(projDynamic.type) : projDynamic.type != null) return false;
-        if (content != null ? !content.equals(projDynamic.content) : projDynamic.content != null) return false;
-        if (img_url != null ? !img_url.equals(projDynamic.img_url) : projDynamic.img_url != null) return false;
-        if (create_time != null ? !create_time.equals(projDynamic.create_time) : projDynamic.create_time != null)
+        if (type != null ? !type.equals(projectDynamic.type) : projectDynamic.type != null) return false;
+        if (content != null ? !content.equals(projectDynamic.content) : projectDynamic.content != null) return false;
+        if (img_url != null ? !img_url.equals(projectDynamic.img_url) : projectDynamic.img_url != null) return false;
+        if (create_time != null ? !create_time.equals(projectDynamic.create_time) : projectDynamic.create_time != null)
             return false;
 
         return true;

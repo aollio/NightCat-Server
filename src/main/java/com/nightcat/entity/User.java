@@ -11,6 +11,24 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "ym_user")
 public class User {
+
+    /**
+     * Sex
+     */
+    public enum Sex {
+        UNDEFINED, MALE, FEMALE
+    }
+
+    /**
+     * Role
+     */
+    public enum Role {
+        DESIGNER, EMPLOYER
+    }
+
+    /**
+     *
+     */
     private String uid;
     private String password;
     /**
@@ -26,6 +44,11 @@ public class User {
      * 昵称
      */
     private String nickname;
+
+    /**
+     * 性别
+     */
+    private Sex sex = Sex.UNDEFINED;
     /**
      * 头像url
      */
@@ -49,7 +72,7 @@ public class User {
     private String platform;
     private String client_id;
     private String imtoken;
-    private boolean del;
+    private boolean del = false;
 
     public String getId_card() {
         return id_card;
@@ -59,10 +82,6 @@ public class User {
         this.id_card = id_card;
     }
 
-
-    public enum Role {
-        DESIGNER, EMPLOYER
-    }
 
     @Id
     @Column(name = "id")
@@ -218,13 +237,23 @@ public class User {
     }
 
     @Basic
-    @Column(name = "del")
+    @Column(name = "is_del", length = 2)
     public boolean isDel() {
         return del;
     }
 
     public void setDel(boolean isdel) {
         this.del = isdel;
+    }
+
+    @Basic
+    @Column(name = "user_sex", length = 2)
+    public Sex getSex() {
+        return sex;
+    }
+
+    public void setSex(Sex sex) {
+        this.sex = sex;
     }
 
     @Override

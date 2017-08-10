@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Service
-public class HonorsService {
+public class HonorService {
 
     @Autowired
     private HonorRepository honorRepository;

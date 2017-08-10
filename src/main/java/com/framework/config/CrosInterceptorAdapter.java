@@ -31,6 +31,10 @@ public class CrosInterceptorAdapter extends HandlerInterceptorAdapter {
         response.addHeader("Access-Control-Allow-Origin", "*");
         response.addHeader("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
         response.addHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, Content-Length, X-Requested-With");
+        if (request.getMethod().equals("OPTIONS")) {
+            response.setStatus(200);
+            return false;
+        }
         return true;
     }
 

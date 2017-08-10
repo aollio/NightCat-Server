@@ -19,4 +19,5 @@ public class HttpStatus {
 
     public static final int SERVER_ERROR = 500;
 
+
 }

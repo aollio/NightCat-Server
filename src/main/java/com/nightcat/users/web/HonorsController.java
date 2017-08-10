@@ -7,7 +7,7 @@ import com.framework.annotation.Authorization;
 import com.framework.annotation.CurrentUser;
 import com.nightcat.entity.Honor;
 import com.nightcat.entity.User;
-import com.nightcat.users.service.HonorsService;
+import com.nightcat.users.service.HonorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,13 +22,12 @@ public class HonorsController {
 
 
     @Autowired
-    private HonorsService honorsService;
+    private HonorService honorService;
 
     @GetMapping
-    @Authorization
     public Response honors(@RequestParam String uid) {
         Assert.strExist(uid, BAD_REQUEST, "用户id不存在");
-        return Response.ok(honorsService.findByUid(uid));
+        return Response.ok(honorService.findByUid(uid));
     }
 
     @PostMapping
@@ -56,7 +55,7 @@ public class HonorsController {
         honor.setName(name);
         honor.setUid(user.getUid());
 
-        honorsService.save(honor);
+        honorService.save(honor);
 
         return Response.ok(honor);
     }

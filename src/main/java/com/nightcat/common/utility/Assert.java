@@ -4,6 +4,7 @@ package com.nightcat.common.utility;
 import com.nightcat.common.CatException;
 import com.nightcat.common.ErrorCode;
 import com.nightcat.common.constant.HttpStatus;
+import com.nightcat.entity.User;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
@@ -15,6 +16,7 @@ import java.util.Objects;
  * @date 16/05/2017
  */
 public class Assert {
+
 
     public static void notNull(Object o, int status, String message) {
         if (o == null) {
@@ -80,6 +82,32 @@ public class Assert {
     public static void checkNotEqual(@Null Object type, @NotNull Object target, ErrorCode errorCode) {
         if (!target.equals(type)) {
             throw new CatException(errorCode);
+        }
+    }
+
+    public static void isEmployer(User user, int status, String message) {
+        isRole(user, User.Role.EMPLOYER, status, message);
+    }
+
+    public static void isDesigner(User user, int status, String message) {
+        isRole(user, User.Role.DESIGNER, status, message);
+    }
+
+    public static void isRole(User user, User.Role role, int status, String message) {
+        if (user.getRole() != role) {
+            throw new CatException(status, message);
+        }
+    }
+
+    public static void notZero(int value, int status, String message) {
+        if (value == 0) {
+            throw new CatException(status, message);
+        }
+    }
+
+    public static void notZero(double value, int status, String message) {
+        if (value == 0) {
+            throw new CatException(status, message);
         }
     }
 

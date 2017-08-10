@@ -15,7 +15,7 @@ import static com.nightcat.common.constant.HttpStatus.BAD_REQUEST;
 
 @RestController
 @RequestMapping("/users/designers")
-public class DesignersController {
+public class DesignerController {
 
 
     @Autowired

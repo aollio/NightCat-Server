@@ -52,11 +52,11 @@ public abstract class AbstractReadDao<T> {
     }
 
     public List<T> findBy(String[] keys, String[] values) {
-        return findBy(keys, values, true);
+        return findBy(keys, values, false);
     }
 
     public List<T> findBy(String key, String value) {
-        return findBy(new String[]{key}, new String[]{value}, true);
+        return findBy(new String[]{key}, new String[]{value}, false);
     }
 
     public List<T> findBy(String key, String value, boolean isLikeQuery) {

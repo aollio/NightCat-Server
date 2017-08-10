@@ -20,7 +20,6 @@ public class UserService {
     private UserRepository userRepository;
 
 
-
     public void save(User user) {
         User olduser = userRepository.findByPhone(user.getPhone());
         Assert.isNull(olduser, BAD_REQUEST, "手机号已被使用");
@@ -72,7 +71,9 @@ public class UserService {
     }
 
     public User findById(String id) {
-        return userRepository.findById(id);
+        User user = userRepository.findById(id);
+        user.setPassword(null);
+        return user;
     }
 
     public User findByIds(Map<String, String> idAndValues) {

@@ -48,7 +48,7 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
         }
 
         // get tokens from header
-        String authorization = request.getHeader(Constant.AUTHORIZATION);
+        String authorization = request.getParameter(Constant.AUTHORIZATION);
         // parse token string from header to `Token`
         Token model = manager.getToken(authorization);
         //check authorization

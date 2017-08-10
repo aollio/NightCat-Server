@@ -127,5 +127,14 @@ public class Util {
         return result.toString();
     }
 
+    public static int revise(Integer integer) {
+        return integer == null ? 0 : integer;
+    }
+
+    public static double revise(Double integer) {
+        return integer == null ? 0 : integer;
+    }
+
+
 
 }

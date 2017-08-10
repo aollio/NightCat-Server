@@ -1,22 +1,33 @@
 package com.nightcat.projects.service;
 
+import com.nightcat.common.timing.Timer;
 import com.nightcat.entity.DesignType;
+import com.nightcat.entity.ProjectImage;
 import com.nightcat.entity.Project;
+import com.nightcat.repository.ProjectImagesRepository;
 import com.nightcat.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 @Service
-public class ProjectsService {
+public class ProjectService {
 
     @Autowired
     private ProjectRepository projectRepository;
 
+    @Autowired
+    private ProjectImagesRepository projectImagesRepository;
+
+    @Autowired
+    private Timer timer;
+
+    public List<ProjectImage> findPicturesByProjId(String proj_id) {
+        return projectImagesRepository.findByProjId(proj_id);
+    }
 
     public List<Project> findTimelineByUid(String uid,
                                            DesignType type,
@@ -56,17 +67,6 @@ public class ProjectsService {
         return projectRepository.findAll();
     }
 
-    public List<Project> findBy(String[] keys, String[] values) {
-        return projectRepository.findBy(keys, values);
-    }
-
-    public List<Project> findBy(String key, String value) {
-        return projectRepository.findBy(key, value);
-    }
-
-    public List<Project> findBy(String key, String value, boolean isLikeQuery) {
-        return projectRepository.findBy(key, value, isLikeQuery);
-    }
 
     public List<Project> findBy(String[] keys, String[] values, boolean isLikeQuery) {
         return projectRepository.findBy(keys, values, isLikeQuery);
@@ -74,10 +74,6 @@ public class ProjectsService {
 
     public Project findById(String id) {
         return projectRepository.findById(id);
-    }
-
-    public Project findByIds(Map<String, String> idAndValues) {
-        return projectRepository.findByIds(idAndValues);
     }
 
     public List<Project> findBy(Map<String, String> attr, boolean likeQuery) {

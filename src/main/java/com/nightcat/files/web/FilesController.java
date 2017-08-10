@@ -37,7 +37,7 @@ public class FilesController extends BaseController {
         Assert.isFalse(file.isEmpty(), BAD_REQUEST, "文件为空");
 
         try {
-            // Get the file and save it somewhere
+            // Get the file and log it somewhere
             byte[] bytes = file.getBytes();
 
             String fileName = Util.uniqueFileName(file.getOriginalFilename());

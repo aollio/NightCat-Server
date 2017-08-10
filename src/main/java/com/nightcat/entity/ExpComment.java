@@ -5,29 +5,25 @@ import com.nightcat.common.utility.Util;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+/**
+ * 用户经历评论表
+ */
 @Entity
-@Table(name = "ym_proj_comments")
-public class ProjComment {
+@Table(name = "ym_user_experience_comments")
+public class ExpComment {
+
     /**
      * 评论id
      */
     private String id;
     /**
-     * 项目id
+     * 用户经历id
      */
-    private String proj_id;
+    private String exp_id;
     /**
      * 发出评论的用户id
      */
     private String uid;
-    /**
-     * 发出用户是否为雇主
-     */
-    private boolean employer;
-    /**
-     * 评论分数. 0 - 10分. 0分: 0星; 10分: 5星
-     */
-    private int score;
     /**
      * 评论内容
      */
@@ -52,13 +48,13 @@ public class ProjComment {
     }
 
     @Basic
-    @Column(name = "proj_id")
-    public String getProj_id() {
-        return proj_id;
+    @Column(name = "exp_id")
+    public String getExp_id() {
+        return exp_id;
     }
 
-    public void setProj_id(String proj_id) {
-        this.proj_id = proj_id;
+    public void setExp_id(String exp_id) {
+        this.exp_id = exp_id;
     }
 
     @Basic
@@ -71,25 +67,6 @@ public class ProjComment {
         this.uid = uid;
     }
 
-    @Basic
-    @Column(name = "employer")
-    public boolean isEmployer() {
-        return employer;
-    }
-
-    public void setEmployer(boolean employer) {
-        this.employer = employer;
-    }
-
-    @Basic
-    @Column(name = "score")
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
 
     @Basic
     @Column(name = "content")
@@ -126,13 +103,10 @@ public class ProjComment {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ProjComment that = (ProjComment) o;
+        ExpComment that = (ExpComment) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (proj_id != null ? !proj_id.equals(that.proj_id) : that.proj_id != null) return false;
         if (uid != null ? !uid.equals(that.uid) : that.uid != null) return false;
-        if (employer != that.employer) return false;
-        if (score != that.score) return false;
         if (content != null ? !content.equals(that.content) : that.content != null) return false;
         if (comment_time != null ? !comment_time.equals(that.comment_time) : that.comment_time != null) return false;
         if (type != null ? !type.equals(that.type) : that.type != null) return false;
@@ -143,13 +117,11 @@ public class ProjComment {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (proj_id != null ? proj_id.hashCode() : 0);
         result = 31 * result + (uid != null ? uid.hashCode() : 0);
-        result = 31 * result + (employer ? 1 : 0);
-        result = 31 * result + score;
         result = 31 * result + (content != null ? content.hashCode() : 0);
         result = 31 * result + (comment_time != null ? comment_time.hashCode() : 0);
         result = 31 * result + (type != null ? type.hashCode() : 0);
         return result;
     }
+
 }
