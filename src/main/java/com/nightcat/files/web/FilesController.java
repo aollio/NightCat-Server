@@ -14,6 +14,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Base64;
 
 import static com.nightcat.common.constant.HttpStatus.*;
 
@@ -32,15 +33,15 @@ public class FilesController extends BaseController {
      * 上传文件内容
      */
     @PostMapping
-    public Response upload(@RequestParam("file") MultipartFile file) {
+    public Response upload(@RequestParam("file") String filebase64) {
 
-        Assert.isFalse(file.isEmpty(), BAD_REQUEST, "文件为空");
+        Assert.isFalse(filebase64.isEmpty(), BAD_REQUEST, "文件为空");
 
         try {
             // Get the file and log it somewhere
-            byte[] bytes = file.getBytes();
+            byte[] bytes = Base64.getDecoder().decode(filebase64);
 
-            String fileName = Util.uniqueFileName(file.getOriginalFilename());
+            String fileName = Util.uniqueFileName(String.valueOf(System.currentTimeMillis()) + ".jpg");
             Path path = Paths.get(UPLOADED_FOLDER + fileName);
             Files.write(path, bytes);
 

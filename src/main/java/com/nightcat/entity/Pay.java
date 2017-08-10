@@ -7,12 +7,32 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "ym_pay", schema = "nightcat", catalog = "")
 public class Pay {
-    public String getID() {
-        return ID;
+
+    /**
+     * 支付订单id
+     */
+    private String id;
+    /**
+     * 项目id
+     */
+    private String ORDER_ID;
+    private String uid;
+    private BigDecimal PRICE;
+    private String STATUS;
+    private String DESCRIPTION;
+    private String PAY_TYPE;
+    private Timestamp DATE;
+    private int ISDEL;
+
+
+    @Id
+    @Column(name = "id")
+    public String getId() {
+        return id;
     }
 
-    public void setID(String ID) {
-        this.ID = ID;
+    public void setId(String ID) {
+        this.id = ID;
     }
 
     public String getORDER_ID() {
@@ -23,12 +43,12 @@ public class Pay {
         this.ORDER_ID = ORDER_ID;
     }
 
-    public String getUSER_ID() {
-        return USER_ID;
+    public String getUid() {
+        return uid;
     }
 
-    public void setUSER_ID(String USER_ID) {
-        this.USER_ID = USER_ID;
+    public void setUid(String USER_ID) {
+        this.uid = USER_ID;
     }
 
     public BigDecimal getPRICE() {
@@ -78,23 +98,6 @@ public class Pay {
     public void setISDEL(int ISDEL) {
         this.ISDEL = ISDEL;
     }
-
-    /**
-    * 支付订单id
-    */
-    private String ID;
-    /**
-    * 项目id
-    */
-    private String ORDER_ID;
-    private String USER_ID;
-    private BigDecimal PRICE;
-    private String STATUS;
-    private String DESCRIPTION;
-    private String PAY_TYPE;
-    private Timestamp DATE;
-    private int ISDEL;
-
 
 
 }

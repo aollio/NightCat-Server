@@ -2,7 +2,7 @@ package com.nightcat.pay.web;
 
 import cn.beecloud.BCCache;
 import cn.beecloud.BeeCloud;
-import com.nightcat.entity.Pay_orders;
+import com.nightcat.entity.PayOrder;
 import com.nightcat.repository.AppOrderDao;
 import net.sf.json.JSONObject;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -22,16 +22,15 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 
-
 @Controller
 @RequestMapping("/appWebhooks")
 public class AppwebhookController {
 
 
-    private static String appID="07028a19-f3a8-44f6-b3d7-839ec59cf63c";
-    private static String testSecret="5e23c8fe-8357-4500-a85c-4ee2042dd84e";
-    private static String appSecret="cc46da9a-daa6-413c-ac66-a6aa666284e5";
-    private static String masterSecret="6e31d811-2952-471b-9bd5-f2f225701062";
+    private static String appID = "07028a19-f3a8-44f6-b3d7-839ec59cf63c";
+    private static String testSecret = "5e23c8fe-8357-4500-a85c-4ee2042dd84e";
+    private static String appSecret = "cc46da9a-daa6-413c-ac66-a6aa666284e5";
+    private static String masterSecret = "6e31d811-2952-471b-9bd5-f2f225701062";
 
     Logger log = Logger.getLogger(this.getClass());
 
@@ -74,12 +73,13 @@ public class AppwebhookController {
 
     /**
      * 支付成功后回调地址
+     *
      * @throws Exception
      */
-    @RequestMapping({ "/success" })
+    @RequestMapping({"/success"})
     @ResponseBody
-    public String success(HttpServletRequest request, HttpServletResponse response) throws Exception{
-        BeeCloud.registerApp(appID,testSecret,appSecret,masterSecret);
+    public String success(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        BeeCloud.registerApp(appID, testSecret, appSecret, masterSecret);
         StringBuffer json = new StringBuffer();
         String line = null;
         try {
@@ -91,35 +91,35 @@ public class AppwebhookController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(json.toString()!=null&&!"".equals(json.toString())){
+        if (json.toString() != null && !"".equals(json.toString())) {
             JSONObject jsonObj = JSONObject.fromObject(json.toString());
             System.out.println(jsonObj);
-            String sign =jsonObj.getString("sign");
-            String timestamp =jsonObj.getString("timestamp");
+            String sign = jsonObj.getString("sign");
+            String timestamp = jsonObj.getString("timestamp");
             boolean status = verifySign(sign, timestamp);
             if (status) { //验证成功
-                String transaction_id =jsonObj.getString("transaction_id");
-                Pay_orders orders=appOrderDao.findById(transaction_id);
-                if(orders!=null){
-                    BigDecimal price=(BigDecimal) orders.getPRICE();//数据库中订单的金额
-                    String transaction_fee =jsonObj.getString("transaction_fee"); //beecloud平台订单的金额
-                    BigDecimal result=price.multiply(new BigDecimal(100));//将price乘以100，变为分
-                    int amount=result.intValue();
-                    if(String.valueOf(amount).equals(transaction_fee)){//订单金额匹配
+                String transaction_id = jsonObj.getString("transaction_id");
+                PayOrder orders = appOrderDao.findById(transaction_id);
+                if (orders != null) {
+                    BigDecimal price = (BigDecimal) orders.getPRICE();//数据库中订单的金额
+                    String transaction_fee = jsonObj.getString("transaction_fee"); //beecloud平台订单的金额
+                    BigDecimal result = price.multiply(new BigDecimal(100));//将price乘以100，变为分
+                    int amount = result.intValue();
+                    if (String.valueOf(amount).equals(transaction_fee)) {//订单金额匹配
                         orders.setSTATUS("03");
                         orders.setDATE((Timestamp) new Date());
                         try {
                             appOrderDao.update(orders);
-                            return  "Success";
-                        }catch (Exception e) {
+                            return "Success";
+                        } catch (Exception e) {
                             System.out.println("fail2");
                             return "fail";
                         }
-                    }else{
+                    } else {
                         System.out.println("fail3");
                         return "fail";
                     }
-                }else{
+                } else {
                     System.out.println("fail4");
                     return "fail";
                 }
@@ -127,7 +127,7 @@ public class AppwebhookController {
                 System.out.println("fail5");
                 return "fail";
             }
-        }else{
+        } else {
             System.out.println("fail6");
             return "fail";
         }

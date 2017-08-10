@@ -7,6 +7,8 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "ym_wallet_activity")
 public class WalletActivity {
+
+
     private String id;
     private String uid;
     private Type type;

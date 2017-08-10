@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static com.nightcat.common.utility.Util.now;
 import static com.nightcat.common.utility.Util.uuid;
 
-@Profile({"dev", "aollio"})
+@Profile({"local", "aollio"})
 @Configuration
 @Transactional
 public class ApplicationStartup extends BaseObject implements ApplicationListener<ContextRefreshedEvent> {
@@ -38,8 +38,8 @@ public class ApplicationStartup extends BaseObject implements ApplicationListene
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         if ("create".equals(HIBERNATE_HBM2DDL_AUTO)) {
-            logger.info("开始生成测试数据");
-            saveTestData();
+//            logger.info("开始生成测试数据");
+//            saveTestData();
         }
     }
 

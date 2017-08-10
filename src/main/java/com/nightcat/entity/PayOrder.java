@@ -1,31 +1,45 @@
 package com.nightcat.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 @Entity
 @Table(name = "ym_pay_orders", schema = "nightcat", catalog = "")
-public class Pay_orders {
+public class PayOrder {
 
-    private String ID;
-    private String USER_ID;
+    private String id;
+    private String uid;
 
-    public String getID() {
-        return ID;
+    private BigDecimal AMOUNT_TOPAY;
+    private BigDecimal PRICE;
+    private Timestamp DATE;
+    private String EVENT;
+    private String STATUS;
+    private String TYPE;
+    private String OBJECT_ID;
+    private String ORDER_NO;
+    private String PAY_TYPE;
+    private int ISDEL;
+
+    @Id
+    @Column(name = "id")
+    public String getId() {
+        return id;
     }
 
-    public void setID(String ID) {
-        this.ID = ID;
+    public void setId(String ID) {
+        this.id = ID;
     }
 
-    public String getUSER_ID() {
-        return USER_ID;
+    @Basic
+    @Column(name = "uid")
+    public String getUid() {
+        return uid;
     }
 
-    public void setUSER_ID(String USER_ID) {
-        this.USER_ID = USER_ID;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public BigDecimal getAMOUNT_TOPAY() {
@@ -108,14 +122,5 @@ public class Pay_orders {
         this.ISDEL = ISDEL;
     }
 
-    private BigDecimal AMOUNT_TOPAY;
-    private BigDecimal PRICE;
-    private Timestamp DATE;
-    private String EVENT;
-    private String STATUS;
-    private String TYPE;
-    private String OBJECT_ID;
-    private String ORDER_NO;
-    private String PAY_TYPE;
-    private int ISDEL;
+
 }

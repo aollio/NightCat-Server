@@ -1,15 +1,15 @@
 package com.nightcat.repository;
 
-import com.nightcat.entity.Pay_orders;
+import com.nightcat.entity.PayOrder;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class AppOrderDao extends AbstractRepository<Pay_orders> {
+public class AppOrderDao extends AbstractRepository<PayOrder> {
 
 
     @Override
-    public Pay_orders findById(String id) {
-        Pay_orders result = super.findById(id);
+    public PayOrder findById(String id) {
+        PayOrder result = super.findById(id);
         if (result.getISDEL() != 1){
             return null;
         }
