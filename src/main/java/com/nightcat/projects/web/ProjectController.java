@@ -1,6 +1,7 @@
 package com.nightcat.projects.web;
 
 import com.nightcat.common.Response;
+import com.nightcat.common.base.BaseController;
 import com.nightcat.common.constant.Constant;
 import com.nightcat.common.utility.Assert;
 import com.nightcat.common.utility.Util;
@@ -9,8 +10,8 @@ import com.framework.annotation.CurrentUser;
 import com.nightcat.entity.DesignType;
 import com.nightcat.entity.Project;
 import com.nightcat.entity.User;
+import com.nightcat.projects.service.ProjectBidderService;
 import com.nightcat.projects.service.ProjectService;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,18 +20,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.Timestamp;
 
+import static com.nightcat.common.Response.ok;
 import static com.nightcat.common.utility.Util.*;
 import static com.nightcat.common.constant.HttpStatus.*;
 
 @RestController
 @RequestMapping("/projects")
-public class ProjectsController {
+public class ProjectController extends BaseController {
 
-
-    private static Logger logger = Logger.getLogger(ProjectsController.class);
 
     @Autowired
-    private ProjectService projService;
+    private ProjectService projServ;
+
+    @Autowired
+    private ProjectBidderService bidderServ;
 
     /**
      * 返回项目首页的timeline
@@ -55,7 +58,7 @@ public class ProjectsController {
 
         limit = limit == null ? Constant.DEFAULT_LIMIT : limit;
 
-        return Response.ok(projService.findByType(designType, limit, since_time, max_time));
+        return ok(projServ.findByType(designType, limit, since_time, max_time));
     }
 
 
@@ -82,7 +85,17 @@ public class ProjectsController {
 
         Timestamp since_time = timeFromStr(since_time_str);
         Timestamp max_time = emptyStr(max_time_str) ? now() : timeFromStr(max_time_str);
-        return Response.ok(projService.findTimelineByUid(user.getUid(), designType, limit, since_time, max_time));
+        return ok(projServ.findTimelineByUid(user.getUid(), designType, limit, since_time, max_time));
+    }
+
+    /**
+     * 获取项目的抢单列表
+     */
+    @GetMapping("/grabber_list")
+    @Authorization
+    public Response show_grab(String id) {
+        //todo
+        return ok(bidderServ.findByProjectId(id));
     }
 
 
@@ -93,10 +106,10 @@ public class ProjectsController {
     public Response show(String id) {
         Assert.strExist(id, BAD_REQUEST, "参数id不存在");
 
-        Project project = projService.findById(id);
+        Project project = projServ.findById(id);
 
         Assert.notNull(project, NOT_FOUND, "项目不存在");
-        return Response.ok(project);
+        return ok(project);
     }
 
     /**
@@ -105,7 +118,7 @@ public class ProjectsController {
     @GetMapping("/imgs")
     public Response pictures(String id) {
         Assert.strExist(id, BAD_REQUEST, "参数id不存在");
-        return Response.ok(projService.findPicturesByProjId(id));
+        return ok(projServ.findPicturesByProjId(id));
     }
 
 

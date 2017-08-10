@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.*;
 
+import com.nightcat.common.utility.Util;
 import com.nightcat.entity.*;
 import com.nightcat.projects.service.ProjectService;
 import com.nightcat.repository.NoticeRepository;
@@ -208,6 +209,10 @@ public class ApplicationStartup extends BaseObject implements ApplicationListene
                     "装修图等，图纸分类有建筑设计、房屋设计、别墅设计" +
                     "、房屋装修、结构");
             project.setType(DesignType.values()[i % DesignType.values().length]);
+            if (project.getType() == DesignType.UNDEFINDED) {
+                project.setType(DesignType.Types_1);
+            }
+
             project.setBidder("des" + Math.abs(random.nextInt()) % 13);
             project.setStatus(Project.Status.BothConfirm_WaitEmployerPay);
             project.setCreate_time(now());
@@ -215,7 +220,15 @@ public class ApplicationStartup extends BaseObject implements ApplicationListene
             project.setBudget(BigDecimal.valueOf(new Random().nextDouble()));
             project.setFav_count(new Random().nextInt());
 
-            project.setCreate_by("emp" + (Math.abs(random.nextInt() % 13)));
+            project.setCreate_by("emp0");
+
+            project.setStatus(Util.enumFromOrigin(i % (Project.Status.values().length - 1)
+                    , Project.Status.class));
+            if (project.getStatus() != Project.Status.Publish) {
+                project.setBidder("des" + (i % desNickname.length));
+                project.setBid_time(now());
+            }
+
             sessionFactory.getCurrentSession().save(project);
 
 
@@ -234,6 +247,9 @@ public class ApplicationStartup extends BaseObject implements ApplicationListene
                     "装修图等，图纸分类有建筑设计、房屋设计、别墅设计" +
                     "、房屋装修、结构");
             project.setType(DesignType.values()[i % DesignType.values().length]);
+            if (project.getType() == DesignType.UNDEFINDED) {
+                project.setType(DesignType.Types_1);
+            }
             project.setStatus(Project.Status.Publish);
             project.setCreate_time(now());
 
@@ -244,6 +260,13 @@ public class ApplicationStartup extends BaseObject implements ApplicationListene
             project.setFav_count(new Random().nextInt());
 
             project.setCreate_by("emp" + (Math.abs(new Random().nextInt() % 13)));
+
+            project.setStatus(Util.enumFromOrigin(i % Project.Status.values().length
+                    , Project.Status.class));
+            if (project.getStatus() != Project.Status.Publish) {
+                project.setBidder("des" + (i % desNickname.length));
+                project.setBid_time(now());
+            }
 
             ProjectImage proectImage = new ProjectImage();
             proectImage.setId(uuid());

@@ -6,33 +6,39 @@ import org.hibernate.Criteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProjectBidderService {
 
     @Autowired
-    private ProjectBidderRepository projectBidderRepository;
+    private ProjectBidderRepository bidderRep;
 
     public ProjectBidder findByUidAndProjectId(String uid, String proj_id) {
-        return projectBidderRepository.findByUidAndProjectId(uid, proj_id);
+        return bidderRep.findByUidAndProjectId(uid, proj_id);
+    }
+
+    public List<ProjectBidder> findByProjectId(String proj_id){
+        return bidderRep.findByProjectId(proj_id);
     }
 
     public void save(ProjectBidder projectBidder) {
-        projectBidderRepository.save(projectBidder);
+        bidderRep.save(projectBidder);
     }
 
     public void saveOrUpdate(ProjectBidder projectBidder) {
-        projectBidderRepository.saveOrUpdate(projectBidder);
+        bidderRep.saveOrUpdate(projectBidder);
     }
 
     public void update(ProjectBidder projectBidder) {
-        projectBidderRepository.update(projectBidder);
+        bidderRep.update(projectBidder);
     }
 
     public Criteria getCriteria() {
-        return projectBidderRepository.getCriteria();
+        return bidderRep.getCriteria();
     }
 
     public Criteria getCriteria(int limit) {
-        return projectBidderRepository.getCriteria(limit);
+        return bidderRep.getCriteria(limit);
     }
 }
