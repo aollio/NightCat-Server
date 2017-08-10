@@ -67,7 +67,7 @@ public class ProjectProcessService {
                 .sender()
                 .uid(project.getCreate_by())
                 .content("你的订单被抢单")
-                .type(Notice.Type.PROJECT)
+                .type(Notice.Type.PROJECT_GRABBED)
                 .send();
 
     }

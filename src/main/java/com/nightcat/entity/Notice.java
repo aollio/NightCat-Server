@@ -9,9 +9,20 @@ public class Notice {
 
 
     public enum Type {
-        SYSTEM,
-        NOTICE,
-        PROJECT,
+        SYSTEM("系统消息"),
+        NOTICE("推送消息"),
+        PROJECT_GRABBED("订单消息"),
+        PROJECT_CHOOSE("订单消息");
+
+        String title;
+
+        Type(String title) {
+            this.title = title;
+        }
+
+        public String getTitle() {
+            return title;
+        }
     }
 
     private String id;
@@ -27,7 +38,7 @@ public class Notice {
     public Notice() {
     }
 
-    public Notice(String id, String content, String uid,  Timestamp create_time, boolean read, Type type, boolean del) {
+    public Notice(String id, String content, String uid, Timestamp create_time, boolean read, Type type, boolean del) {
         this.id = id;
         this.content = content;
         this.uid = uid;
@@ -77,7 +88,6 @@ public class Notice {
     public void setCreate_time(Timestamp create_time) {
         this.create_time = create_time;
     }
-
 
 
     @Basic
