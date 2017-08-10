@@ -1,4 +1,4 @@
-package com.framework.config;
+package com.framework.datasource;
 
 
 import org.springframework.beans.factory.annotation.Value;
@@ -14,15 +14,14 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 /**
- * 配置开发环境的数据源
- * @author finderlo
+ * @author Aollio
  * @date 17/04/2017
  */
 @Configuration
-@PropertySource(value = "classpath:/dev_jdbc.properties")
-@Profile({"dev", "aollio"})
+@PropertySource(value = "classpath:/local_jdbc.properties")
+@Profile("local")
 @EnableTransactionManagement
-public class DevDataSourceConfig {
+public class LocalDataSourceConfig {
 
 
     @Value("${db.driver}")
@@ -48,6 +47,7 @@ public class DevDataSourceConfig {
 
     @Value("${hibernate.hbm2ddl.auto}")
     private String HIBERNATE_HBM2DDL_AUTO;
+
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -67,6 +67,7 @@ public class DevDataSourceConfig {
         hibernateProperties.put("hibernate.dialect", HIBERNATE_DIALECT);
         hibernateProperties.put("hibernate.show_sql", HIBERNATE_SHOW_SQL);
         hibernateProperties.put("hibernate.hbm2ddl.auto", HIBERNATE_HBM2DDL_AUTO);
+
         sessionFactoryBean.setHibernateProperties(hibernateProperties);
 
         return sessionFactoryBean;

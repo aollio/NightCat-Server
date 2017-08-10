@@ -24,7 +24,7 @@ public class FilesController extends BaseController {
     @Value("${files.upload.directory}")
     private String UPLOADED_FOLDER;
 
-    @Value("http://${files.upload.url.prefix}:${server.port}/files/")
+    @Value("http://${files.upload.url.prefix}/files/")
     private String UPLOADED_URL_PREFIX;
 
 
