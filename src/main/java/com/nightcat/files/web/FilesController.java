@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -33,24 +32,20 @@ public class FilesController extends BaseController {
      * 上传文件内容
      */
     @PostMapping
-    public Response upload(@RequestParam("file") String filebase64) {
+    public Response upload(@RequestParam("file") String filestring) throws IOException {
 
-        Assert.isFalse(filebase64.isEmpty(), BAD_REQUEST, "文件为空");
+        logger.info("开始上传文件");
+        Assert.isFalse(filestring.isEmpty(), BAD_REQUEST, "文件为空");
 
-        try {
-            // Get the file and log it somewhere
-            byte[] bytes = Base64.getDecoder().decode(filebase64);
+        // Get the file and log it somewhere
+        byte[] bytes = Base64.getDecoder().decode(filestring);
 
-            String fileName = Util.uniqueFileName(String.valueOf(System.currentTimeMillis()) + ".jpg");
-            Path path = Paths.get(UPLOADED_FOLDER + fileName);
-            Files.write(path, bytes);
+        String fileName = Util.uniqueFileName(String.valueOf(System.currentTimeMillis()) + ".jpg");
+        logger.info("上传文件名称:" + fileName);
+        Path path = Paths.get(UPLOADED_FOLDER + fileName);
+        Files.write(path, bytes);
 
-            return Response.ok(UPLOADED_URL_PREFIX + fileName);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return Response.error();
-        }
+        return Response.ok(UPLOADED_URL_PREFIX + fileName);
 
     }
 

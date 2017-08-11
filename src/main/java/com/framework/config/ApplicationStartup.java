@@ -8,9 +8,6 @@ import java.util.*;
 
 import com.nightcat.common.utility.Util;
 import com.nightcat.entity.*;
-import com.nightcat.projects.service.ProjectService;
-import com.nightcat.repository.NoticeRepository;
-import com.nightcat.repository.UserRepository;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,21 +35,10 @@ public class ApplicationStartup extends BaseObject implements ApplicationListene
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         if ("create".equals(HIBERNATE_HBM2DDL_AUTO)) {
-//            logger.info("开始生成测试数据");
+            logger.info("开始生成测试数据");
 //            saveTestData();
         }
     }
-
-    @Autowired
-    private UserRepository userRepository;
-
-
-    @Autowired
-    private ProjectService projService;
-
-
-    @Autowired
-    private NoticeRepository noticeRepository;
 
 
     String empUid = "450be21f7c714357a1892ca5291a859c";
@@ -65,7 +51,54 @@ public class ApplicationStartup extends BaseObject implements ApplicationListene
         saveProjects();
         saveProjectsBidder();
         saveProjectsComments();
+
+
     }
+
+
+    private void saveProjects() {
+
+
+        for (int i = 0; i < 40; i++) {
+
+            Random random = new Random();
+            Project project = new Project();
+            project.setArea(i + 5);
+            project.setId("projects" + i);
+
+            project.setTitle(titles[i % titles.length]);
+
+
+            project.setType(DesignType.values()[i % DesignType.values().length]);
+            if (project.getType() == DesignType.UNDEFINDED) {
+                project.setType(DesignType.Types_1);
+            }
+
+            project.setStatus(Project.Status.Publish);
+            project.setCreate_time(now());
+            project.setDue_time(new Timestamp(System.currentTimeMillis() + 100000000));
+            project.setBudget(BigDecimal.valueOf(new Random().nextInt(10000)));
+
+            project.setCreate_by("emp0");
+
+            project.setStatus(Util.enumFromOrigin(i % (Project.Status.values().length - 1)
+                    , Project.Status.class));
+
+
+            sessionFactory.getCurrentSession().save(project);
+
+
+            ProjectImage proectImage = new ProjectImage();
+            proectImage.setId(uuid());
+            proectImage.setProj_id("projects" + i);
+            proectImage.setImg_url("https://cdn.pixabay.com/photo/2013/04/06/11/50/image-editing-101040_960_720.jpg");
+
+            sessionFactory.getCurrentSession().save(proectImage);
+
+        }
+
+    }
+
 
     private void saveProjectsComments() {
         //TODO 生成项目评论消息
@@ -120,20 +153,20 @@ public class ApplicationStartup extends BaseObject implements ApplicationListene
     }
 
     private void saveUser() {
-        //TODO 生成会员. 会员属性要有雇主或者设计师
 
-        for (int i = 0; i < empNickname.length; i++) {
-            User user = new User();
-            user.setNickname(empNickname[i]);
-            user.setPassword("123456");
-            user.setPhone("1390000000" + i);
-            user.setDel(false);
-            user.setUid("emp" + i);
-            user.setRole(User.Role.EMPLOYER);
-            user.setImg_url(imgurl[i]);
-            sessionFactory.getCurrentSession().save(user);
-        }
+        //雇主
+        User emp = new User();
+        emp.setNickname(empNickname[0]);
+        emp.setPassword("123456");
+        emp.setPhone("1390000000" + 0);
+        emp.setDel(false);
+        emp.setUid("emp" + 0);
+        emp.setRole(User.Role.EMPLOYER);
+        emp.setImg_url(imgurl[0]);
+        sessionFactory.getCurrentSession().save(emp);
 
+
+        //设计师
         for (int i = 0; i < desNickname.length; i++) {
             User user = new User();
             user.setNickname(desNickname[i]);
@@ -197,87 +230,12 @@ public class ApplicationStartup extends BaseObject implements ApplicationListene
         }
     }
 
-    private void saveProjects() {
 
-
-        for (int i = 0; i < 40; i++) {
-            Random random = new Random();
-            Project project = new Project();
-            project.setArea(i + 5);
-            project.setId("projects" + i);
-            project.setTitle(i + "CAD施工图、平面图、效果图、" + i +
-                    "装修图等，图纸分类有建筑设计、房屋设计、别墅设计" +
-                    "、房屋装修、结构");
-            project.setType(DesignType.values()[i % DesignType.values().length]);
-            if (project.getType() == DesignType.UNDEFINDED) {
-                project.setType(DesignType.Types_1);
-            }
-
-            project.setBidder("des" + Math.abs(random.nextInt()) % 13);
-            project.setStatus(Project.Status.BothConfirm_WaitEmployerPay);
-            project.setCreate_time(now());
-            project.setDue_time(new Timestamp(System.currentTimeMillis() + 10000000));
-            project.setBudget(BigDecimal.valueOf(new Random().nextDouble()));
-            project.setFav_count(new Random().nextInt());
-
-            project.setCreate_by("emp0");
-
-            project.setStatus(Util.enumFromOrigin(i % (Project.Status.values().length - 1)
-                    , Project.Status.class));
-            if (project.getStatus() != Project.Status.Publish) {
-                project.setBidder("des" + (i % desNickname.length));
-                project.setBid_time(now());
-            }
-
-            sessionFactory.getCurrentSession().save(project);
-
-
-            ProjectImage proectImage = new ProjectImage();
-            proectImage.setId(uuid());
-            proectImage.setProj_id("projects" + i);
-            proectImage.setImg_url("https://cdn.pixabay.com/photo/2013/04/06/11/50/image-editing-101040_960_720.jpg");
-            sessionFactory.getCurrentSession().save(proectImage);
-
-        }
-        for (int i = 40; i < 60; i++) {
-            Project project = new Project();
-            project.setArea(i + 5);
-            project.setId("projects" + i);
-            project.setTitle(i + "CAD施工图、平面图、效果图、" + i +
-                    "装修图等，图纸分类有建筑设计、房屋设计、别墅设计" +
-                    "、房屋装修、结构");
-            project.setType(DesignType.values()[i % DesignType.values().length]);
-            if (project.getType() == DesignType.UNDEFINDED) {
-                project.setType(DesignType.Types_1);
-            }
-            project.setStatus(Project.Status.Publish);
-            project.setCreate_time(now());
-
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(2017, Calendar.AUGUST, 9, 14, 8);
-            project.setDue_time(new Timestamp(calendar.getTime().getTime()));
-            project.setBudget(BigDecimal.valueOf(new Random().nextDouble()));
-            project.setFav_count(new Random().nextInt());
-
-            project.setCreate_by("emp" + (Math.abs(new Random().nextInt() % 13)));
-
-            project.setStatus(Util.enumFromOrigin(i % Project.Status.values().length
-                    , Project.Status.class));
-            if (project.getStatus() != Project.Status.Publish) {
-                project.setBidder("des" + (i % desNickname.length));
-                project.setBid_time(now());
-            }
-
-            ProjectImage proectImage = new ProjectImage();
-            proectImage.setId(uuid());
-            proectImage.setProj_id("projects" + i);
-            proectImage.setImg_url("https://cdn.pixabay.com/photo/2013/04/06/11/50/image-editing-101040_960_720.jpg");
-            sessionFactory.getCurrentSession().save(proectImage);
-            sessionFactory.getCurrentSession().save(project);
-
-        }
-
-    }
-
+    String[] titles = {
+            "CAD施工图、平面图、效果图装修图等，图纸分类有建筑设计、房屋设计、别墅设计房屋装修、结构",
+            "室内空间设计、室内家具与陈设设计、建筑制图、房屋建筑学、装饰构造、装饰预算",
+            "装饰材料、室内绿化设计、室内住宅设计、照明设计",
+            "室内装修装修、室内装修陈设、家具设计及技术与管理"
+    };
 
 }

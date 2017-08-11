@@ -115,6 +115,8 @@ public class UserController {
      */
     @GetMapping("/show_simple")
     public Response show_simple(String uid) {
+        Assert.strExist(uid,BAD_REQUEST,"param 'uid' not exist");
+
         User oriuser = userService.findById(uid);
         User result = new User();
         result.setUid(oriuser.getUid());
