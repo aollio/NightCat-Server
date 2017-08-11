@@ -108,13 +108,8 @@ public class AppwebhookController {
                     if (String.valueOf(amount).equals(transaction_fee)) {//订单金额匹配
                         orders.setSTATUS("03");
                         orders.setDATE((Timestamp) new Date());
-                        try {
-                            appOrderDao.update(orders);
-                            return "Success";
-                        } catch (Exception e) {
-                            System.out.println("fail2");
-                            return "fail";
-                        }
+                        appOrderDao.update(orders);
+                         return "Success";
                     } else {
                         System.out.println("fail3");
                         return "fail";
