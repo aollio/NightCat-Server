@@ -93,7 +93,7 @@ public class ProjectController extends BaseController {
      */
     @GetMapping("/grabber_list")
     @Authorization
-    public Response show_grab(String id) {
+    public Response grabber_list(String id) {
         //todo
         return ok(bidderServ.findByProjectId(id));
     }

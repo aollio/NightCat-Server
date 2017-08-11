@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 public class Project {
 
 
+
     /**
      * 订单的状态流程图
      * http://image.aollio.com/nightcat-project-status-process.png
@@ -49,7 +50,6 @@ public class Project {
          * 订单非正常完成. e.g. 项目超时未抢单; 会审失败; 雇主没有支付; 等等
          */
         Cancel;
-
 
 
     }
@@ -149,6 +149,11 @@ public class Project {
      * 项目喜欢数
      */
     private int fav_count;
+
+    /**
+     * 抢单数量
+     */
+    private int grab_count;
     /**
      * 竞标人 竞标设计师
      */
@@ -266,6 +271,18 @@ public class Project {
     public void setPeriod(int period) {
         this.period = period;
     }
+
+
+    @Basic
+    @Column(name = "grab_count")
+    public int getGrab_count() {
+        return grab_count;
+    }
+
+    public void setGrab_count(int grab_count) {
+        this.grab_count = grab_count;
+    }
+
 
     @Basic
     @Column(name = "start_time")

@@ -69,7 +69,7 @@ public class ProjectProcessController {
             Timestamp due_time
 //todo
 //            @RequestParam(required = false)List<String>,
-            ) {
+    ) {
 
         Assert.isEmployer(user, BAD_REQUEST, "发布项目必须为雇主");
 
@@ -136,6 +136,8 @@ public class ProjectProcessController {
         price = revise(price);
         Assert.notZero(price, BAD_REQUEST, "'price' not exist or wrong value");
 
+        Assert.strExist(cycle, BAD_REQUEST, "'cycle' not exist");
+        Assert.strExist(description, BAD_REQUEST, "'description' not exist");
 
         //generate bidder record
         ProjectBidder bidder = new ProjectBidder();
@@ -148,7 +150,7 @@ public class ProjectProcessController {
         bidder.setPrice(price);
 
         //log
-        processServ.grab(bidder);
+        bidder = processServ.grab(bidder);
         return Response.ok(bidder);
     }
 

@@ -36,7 +36,7 @@ public class ProjectProcessService {
     @Autowired
     private NoticeService noticeService;
 
-    public void grab(ProjectBidder bidder) {
+    public ProjectBidder grab(ProjectBidder bidder) {
 
 
         Project project = projRep.findById(bidder.getProj_id());
@@ -50,6 +50,10 @@ public class ProjectProcessService {
         //check user is already grab this project
         Assert.isNull(bidderRep.findByUidAndProjectId(bidder.getUid(), bidder.getProj_id()),
                 PROJECT_ALREADY_GRAB, "already grab this project");
+
+
+        project.setGrab_count(project.getGrab_count() + 1);
+        projRep.update(project);
 
         //log and toast both
         bidderRep.save(bidder);
@@ -69,6 +73,8 @@ public class ProjectProcessService {
                 .content("你的订单被抢单")
                 .type(Notice.Type.PROJECT_GRABBED)
                 .send();
+
+        return bidder;
 
     }
 

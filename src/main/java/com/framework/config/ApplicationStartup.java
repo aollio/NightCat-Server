@@ -35,7 +35,7 @@ public class ApplicationStartup extends BaseObject implements ApplicationListene
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         if ("create".equals(HIBERNATE_HBM2DDL_AUTO)) {
-            logger.info("开始生成测试数据");
+//            logger.info("开始生成测试数据");
 //            saveTestData();
         }
     }
