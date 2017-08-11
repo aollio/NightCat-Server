@@ -9,6 +9,9 @@ import com.nightcat.entity.DesignType;
 import com.nightcat.entity.Project;
 import com.nightcat.entity.ProjectBidder;
 import com.nightcat.entity.User;
+import com.nightcat.event.Event;
+import com.nightcat.event.EventManager;
+import com.nightcat.projects.ProjectUtil;
 import com.nightcat.projects.service.ProjectBidderService;
 import com.nightcat.projects.service.ProjectProcessService;
 import com.nightcat.projects.service.ProjectService;
@@ -51,6 +54,9 @@ public class ProjectProcessController {
 
     @Autowired
     private ProjectBidderService bidderServ;
+
+    @Autowired
+    private EventManager eventManager;
 
     @PostMapping
     @Authorization
@@ -148,7 +154,6 @@ public class ProjectProcessController {
         bidder.setDescription(description);
         bidder.setCycle(cycle);
         bidder.setPrice(price);
-
         //log
         bidder = processServ.grab(bidder);
         return Response.ok(bidder);
@@ -177,11 +182,29 @@ public class ProjectProcessController {
                 BAD_REQUEST, "the designer is not grab this project");
 
 
-        ProjectBidder bidder = bidderServ.findByUidAndProjectId(uid,id);
+        ProjectBidder bidder = bidderServ.findByUidAndProjectId(uid, id);
 
         processServ.select(bidder);
-
-
-        return Response.ok();
+        return Response.ok(bidder);
     }
+
+    @PostMapping("/cancel")
+    @Authorization
+    public Response cancel(
+            @CurrentUser User user,
+            String id,
+            String cancel_reason
+    ) {
+        Assert.strExist(cancel_reason, BAD_REQUEST, "param 'cancel_reason' not exist");
+        Project project = projServ.findById(id);
+        Assert.notNull(project, BAD_REQUEST, "the project not exist");
+
+        if (user.getRole() == User.Role.EMPLOYER) {
+            return Response.ok(processServ.cancelByEmployer(user, project, cancel_reason));
+        } else {
+            return Response.ok(processServ.cancelByDesigner(user, project, cancel_reason));
+        }
+    }
+
+
 }

@@ -1,12 +1,13 @@
 package com.nightcat.projects.service;
 
 import com.nightcat.common.CatException;
+import com.nightcat.common.Response;
 import com.nightcat.common.utility.Assert;
-import com.nightcat.entity.Notice;
-import com.nightcat.entity.Project;
-import com.nightcat.entity.ProjectBidder;
-import com.nightcat.entity.ProjectDynamic;
+import com.nightcat.entity.*;
+import com.nightcat.event.Event;
+import com.nightcat.event.EventManager;
 import com.nightcat.notice.service.NoticeService;
+import com.nightcat.projects.ProjectUtil;
 import com.nightcat.repository.DynamicRepository;
 import com.nightcat.repository.ProjectBidderRepository;
 import com.nightcat.repository.ProjectRepository;
@@ -36,6 +37,8 @@ public class ProjectProcessService {
     @Autowired
     private NoticeService noticeService;
 
+    @Autowired
+    private EventManager eventManager;
 
     /**
      * 雇主发布, /TODO
@@ -46,6 +49,7 @@ public class ProjectProcessService {
         project.setCreate_time(now());
         projRep.save(project);
 
+        eventManager.publish(Event.ProjectPublishedEvent, project);
         //生成订单动态
         logger()
                 .user(project.getCreate_by())
@@ -82,6 +86,9 @@ public class ProjectProcessService {
         //log and toast both
         bidderRep.save(bidder);
 
+
+        //todo
+        eventManager.publish(Event.ProjectGrabEvent, bidder);
         //生成订单动态
         logger()
                 .user(bidder.getUid())
@@ -103,7 +110,6 @@ public class ProjectProcessService {
     }
 
 
-
     public void select(ProjectBidder bidder) {
         //update project status
         Project project = projRep.findById(bidder.getProj_id());
@@ -120,6 +126,31 @@ public class ProjectProcessService {
                 .content("您的抢单项目")
                 .uid(bidder.getUid())
                 .send();
+    }
+
+
+    //todo
+    public Project cancelByEmployer(User user, Project project, String cancel_reason) {
+
+        Assert.isTrue(ProjectUtil.employerCancel(project),
+                BAD_REQUEST, "current status can not cancel");
+        //todo
+        project.setStatus(Project.Status.Cancel);
+        project.setCancel_reason(cancel_reason);
+        eventManager.publish(Event.ProjectCancelByEmployer, project);
+        return project;
+    }
+
+    //todo
+    public Project cancelByDesigner(User user, Project project, String cancel_reason) {
+
+        Assert.isTrue(ProjectUtil.designerCancel(project),
+                BAD_REQUEST, "current status can not cancel");
+        //todo
+        project.setStatus(Project.Status.Cancel);
+        project.setCancel_reason(cancel_reason);
+        eventManager.publish(Event.ProejectCancelByDesigner, project);
+        return project;
     }
 
 

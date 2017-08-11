@@ -6,5 +6,5 @@ package com.nightcat.event;
  * @author Aollio
  */
 public interface EventExecutor {
-    void execute(Event event, EventContext context);
+    void execute(Event event, Object context);
 }

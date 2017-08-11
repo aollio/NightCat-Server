@@ -19,6 +19,10 @@ public enum Event {
      */
     ProjectGrabEvent,
 
+    ProjectCancelByEmployer,
+
+    ProejectCancelByDesigner,
+
     Event() {
     }
 

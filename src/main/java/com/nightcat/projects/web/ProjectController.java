@@ -85,7 +85,7 @@ public class ProjectController extends BaseController {
 
         Timestamp since_time = timeFromStr(since_time_str);
         Timestamp max_time = emptyStr(max_time_str) ? now() : timeFromStr(max_time_str);
-        return ok(projServ.findTimelineByUid(user.getUid(), designType, limit, since_time, max_time));
+        return ok(projServ.findTimelineByUid(user.getRole(),user.getUid(), designType, limit, since_time, max_time));
     }
 
     /**

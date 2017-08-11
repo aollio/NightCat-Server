@@ -86,4 +86,14 @@ public class ProjectRepository extends AbstractRepository<Project> {
             return String.valueOf(idd + 1);
         }
     }
+
+    public List<Project> findByTypeAndDesignerUid(String uid, DesignType type, int limit, Timestamp since_time, Timestamp max_time) {
+        Criteria criteria = getCriteriaWithTimeAndType(type, limit, since_time, max_time);
+        criteria.add(Restrictions.eq("bidder", uid));
+        return (List<Project>) criteria.list();
+    }
+
+    public List<Project> findByBidder(String value) {
+        return super.findBy("bidder", value);
+    }
 }

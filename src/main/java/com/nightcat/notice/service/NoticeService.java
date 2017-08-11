@@ -2,6 +2,9 @@ package com.nightcat.notice.service;
 
 import com.nightcat.common.CatException;
 import com.nightcat.entity.Notice;
+import com.nightcat.event.Event;
+import com.nightcat.event.EventExecutor;
+import com.nightcat.event.EventManager;
 import com.nightcat.repository.NoticeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,13 @@ public class NoticeService {
 
     public NoticeSender sender() {
         return new NoticeSender(noticeRepository);
+    }
+
+    @Autowired
+    private EventManager eventManager;
+
+    public void init() {
+        eventManager.register(Event.ProjectPublishedEvent, projectPublishEventExector());
     }
 
     public static class NoticeSender {
@@ -72,5 +82,15 @@ public class NoticeService {
 
             this.noticeRep.save(notice);
         }
+    }
+
+    public EventExecutor projectPublishEventExector() {
+        return new EventExecutor() {
+            @Override
+            public void execute(Event event, Object context) {
+                if (event != Event.ProjectPublishedEvent) return;
+
+            }
+        };
     }
 }
