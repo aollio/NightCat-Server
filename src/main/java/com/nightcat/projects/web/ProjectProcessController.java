@@ -25,6 +25,7 @@ import static com.nightcat.common.utility.Util.*;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.List;
 
 @RestController
 @RequestMapping("/projects")
@@ -66,7 +67,9 @@ public class ProjectProcessController {
             Timestamp end_time,
             Timestamp start_time,
             Timestamp due_time
-    ) {
+//todo
+//            @RequestParam(required = false)List<String>,
+            ) {
 
         Assert.isEmployer(user, BAD_REQUEST, "发布项目必须为雇主");
 
