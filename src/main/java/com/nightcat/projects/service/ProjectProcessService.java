@@ -36,8 +36,31 @@ public class ProjectProcessService {
     @Autowired
     private NoticeService noticeService;
 
-    public ProjectBidder grab(ProjectBidder bidder) {
 
+    /**
+     * 雇主发布, /TODO
+     */
+    public Project publish(Project project) {
+        project.setId(projRep.newId());
+        project.setStatus(Project.Status.Publish);
+        project.setCreate_time(now());
+        projRep.save(project);
+
+        //生成订单动态
+        logger()
+                .user(project.getCreate_by())
+                .content("发布订单成功")
+                .type(ProjectDynamic.Type.Publish)
+                .publisher(true)
+                .project(project.getId())
+                .log();
+        return project;
+    }
+
+    /**
+     * 用户抢单
+     */
+    public ProjectBidder grab(ProjectBidder bidder) {
 
         Project project = projRep.findById(bidder.getProj_id());
 
@@ -52,7 +75,8 @@ public class ProjectProcessService {
                 PROJECT_ALREADY_GRAB, "already grab this project");
 
 
-        project.setGrab_count(project.getGrab_count() + 1);
+//        project.setGrab_count(project.getGrab_count() + 1);
+
         projRep.update(project);
 
         //log and toast both
@@ -78,26 +102,24 @@ public class ProjectProcessService {
 
     }
 
-    public Project publish(Project project) {
-        project.setId(projRep.newId());
-        project.setStatus(Project.Status.Publish);
-        project.setCreate_time(now());
-        projRep.save(project);
-
-        //生成订单动态
-        logger()
-                .user(project.getCreate_by())
-                .content("发布订单成功")
-                .type(ProjectDynamic.Type.Publish)
-                .publisher(true)
-                .project(project.getId())
-                .log();
-        return project;
-    }
 
 
-    public DynamicLogger logger() {
-        return new DynamicLogger(dynamicRepository);
+    public void select(ProjectBidder bidder) {
+        //update project status
+        Project project = projRep.findById(bidder.getProj_id());
+        project.setStatus(Project.Status.ConfirmDesigner_WaitDesignerConfitm);
+        project.setBid_time(now());
+        project.setBidder(bidder.getUid());
+        projRep.update(project);
+        //todo 发布事件, 消息通知. 写入动态表
+
+        //todo
+        noticeService
+                .sender()
+                .type(Notice.Type.PROJECT_CHOOSE)
+                .content("您的抢单项目")
+                .uid(bidder.getUid())
+                .send();
     }
 
 
@@ -178,4 +200,9 @@ public class ProjectProcessService {
             return dynamic;
         }
     }
+
+    public DynamicLogger logger() {
+        return new DynamicLogger(dynamicRepository);
+    }
+
 }

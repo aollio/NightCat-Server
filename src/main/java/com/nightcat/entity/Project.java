@@ -153,7 +153,7 @@ public class Project {
     /**
      * 抢单数量
      */
-    private int grab_count;
+//    private int grab_count;
     /**
      * 竞标人 竞标设计师
      */
@@ -273,15 +273,15 @@ public class Project {
     }
 
 
-    @Basic
-    @Column(name = "grab_count")
-    public int getGrab_count() {
-        return grab_count;
-    }
-
-    public void setGrab_count(int grab_count) {
-        this.grab_count = grab_count;
-    }
+//    @Basic
+//    @Column(name = "grab_count")
+//    public int getGrab_count() {
+//        return grab_count;
+//    }
+//
+//    public void setGrab_count(int grab_count) {
+//        this.grab_count = grab_count;
+//    }
 
 
     @Basic

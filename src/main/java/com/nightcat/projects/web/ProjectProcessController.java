@@ -154,6 +154,9 @@ public class ProjectProcessController {
         return Response.ok(bidder);
     }
 
+    /**
+     * 雇主选择设计师
+     */
     @PostMapping("/select")
     @Authorization
     public Response select(
@@ -174,14 +177,11 @@ public class ProjectProcessController {
                 BAD_REQUEST, "the designer is not grab this project");
 
 
-        //update project status
-        Project project = projServ.findById(id);
-        project.setStatus(Project.Status.ConfirmDesigner_WaitDesignerConfitm);
-        project.setBid_time(now());
-        project.setBidder(uid);
-        projServ.update(project);
+        ProjectBidder bidder = bidderServ.findByUidAndProjectId(uid,id);
 
-        //todo 发布事件, 消息通知. 写入动态表
+        processServ.select(bidder);
+
+
         return Response.ok();
     }
 }

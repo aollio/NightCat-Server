@@ -94,7 +94,7 @@ public class AppwebhookController {
         if (json.toString() != null && !"".equals(json.toString())) {
             JSONObject jsonObj = JSONObject.fromObject(json.toString());
             System.out.println(jsonObj);
-            String sign = jsonObj.getString("sign");
+            String sign = jsonObj.getJSONObject("message_detail").getString("sign");
             String timestamp = jsonObj.getString("timestamp");
             boolean status = verifySign(sign, timestamp);
             if (status) { //验证成功
