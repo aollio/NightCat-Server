@@ -1,6 +1,5 @@
 package com.nightcat.entity;
 
-import sun.jvm.hotspot.interpreter.BytecodeGetPut;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -112,7 +111,11 @@ public class ProjectBidder {
         return close;
     }
 
-    public void setClose(boolean close) {
+    public void setClose(Boolean close) {
+        if (close == null) {
+            this.close = false;
+            return;
+        }
         this.close = close;
     }
 

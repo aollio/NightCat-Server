@@ -2,15 +2,14 @@ package com.nightcat.common.utility;
 
 
 import com.google.gson.Gson;
-import org.omg.CORBA.TIMEOUT;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sun.misc.BASE64Encoder;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -20,6 +19,8 @@ import java.util.*;
  * @date 21/04/2017
  */
 public class Util {
+
+    private static Logger logger = LoggerFactory.getLogger(Util.class);
 
     private static Gson gson = new Gson();
 
@@ -42,6 +43,11 @@ public class Util {
         }
         return false;
     }
+
+    public static boolean strExist(String str) {
+        return !emptyStr(str);
+    }
+
 
 
     public static Timestamp timeFromStr(String timestr) {
@@ -136,5 +142,29 @@ public class Util {
     }
 
 
+    public static void less2more(Object less, Object more) {
+        if (less == null) return;
+
+
+        Map<String, Object> temp = new HashMap<>();
+        try {
+
+
+            for (Field field : less.getClass().getDeclaredFields()) {
+                field.setAccessible(true);
+                temp.put(field.getName(), field.get(less));
+            }
+            for (Map.Entry<String, Object> entry : temp.entrySet()) {
+                try {
+                    Field field = more.getClass().getDeclaredField(entry.getKey());
+                    field.setAccessible(true);
+                    field.set(more, entry.getValue());
+                } catch (NoSuchFieldException ignored) {
+                }
+            }
+        } catch (Exception ignored) {
+
+        }
+    }
 
 }

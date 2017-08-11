@@ -5,13 +5,10 @@ import com.framework.annotation.CurrentUser;
 import com.nightcat.common.Response;
 import com.nightcat.common.utility.Assert;
 import com.nightcat.common.utility.Util;
-import com.nightcat.entity.DesignType;
-import com.nightcat.entity.Project;
-import com.nightcat.entity.ProjectBidder;
-import com.nightcat.entity.User;
-import com.nightcat.event.Event;
+import com.nightcat.entity.*;
+import com.nightcat.entity.Project.Status;
+import com.nightcat.entity.ProjectComment.Type;
 import com.nightcat.event.EventManager;
-import com.nightcat.projects.ProjectUtil;
 import com.nightcat.projects.service.ProjectBidderService;
 import com.nightcat.projects.service.ProjectProcessService;
 import com.nightcat.projects.service.ProjectService;
@@ -21,13 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.swing.*;
-
+import static com.nightcat.common.Response.ok;
 import static com.nightcat.common.constant.HttpStatus.*;
 import static com.nightcat.common.utility.Util.*;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.LinkedList;
 import java.util.List;
 
 @RestController
@@ -72,9 +69,8 @@ public class ProjectProcessController {
             Integer depth,
             Timestamp end_time,
             Timestamp start_time,
-            Timestamp due_time
-//todo
-//            @RequestParam(required = false)List<String>,
+            Timestamp due_time,
+            @RequestParam(required = false) List<String> img_urls
     ) {
 
         Assert.isEmployer(user, BAD_REQUEST, "发布项目必须为雇主");
@@ -99,6 +95,9 @@ public class ProjectProcessController {
         Project.Depth projDepth = Util.enumFromOrigin(depth, Project.Depth.class);
         Assert.notNull(projDepth, BAD_REQUEST, "'depth' not exist or wrong");
 
+        if (img_urls == null) {
+            img_urls = new LinkedList<>();
+        }
         //todo 判断3个时间大小
 
         Project project = new Project();
@@ -118,9 +117,9 @@ public class ProjectProcessController {
 
         project.setCreate_by(user.getUid());
 
-        Project newProj = processServ.publish(project);
+        Project newProj = processServ.publish(project, img_urls);
 
-        return Response.ok(newProj);
+        return ok(projServ.toVo(newProj));
     }
 
     /**
@@ -156,7 +155,7 @@ public class ProjectProcessController {
         bidder.setPrice(price);
         //log
         bidder = processServ.grab(bidder);
-        return Response.ok(bidder);
+        return ok(bidder);
     }
 
     /**
@@ -185,7 +184,136 @@ public class ProjectProcessController {
         ProjectBidder bidder = bidderServ.findByUidAndProjectId(uid, id);
 
         processServ.select(bidder);
-        return Response.ok(bidder);
+        return ok(bidder);
+    }
+
+
+    /**
+     * 设计师确认
+     */
+    @PostMapping("/designer_confirm")
+    @Authorization
+    public Response designer_confirm(@CurrentUser User user,
+                                     String id) {
+        //todo;
+        Assert.isDesigner(user, BAD_REQUEST, "只有设计师才能确认");
+        //
+        Project project = projServ.findById(id);
+
+        Assert.notNull(project, BAD_REQUEST, "项目不存在");
+
+
+        Assert.equals(user.getUid(), project.getBidder(),
+                BAD_REQUEST, "你没有抢到这个项目, 不能确认");
+
+        processServ.designer_confirm(project);
+        return ok();
+    }
+
+
+    @PostMapping("/modify")
+    @Authorization
+    public Response modify(
+            @CurrentUser User user,
+            String id,
+            @RequestParam(required = false) Integer type,
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String content,
+            @RequestParam(required = false) Integer period,
+            @RequestParam(required = false) Integer budget,
+            @RequestParam(required = false) Integer area,
+            @RequestParam(required = false) Integer area_count,
+            @RequestParam(required = false) Integer depth,
+            @RequestParam(required = false) Timestamp end_time,
+            @RequestParam(required = false) Timestamp start_time,
+            @RequestParam(required = false) List<String> img_urls,
+            //修改项目 备注
+            @RequestParam(required = false) String modify_mark
+    ) {
+
+
+        Project project = projServ.findById(id);
+        Assert.notNull(project, BAD_REQUEST, "项目不存在");
+        Assert.isTrue(project.getStatus() == Status.DesignerConfirm_WaitModify,
+                BAD_REQUEST, "项目无法修改");
+        Assert.equals(project.getBidder(), user.getUid(),
+                BAD_REQUEST, "您无权修改此项目");
+
+
+        if (type != null) {
+            DesignType designType = Util.enumFromOrigin(type, DesignType.class);
+            Assert.notNull(designType, BAD_REQUEST, "参数'type'不对");
+            Assert.isFalse(designType == DesignType.UNDEFINDED,
+                    BAD_REQUEST, "参数'type'不对");
+            project.setType(designType);
+        }
+
+        if (Util.strExist(title)) project.setTitle(title);
+        if (Util.strExist(content)) project.setContent(content);
+
+        if (period != null) project.setPeriod(period);
+        if (budget != null) project.setBudget(BigDecimal.valueOf(budget));
+        if (area != null) project.setArea(area);
+        if (area_count != null) project.setArea_count(area_count);
+        if (depth != null) {
+            Project.Depth projDepth = Util.enumFromOrigin(depth, Project.Depth.class);
+            Assert.notNull(projDepth, BAD_REQUEST,
+                    "'depth' not exist or wrong");
+            project.setDepth(projDepth);
+        }
+        if (Util.strExist(modify_mark)) project.setModify_mark(modify_mark);
+        if (end_time != null) project.setEnd_time(end_time);
+        if (start_time != null) project.setStart_time(start_time);
+        if (img_urls == null) img_urls = new LinkedList<>();
+
+        project.setModify_by(user.getUid());
+        project.setModify_time(now());
+
+
+        Project newProj = processServ.modify(project, img_urls);
+
+        return ok(projServ.toVo(newProj));
+    }
+
+
+    @PostMapping("/comment")
+    @Authorization
+    public Response comment(
+            @CurrentUser User user,
+            @RequestParam(required = true) String id,
+            @RequestParam(required = false) String content,
+            @RequestParam(required = true) Integer score,
+            @RequestParam(required = true) Integer type
+    ) {
+        Assert.isEmployer(user, BAD_REQUEST,
+                "只有雇主才可以评论进行中的项目");
+        Assert.notNull(score, BAD_REQUEST,
+                "请选择星级");
+        Assert.isTrue(score >= 0 && score <= 10,
+                BAD_REQUEST, "星级只能0-5之间");
+        Assert.notNull(type, BAD_REQUEST,
+                "请选择好评还是中评, 或者是差评");
+        Assert.isTrue(type >= 0 && type <= Type.values().length,
+                BAD_REQUEST, "选择类型不对");
+        Type cmtType = Util.enumFromOrigin(type, Type.class);
+
+        Project project = projServ.findById(id);
+        Assert.notNull(project, BAD_REQUEST, "项目不存在");
+        Assert.isTrue(project.getStatus() == Status.DesignComplete_WaitComment,
+                BAD_REQUEST, "项目现在无法评论");
+
+        ProjectComment comment = new ProjectComment();
+        comment.setProj_id(project.getId());
+        comment.setComment_time(now());
+        comment.setContent(content);
+        comment.setEmployer(true);
+        comment.setScore(score);
+        comment.setType(cmtType);
+        comment.setUid(user.getUid());
+
+        processServ.comment(project, comment);
+
+        return ok(comment);
     }
 
     @PostMapping("/cancel")
@@ -200,9 +328,11 @@ public class ProjectProcessController {
         Assert.notNull(project, BAD_REQUEST, "the project not exist");
 
         if (user.getRole() == User.Role.EMPLOYER) {
-            return Response.ok(processServ.cancelByEmployer(user, project, cancel_reason));
+            Project result = processServ.cancelByEmployer(user, project, cancel_reason);
+            return ok(projServ.toVo(result));
         } else {
-            return Response.ok(processServ.cancelByDesigner(user, project, cancel_reason));
+            Project result = processServ.cancelByDesigner(user, project, cancel_reason);
+            return ok(projServ.toVo(result));
         }
     }
 

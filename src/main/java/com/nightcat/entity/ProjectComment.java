@@ -8,6 +8,11 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "ym_project_comments")
 public class ProjectComment {
+
+   public enum Type {
+        Bad, General, Good
+    }
+
     /**
      * 评论id
      */
@@ -39,7 +44,7 @@ public class ProjectComment {
     /**
      * 评论类型
      */
-    private String type;
+    private Type type;
 
     @Id
     @Column(name = "id")
@@ -113,11 +118,11 @@ public class ProjectComment {
 
     @Basic
     @Column(name = "type")
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Type type) {
         this.type = type;
     }
 

@@ -24,12 +24,7 @@ public class NoticeService {
         return new NoticeSender(noticeRepository);
     }
 
-    @Autowired
-    private EventManager eventManager;
 
-    public void init() {
-        eventManager.register(Event.ProjectPublishedEvent, projectPublishEventExector());
-    }
 
     public static class NoticeSender {
 
@@ -84,13 +79,5 @@ public class NoticeService {
         }
     }
 
-    public EventExecutor projectPublishEventExector() {
-        return new EventExecutor() {
-            @Override
-            public void execute(Event event, Object context) {
-                if (event != Event.ProjectPublishedEvent) return;
 
-            }
-        };
-    }
 }

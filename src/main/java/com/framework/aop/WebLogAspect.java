@@ -70,7 +70,10 @@ public class WebLogAspect extends BaseObject {
         WebLog log = new WebLog(request);
         log.class_method = joinPoint.getSignature().getDeclaringTypeName() +
                 "." + joinPoint.getSignature().getName();
-        log.class_method_ars = Arrays.toString(joinPoint.getArgs());
+        String args = Arrays.toString(joinPoint.getArgs());
+        if (args.length() > 1000)
+            log.class_method_ars = "参数过长";
+        else log.class_method_ars = args;
         logger.info("收到请求(未执行): " + log.toString());
         webLog.set(log);
     }
@@ -80,7 +83,9 @@ public class WebLogAspect extends BaseObject {
     public void doAfterReturning(Object ret) throws Throwable {
         // 处理完请求，返回内容
         WebLog log = webLog.get();
-        log.return_value = ret;
+        if (ret != null && ret.toString().length() > 10000) {
+            log.return_value = "返回值过长";
+        } else log.return_value = ret;
         log.execution_time = System.currentTimeMillis() - startTime.get();
         logger.info("返回响应(执行后): " + log.toString());
     }

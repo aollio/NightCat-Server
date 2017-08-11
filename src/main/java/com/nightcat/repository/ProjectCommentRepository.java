@@ -4,4 +4,4 @@ import com.nightcat.entity.ProjectComment;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ProjectCommentsRepository extends AbstractRepository<ProjectComment> {}
+public class ProjectCommentRepository extends AbstractRepository<ProjectComment> {}

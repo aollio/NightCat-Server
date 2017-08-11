@@ -11,10 +11,10 @@ public class ProjectUtil {
             case Publish:
                 return true;
 
-            case ConfirmDesigner_WaitDesignerConfitm:
+            case ConfirmDesigner_WaitDesignerConfirm:
                 return true;
 
-            case BothConfirm_WaitEmployerPay:
+            case DesignerConfirm_WaitModify:
                 return true;
 
             case PayComplete_WaitDesign:

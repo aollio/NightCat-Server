@@ -50,12 +50,6 @@ public class TokensController {
         return Response.ok(tokenModel);
     }
 
-//    @DeleteMapping
-//    @Authorization
-//    public Response logout(@CurrentUser UserEntity user) {
-//        tokenService.delToken(user.getUid());
-//        return Response.ok();
-//    }
 
 
 }
