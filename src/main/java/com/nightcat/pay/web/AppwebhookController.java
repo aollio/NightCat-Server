@@ -94,34 +94,35 @@ public class AppwebhookController {
         if (json.toString() != null && !"".equals(json.toString())) {
             JSONObject jsonObj = JSONObject.fromObject(json.toString());
             System.out.println(jsonObj);
-            String sign = jsonObj.getJSONObject("message_detail").getString("sign");
+            String sign = jsonObj.getString("sign");
             String timestamp = jsonObj.getString("timestamp");
             boolean status = verifySign(sign, timestamp);
-            if (status) { //验证成功
-                String transaction_id = jsonObj.getString("transaction_id");
-                PayOrder orders = appOrderDao.findById(transaction_id);
-                if (orders != null) {
-                    BigDecimal price = (BigDecimal) orders.getPRICE();//数据库中订单的金额
-                    String transaction_fee = jsonObj.getString("transaction_fee"); //beecloud平台订单的金额
-                    BigDecimal result = price.multiply(new BigDecimal(100));//将price乘以100，变为分
-                    int amount = result.intValue();
-                    if (String.valueOf(amount).equals(transaction_fee)) {//订单金额匹配
-                        orders.setSTATUS("03");
-                        orders.setDATE((Timestamp) new Date());
-                        appOrderDao.update(orders);
-                        return "Success";
-                    } else {
-                        System.out.println("fail3");
-                        return "fail";
-                    }
-                } else {
-                    System.out.println("fail4");
-                    return "fail";
-                }
-            } else { //验证失败
-                System.out.println("fail5");
-                return "fail";
-            }
+            return "Success";
+//            if (status) { //验证成功
+//                String transaction_id = jsonObj.getString("transaction_id");
+//                PayOrder orders = appOrderDao.findById(transaction_id);
+//                if (orders != null) {
+//                    BigDecimal price = (BigDecimal) orders.getPRICE();//数据库中订单的金额
+//                    String transaction_fee = jsonObj.getString("transaction_fee"); //beecloud平台订单的金额
+//                    BigDecimal result = price.multiply(new BigDecimal(100));//将price乘以100，变为分
+//                    int amount = result.intValue();
+//                    if (String.valueOf(amount).equals(transaction_fee)) {//订单金额匹配
+//                        orders.setSTATUS("03");
+//                        orders.setDATE((Timestamp) new Date());
+//                        appOrderDao.update(orders);
+//                        return "Success";
+//                    } else {
+//                        System.out.println("fail3");
+//                        return "fail";
+//                    }
+//                } else {
+//                    System.out.println("fail4");
+//                    return "fail";
+//                }
+//            } else { //验证失败
+//                System.out.println("fail5");
+//                return "fail";
+//            }
         } else {
             System.out.println("fail6");
             return "fail";
