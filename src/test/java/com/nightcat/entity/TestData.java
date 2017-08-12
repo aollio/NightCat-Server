@@ -1,48 +1,40 @@
-package com.framework.config;
+package com.nightcat.entity;
 
+import com.nightcat.Application;
 import com.nightcat.common.base.BaseObject;
-
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.*;
-
 import com.nightcat.common.utility.Util;
-import com.nightcat.entity.*;
+import com.nightcat.im.web.ImService;
 import org.hibernate.SessionFactory;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.Random;
 
 import static com.nightcat.common.utility.Util.now;
 import static com.nightcat.common.utility.Util.uuid;
 
-@Profile({"local", "aollio"})
-@Configuration
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest(classes = Application.class)
 @Transactional
-public class ApplicationStartup extends BaseObject implements ApplicationListener<ContextRefreshedEvent> {
+public class TestData extends BaseObject {
 
-
-    @Value("${hibernate.hbm2ddl.auto}")
-    private String HIBERNATE_HBM2DDL_AUTO;
-
-    /**
-     * 生成测试数据
-     */
-    @Override
-    public void onApplicationEvent(ContextRefreshedEvent event) {
-        if ("create".equals(HIBERNATE_HBM2DDL_AUTO)) {
-            logger.info("开始生成测试数据");
-            saveTestData();
-        }
+//    @Test
+    public void onApplicationEvent() {
+        logger.info("开始生成测试数据");
+        saveTestData();
     }
 
-
-    String empUid = "450be21f7c714357a1892ca5291a859c";
-    String desUid = "005a9015c52c4ccbb5c669b960ef0bb7";
 
     public void saveTestData() {
         saveUser();
@@ -135,6 +127,8 @@ public class ApplicationStartup extends BaseObject implements ApplicationListene
             "assets/img/if_cat_emoji_face_smily-35-01_2361874.png",
     };
 
+    @Autowired
+    ImService imService;
     Random random = new Random();
 
     private String getCommentContent() {
@@ -163,6 +157,7 @@ public class ApplicationStartup extends BaseObject implements ApplicationListene
         emp.setUid("emp" + 0);
         emp.setRole(User.Role.EMPLOYER);
         emp.setImg_url(imgurl[0]);
+        imService.registerIm(emp);
         sessionFactory.getCurrentSession().save(emp);
 
 
@@ -224,6 +219,7 @@ public class ApplicationStartup extends BaseObject implements ApplicationListene
             }
 
 
+            imService.registerIm(user);
             sessionFactory.getCurrentSession().save(profile);
             sessionFactory.getCurrentSession().save(user);
 

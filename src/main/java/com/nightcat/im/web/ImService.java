@@ -1,8 +1,9 @@
 package com.nightcat.im.web;
 
-import com.google.gson.Gson;
+import com.nightcat.common.base.BaseObject;
 import com.nightcat.common.utility.Util;
 import com.nightcat.common.utility.wangyi.CheckSumBuilder;
+import com.nightcat.entity.User;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -11,7 +12,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -21,20 +21,19 @@ import java.util.List;
 
 import static com.nightcat.common.utility.Util.uuid;
 
-public class ImController {
+@Controller
+public class ImService extends BaseObject {
 
     private String appKey = "47045ca57e2ca57f805cb24563e34160";
     private String appSecret = "818942ff3fac";
 
-    String nonce = "12345";
+    private String nonce = "12345";
 
     /**
-    *{"info":{"token":"c38f44b2227761fedfccfa52c6949df0","accid":"cefc9d621eff42e4916fbc3813ca12c7","name":""},"code":200}
-    */
-
-    public static void main(String[] args) {
-        new ImController().registerIm();
-    }
+     * {"info":
+     * {"token":"c38f44b2227761fedfccfa52c6949df0","accid":"cefc9d621eff42e4916fbc3813ca12c7","name":""}
+     * ,"code":200}
+     */
 
     private HttpPost getPost() {
         String url = "https://api.netease.im/nimserver/user/create.action";
@@ -54,7 +53,7 @@ public class ImController {
         return httpPost;
     }
 
-    public boolean registerIm() {
+    public boolean registerIm(User user) {
         DefaultHttpClient httpClient = new DefaultHttpClient();
 
         HttpPost post = getPost();
@@ -84,7 +83,15 @@ public class ImController {
             System.out.println("输出");
             String json = EntityUtils.toString(response.getEntity(), "utf-8");
             ImResponse imRep = Util.fromJson(json, ImResponse.class);
-            System.out.println(Util.toJson(imRep));
+            if (imRep.getCode() != 200) {
+                return false;
+            }
+            logger.info("注册nim: " + json);
+
+            ImUser imUser = imRep.info;
+            user.setImtoken(imUser.getToken());
+            user.setAccid(imUser.accid);
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
         }
