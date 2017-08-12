@@ -10,6 +10,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -49,6 +50,9 @@ public class WebLogAspect extends BaseObject {
             this.host = request.getRemoteHost();
             this.token = request.getHeader(Constant.AUTHORIZATION);
             this.params = request.getParameterMap();
+            if (params.containsKey("file")) {
+                params.put("file", new String[]{"文件参数"});
+            }
         }
 
         @Override

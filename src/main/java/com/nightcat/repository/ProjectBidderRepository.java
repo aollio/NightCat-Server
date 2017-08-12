@@ -8,13 +8,16 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 import static org.hibernate.criterion.Restrictions.eq;
+import static org.hibernate.criterion.Restrictions.like;
 
 @Repository
 public class ProjectBidderRepository extends AbstractRepository<ProjectBidder> {
 
 
     public List<ProjectBidder> findByUid(String uid) {
-        return super.findBy("uid", uid);
+        Criteria criteria = getCriteria();
+        criteria.add(eq("uid", uid));
+        return criteria.list();
     }
 
     public ProjectBidder findByUidAndProjectId(String uid, String proj_id) {
