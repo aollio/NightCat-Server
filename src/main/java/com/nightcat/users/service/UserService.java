@@ -1,22 +1,21 @@
 package com.nightcat.users.service;
 
+import com.nightcat.common.base.BaseObject;
 import com.nightcat.common.utility.Assert;
 import com.nightcat.common.utility.Util;
 import com.nightcat.entity.DesignerProfile;
 import com.nightcat.entity.User;
 import com.nightcat.entity.vo.UserVo;
+import com.nightcat.im.web.ImService;
 import com.nightcat.repository.DesignerProfileRepository;
 import com.nightcat.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
-
 import static com.nightcat.common.constant.HttpStatus.*;
 
 @Service
-public class UserService {
+public class UserService extends BaseObject {
 
 
     @Autowired
@@ -25,13 +24,17 @@ public class UserService {
     @Autowired
     private DesignerProfileRepository profileRep;
 
+    @Autowired
+    private ImService imServ;
 
     public void save(User user) {
         User olduser = userRepository.findByPhone(user.getPhone());
         Assert.isNull(olduser, BAD_REQUEST, "手机号已被使用");
 
         user.setUid(Util.uuid());
-        user.setImtoken(user.getUid());
+        if (imServ.registerIm(user)) {
+            logger.error("注册nim失败");
+        }
         userRepository.save(user);
     }
 

@@ -12,6 +12,8 @@ import java.sql.Timestamp;
 @Table(name = "ym_user")
 public class User {
 
+    private String accid;
+
     /**
      * Sex
      */
@@ -254,6 +256,16 @@ public class User {
 
     public void setSex(Sex sex) {
         this.sex = sex;
+    }
+
+    public void setAccid(String accid) {
+        this.accid = accid;
+    }
+
+    @Basic
+    @Column(name = "accid")
+    public String getAccid() {
+        return accid;
     }
 
     @Override
