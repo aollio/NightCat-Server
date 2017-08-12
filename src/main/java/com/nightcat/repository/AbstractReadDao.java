@@ -13,10 +13,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.nightcat.common.ErrorCode.SYSTEM_PERSISTENT_INCORRECT_KEY;
 
@@ -67,6 +64,7 @@ public abstract class AbstractReadDao<T> {
     public List<T> findBy(String[] keys, String[] values, boolean isLikeQuery) {
 
         if (keys == null || values == null || keys.length == 0 || values.length == 0) {
+            logger.info("findBy: return empty list");
             return new ArrayList<T>();
         }
         int length = keys.length <= values.length ? keys.length : values.length;
@@ -80,12 +78,20 @@ public abstract class AbstractReadDao<T> {
         String hql = jointLikeQuery(keys, values, isLikeQuery);
 
         if (hql == null) {
+            logger.info("findBy: return empty list");
             return new ArrayList<T>();
         }
 
         Session session = sessionFactory.getCurrentSession();
 
         List<T> result = session.createQuery(hql).list();
+        StringBuilder builder = new StringBuilder();
+        builder.append("findBy: ")
+                .append(" args: keys: " + Arrays.toString(keys))
+                .append(" values: " + Arrays.toString(values))
+                .append(" likeQuery: " + isLikeQuery)
+                .append(" return size: " + result);
+        logger.info(builder.toString());
         return sort(result);
     }
 

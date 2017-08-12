@@ -50,7 +50,7 @@ public class EventManagerImpl implements EventManager {
      * @author Aollio
      */
     @Override
-    public void publish(Event event, EventContext context) {
+    public void publish(Event event, Object context) {
         Set<EventExecutor> executors = events.get(event);
         for (EventExecutor executor : executors) {
             executor.execute(event,context);

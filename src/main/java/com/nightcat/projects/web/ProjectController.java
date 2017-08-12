@@ -10,6 +10,7 @@ import com.framework.annotation.CurrentUser;
 import com.nightcat.entity.DesignType;
 import com.nightcat.entity.Project;
 import com.nightcat.entity.User;
+import com.nightcat.entity.vo.ProjectVo;
 import com.nightcat.projects.service.ProjectBidderService;
 import com.nightcat.projects.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +59,7 @@ public class ProjectController extends BaseController {
 
         limit = limit == null ? Constant.DEFAULT_LIMIT : limit;
 
-        return ok(projServ.findByType(designType, limit, since_time, max_time));
+        return ok(projServ.toVo(projServ.findByType(designType, limit, since_time, max_time)));
     }
 
 
@@ -85,7 +86,12 @@ public class ProjectController extends BaseController {
 
         Timestamp since_time = timeFromStr(since_time_str);
         Timestamp max_time = emptyStr(max_time_str) ? now() : timeFromStr(max_time_str);
-        return ok(projServ.findTimelineByUid(user.getUid(), designType, limit, since_time, max_time));
+        return ok(
+                projServ.toVo(
+                                projServ.findTimelineByUid(user.getRole(),
+                                        user.getUid(), designType, limit,
+                                        since_time, max_time))
+        );
     }
 
     /**
@@ -109,16 +115,7 @@ public class ProjectController extends BaseController {
         Project project = projServ.findById(id);
 
         Assert.notNull(project, NOT_FOUND, "项目不存在");
-        return ok(project);
-    }
-
-    /**
-     * 获取每个项目的图片
-     */
-    @GetMapping("/imgs")
-    public Response pictures(String id) {
-        Assert.strExist(id, BAD_REQUEST, "参数id不存在");
-        return ok(projServ.findPicturesByProjId(id));
+        return ok(projServ.toVo(project));
     }
 
 

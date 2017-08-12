@@ -19,7 +19,7 @@ public class DesignerController {
 
 
     @Autowired
-    private DesignerService designerService;
+    private DesignerService designerServ;
 
     @GetMapping
     public Response query(
@@ -50,7 +50,7 @@ public class DesignerController {
         int page_int = page == null ? 0 : page <= 0 ? -1 * page : page;
         int limit_int = limit == null ? 0 : limit <= 0 ? -1 * limit : limit;
 
-        DesignerService.Query builder = designerService
+        DesignerService.Query builder = designerServ
                 .query()
                 .type(designType)
                 .nickname(nickname)

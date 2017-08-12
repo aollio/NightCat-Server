@@ -2,7 +2,10 @@ package com.nightcat.users.service;
 
 import com.nightcat.common.utility.Assert;
 import com.nightcat.common.utility.Util;
+import com.nightcat.entity.DesignerProfile;
 import com.nightcat.entity.User;
+import com.nightcat.entity.vo.UserVo;
+import com.nightcat.repository.DesignerProfileRepository;
 import com.nightcat.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +21,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private DesignerProfileRepository profileRep;
 
 
     public void save(User user) {
@@ -46,42 +52,14 @@ public class UserService {
         userRepository.update(user);
     }
 
-    public List<User> sort(List<User> T) {
-        return userRepository.sort(T);
-    }
 
-    public List<User> findAll() {
-        return userRepository.findAll();
-    }
+    public UserVo findById(String id) {
 
-    public List<User> findBy(String[] keys, String[] values) {
-        return userRepository.findBy(keys, values);
-    }
-
-    public List<User> findBy(String key, String value) {
-        return userRepository.findBy(key, value);
-    }
-
-    public List<User> findBy(String key, String value, boolean isLikeQuery) {
-        return userRepository.findBy(key, value, isLikeQuery);
-    }
-
-    public List<User> findBy(String[] keys, String[] values, boolean isLikeQuery) {
-        return userRepository.findBy(keys, values, isLikeQuery);
-    }
-
-    public User findById(String id) {
         User user = userRepository.findById(id);
-        user.setPassword(null);
-        return user;
-    }
+        if (user == null) return null;
 
-    public User findByIds(Map<String, String> idAndValues) {
-        return userRepository.findByIds(idAndValues);
-    }
-
-    public List<User> findBy(Map<String, String> attr, boolean likeQuery) {
-        return userRepository.findBy(attr, likeQuery);
+        DesignerProfile profile = profileRep.findById(id);
+        return UserVo.from(user, profile);
     }
 
 }

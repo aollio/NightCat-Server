@@ -1,17 +1,18 @@
 package com.nightcat.projects.service;
 
-import com.nightcat.common.CatException;
 import com.nightcat.common.utility.Assert;
-import com.nightcat.entity.Notice;
-import com.nightcat.entity.Project;
-import com.nightcat.entity.ProjectBidder;
-import com.nightcat.entity.ProjectDynamic;
-import com.nightcat.notice.service.NoticeService;
-import com.nightcat.repository.DynamicRepository;
+import com.nightcat.entity.*;
+import com.nightcat.event.Event;
+import com.nightcat.event.EventManager;
+import com.nightcat.projects.ProjectUtil;
 import com.nightcat.repository.ProjectBidderRepository;
+import com.nightcat.repository.ProjectCommentRepository;
+import com.nightcat.repository.ProjectImagesRepository;
 import com.nightcat.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 import static com.nightcat.common.constant.HttpStatus.BAD_REQUEST;
 import static com.nightcat.common.utility.Util.now;
@@ -31,29 +32,29 @@ public class ProjectProcessService {
     private ProjectRepository projRep;
 
     @Autowired
-    private DynamicRepository dynamicRepository;
+    private ProjectImagesRepository imgRep;
+
 
     @Autowired
-    private NoticeService noticeService;
-
+    private ProjectCommentRepository commentRep;
+    @Autowired
+    private ProjectService projServ;
+    @Autowired
+    private EventManager eventManager;
 
     /**
      * 雇主发布, /TODO
      */
-    public Project publish(Project project) {
+    public Project publish(Project project, List<String> img_urls) {
         project.setId(projRep.newId());
         project.setStatus(Project.Status.Publish);
         project.setCreate_time(now());
         projRep.save(project);
 
-        //生成订单动态
-        logger()
-                .user(project.getCreate_by())
-                .content("发布订单成功")
-                .type(ProjectDynamic.Type.Publish)
-                .publisher(true)
-                .project(project.getId())
-                .log();
+        projServ.saveImgUrls(img_urls, project);
+
+        eventManager.publish(Event.ProjectPublished_Project, project);
+
         return project;
     }
 
@@ -72,137 +73,95 @@ public class ProjectProcessService {
 
         //check user is already grab this project
         Assert.isNull(bidderRep.findByUidAndProjectId(bidder.getUid(), bidder.getProj_id()),
-                PROJECT_ALREADY_GRAB, "already grab this project");
+                PROJECT_ALREADY_GRAB, "你已经抢过这个项目了");
 
-
-//        project.setGrab_count(project.getGrab_count() + 1);
-
+        //update project
+        project.setGrab_count(project.getGrab_count() + 1);
         projRep.update(project);
-
         //log and toast both
         bidderRep.save(bidder);
-
-        //生成订单动态
-        logger()
-                .user(bidder.getUid())
-                .content("抢单")
-                .type(ProjectDynamic.Type.Grabbed)
-                .project(bidder.getProj_id())
-                .log();
-
-        //消息通知项目发布者 雇主
-        noticeService
-                .sender()
-                .uid(project.getCreate_by())
-                .content("你的订单被抢单")
-                .type(Notice.Type.PROJECT_GRABBED)
-                .send();
-
+        eventManager.publish(Event.ProjectGrabbedEvent_ProjectBidder, bidder);
         return bidder;
-
     }
 
 
-
+    /**
+     * 雇主选择设计师
+     */
     public void select(ProjectBidder bidder) {
         //update project status
         Project project = projRep.findById(bidder.getProj_id());
-        project.setStatus(Project.Status.ConfirmDesigner_WaitDesignerConfitm);
+
+        Assert.isTrue(project.getStatus() == Project.Status.Publish,
+                BAD_REQUEST, "只有发布状态的项目才可以选择设计师");
+
+        project.setStatus(Project.Status.ConfirmDesigner_WaitDesignerConfirm);
         project.setBid_time(now());
         project.setBidder(bidder.getUid());
         projRep.update(project);
-        //todo 发布事件, 消息通知. 写入动态表
+        eventManager.publish(Event.ProjectSelectDesigner_Project, project);
+    }
 
+
+    /**
+     * 设计师确认
+     */
+    public void designer_confirm(Project project) {
+        Assert.isTrue(project.getStatus() == Project.Status.ConfirmDesigner_WaitDesignerConfirm,
+                BAD_REQUEST, "项目不是等待你确认的状态");
+
+        project.setStatus(Project.Status.DesignerConfirm_WaitModify);
+
+        projRep.update(project);
+        //todo 发布事件
+        eventManager.publish(Event.ProjectConfirmByDesigner_Project, project);
+    }
+
+
+    public Project modify(Project project, List<String> img_urls) {
+
+        projServ.saveImgUrls(img_urls, project);
+        project.setStatus(Project.Status.DesignerModify_WaitPay);
+        //todo 发布一个支付订单
+        projServ.update(project);
+        eventManager.publish(Event.ProjectModifyByDesigner_Project, project);
+        return project;
+    }
+
+
+    /**
+     * 雇主评论
+     */
+    public void comment(Project project, ProjectComment comment) {
+        project.setStatus(Project.Status.Complete);
+        comment.setId(uuid());
+
+        commentRep.save(comment);
+        projServ.update(project);
+        eventManager.publish(Event.ProjectCommentByEmployer_ProjectComment, comment);
+    }
+
+    //todo
+    public Project cancelByEmployer(User user, Project project, String cancel_reason) {
+
+        Assert.isTrue(ProjectUtil.employerCancel(project),
+                BAD_REQUEST, "current status can not cancel");
+        project.setStatus(Project.Status.Cancel);
+        project.setCancel_reason(cancel_reason);
+        eventManager.publish(Event.ProjectCancelByEmployer_Project, project);
+        return project;
+    }
+
+    //todo
+    public Project cancelByDesigner(User user, Project project, String cancel_reason) {
+
+        Assert.isTrue(ProjectUtil.designerCancel(project),
+                BAD_REQUEST, "current status can not cancel");
         //todo
-        noticeService
-                .sender()
-                .type(Notice.Type.PROJECT_CHOOSE)
-                .content("您的抢单项目")
-                .uid(bidder.getUid())
-                .send();
-    }
-
-
-    private static class DynamicLogger {
-
-
-        private String proj_id;
-        private String uid;
-        private boolean publisher;
-        private ProjectDynamic.Type type;
-        private String content;
-        private String img_url;
-
-        private DynamicRepository dynamicRepository;
-
-        private DynamicLogger(DynamicRepository dynamicRepository) {
-            this.dynamicRepository = dynamicRepository;
-        }
-
-
-        public DynamicLogger project(String proj_id) {
-            this.proj_id = proj_id;
-            return this;
-        }
-
-        public DynamicLogger user(String uid) {
-            this.uid = uid;
-            return this;
-        }
-
-        public DynamicLogger publisher(boolean publisher) {
-            this.publisher = publisher;
-            return this;
-        }
-
-        public DynamicLogger type(ProjectDynamic.Type type) {
-            this.type = type;
-            return this;
-        }
-
-        public DynamicLogger content(String content) {
-            this.content = content;
-            return this;
-        }
-
-        public DynamicLogger img(String img_url) {
-            this.img_url = img_url;
-            return this;
-        }
-
-
-        public ProjectDynamic log() {
-
-            ProjectDynamic dynamic = new ProjectDynamic();
-            dynamic.setId(uuid());
-            dynamic.setCreate_time(now());
-
-            if (proj_id == null) {
-                throw new CatException("Build Project Dynamic proj_id must be exist");
-            }
-
-            if (uid == null) {
-                throw new CatException("Build Project Dynamic uid must be exist");
-            }
-
-            if (type == null) {
-                throw new CatException("Build Project Dynamic type must be exist");
-            }
-
-            dynamic.setProj_id(proj_id);
-            dynamic.setUid(uid);
-            dynamic.setPublisher(publisher);
-            dynamic.setType(type);
-            dynamic.setContent(content);
-            dynamic.setImg_url(img_url);
-
-            dynamicRepository.save(dynamic);
-            return dynamic;
-        }
-    }
-
-    public DynamicLogger logger() {
-        return new DynamicLogger(dynamicRepository);
+        project.setStatus(Project.Status.Cancel);
+        project.setCancel_reason(cancel_reason);
+        eventManager.publish(Event.ProejectCancelByDesigner, project);
+        return project;
     }
 
 }

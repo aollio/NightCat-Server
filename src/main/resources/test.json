@@ -1,45 +1,50 @@
 {
-    "url": "http://127.0.0.1:8000/appWebhooks/success",
+    "url": "http://127.0.0.1:8000/projects",
     "method": "POST",
     "ip": "127.0.0.1",
     "host": "127.0.0.1",
-    "params": {},
-    "class_method": "com.nightcat.pay.web.AppwebhookController.success",
-    "class_method_ars": "[org.apache.catalina.connector.RequestFacade@f9b16c2, org.apache.catalina.connector.ResponseFacade@66031a3b]",
-    "execution_time": 0
-}
-{
-    "signature": "673987c053ae13ff037f9039cde60710",
-    "timestamp": 1502428922000,
-    "channel_type": "ALI",
-    "trade_success": true,
-    "transaction_type": "PAY",
-    "sub_channel_type": "test",
-    "transaction_id": "test",
-    "transaction_fee": 1,
-    "optional": {
-        "test": "test"
+    "params": {
+        "type": [
+            "1"
+        ],
+        "title": [
+            "12"
+        ],
+        "content": [
+            "12"
+        ],
+        "budget": [
+            "12"
+        ],
+        "due_time": [
+            "1502560399861"
+        ],
+        "area": [
+            "12"
+        ],
+        "area_count": [
+            "1"
+        ],
+        "depth": [
+            "0"
+        ],
+        "period": [
+            "12"
+        ],
+        "start_time": [
+            "1502733199861"
+        ],
+        "end_time": [
+            "1502819599861"
+        ],
+        "img_urls": [
+            ""
+        ],
+        "token": [
+            "emp0_7230e2344f854cb78f17fd554f332b46"
+        ]
     },
-    "message_detail": {
-        "trade_status": "TRADE_SUCCESS",
-        "trade_no": "test_trade_no",
-        "out_trade_no": "test_out_trade_no",
-        "buyer_email": "test_buyer_email",
-        "total_fee": "0.10",
-        "price": "0.10",
-        "subject": "test",
-        "discount": "0.00",
-        "gmt_create": "2015-05-23 22:26:20",
-        "notify_type": "test",
-        "quantity": "1",
-        "seller_id": "test",
-        "buyer_id": "test",
-        "use_coupon": "N",
-        "notify_time": "2015-05-23 22:26:20",
-        "body": "test",
-        "seller_email": "test",
-        "notify_id": "test",
-        "sign_type": "RSA",
-        "sign": "test"
-    }
+    "class_method": "com.nightcat.projects.web.ProjectProcessController.publish",
+    "class_method_ars": "[{\"uid\":\"emp0\",\"password\":\"123456\",\"nickname\":\"良锋\",\"sex\":\"UNDEFINED\",\"img_url\":\"assets/img/if_cat_emoji_face_smily-9-01_2361853.png\",\"phone\":\"13900000000\",\"role\":\"EMPLOYER\",\"del\":false}, 1, 12, 12, 12, 12, 12, 1, 0, 2017-08-16 01:53:19.861, 2017-08-15 01:53:19.861, 2017-08-13 01:53:19.861, []]",
+    "execution_time": 0
 }

@@ -13,13 +13,17 @@ public enum Event {
     /**
      * 项目发布事件
      */
-    ProjectPublishedEvent,
+    ProjectPublished_Project,
     /**
      * 项目被抢单事件
      */
-    ProjectGrabEvent,
+    ProjectGrabbedEvent_ProjectBidder,
 
-    Event() {
+    ProjectCancelByEmployer_Project,
+
+    ProejectCancelByDesigner,
+
+    ProjectSelectDesigner_Project, ProjectConfirmByDesigner_Project, ProjectModifyByDesigner_Project, ProjectCommentByEmployer_ProjectComment, Event() {
     }
 
 }

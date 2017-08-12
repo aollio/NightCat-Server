@@ -3,9 +3,11 @@ package com.nightcat.users.service;
 import com.nightcat.common.constant.Constant;
 import com.nightcat.entity.DesignType;
 import com.nightcat.entity.DesignerProfile;
+import com.nightcat.entity.User;
+import com.nightcat.entity.vo.UserVo;
 import com.nightcat.repository.DesignerProfileRepository;
+import com.nightcat.repository.UserRepository;
 import org.hibernate.Criteria;
-import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +22,12 @@ import static org.hibernate.criterion.Restrictions.*;
 public class DesignerService {
 
     @Autowired
-    private DesignerProfileRepository designerRepository;
+    private DesignerProfileRepository profileRep;
+    @Autowired
+    private UserRepository userRep;
 
     public Query query() {
-        return new Query(designerRepository.getCriteria());
+        return new Query(profileRep.getCriteria(), userRep);
     }
 
     public enum Official {
@@ -33,6 +37,7 @@ public class DesignerService {
     public static class Query {
 
         private Criteria criteria;
+        private UserRepository userRep;
 
         // 查询设计师类型
         private DesignType type = DesignType.UNDEFINDED;
@@ -44,12 +49,13 @@ public class DesignerService {
         private int page;
         private int limit;
 
-        private Query(Criteria criteria) {
+        private Query(Criteria criteria, UserRepository userRepository) {
             this.criteria = criteria;
+            this.userRep = userRepository;
         }
 
         @SuppressWarnings("unchecked")
-        public List<DesignerProfile> list() {
+        public List<UserVo> list() {
 
             //page limit
             if (page <= 0) page = 0;
@@ -60,7 +66,7 @@ public class DesignerService {
 
             //(type) 'AND' 其他查询条件
             if (type != DesignType.UNDEFINDED) criteria.add(Restrictions.eq("type", type));
-            
+
             Disjunction disjunction = Restrictions.disjunction();
             if (isNotEmpty(nickname)) disjunction.add(like("nickname", nickname));
             if (isNotEmpty(position)) disjunction.add(like("position", position));
@@ -78,8 +84,15 @@ public class DesignerService {
                     break;
             }
 
+            List<DesignerProfile> profiles = (List<DesignerProfile>) criteria.list();
 
-            return (List<DesignerProfile>) criteria.list();
+            List<UserVo> result = new LinkedList<>();
+            profiles.forEach(profile -> {
+                User user = userRep.findById(profile.getUid());
+                result.add(UserVo.from(user, profile));
+            });
+
+            return result;
         }
 
 

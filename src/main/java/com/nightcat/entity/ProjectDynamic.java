@@ -45,7 +45,7 @@ public class ProjectDynamic {
          * 被设计师抢单
          */
         Grabbed,
-        /**
+        SelectDesignerByEmployer, /**
          * 设计师确认
          */
         Designer_Confirm

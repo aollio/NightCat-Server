@@ -11,7 +11,6 @@ import java.sql.Timestamp;
 public class Project {
 
 
-
     /**
      * 订单的状态流程图
      * http://image.aollio.com/nightcat-project-status-process.png
@@ -25,11 +24,15 @@ public class Project {
         /**
          * 雇主选择一位设计师后, 等待设计师确认
          */
-        ConfirmDesigner_WaitDesignerConfitm,
+        ConfirmDesigner_WaitDesignerConfirm,
         /**
-         * 设计时确认后(双方确认), 等待雇主支付. 这时会生成一个对应的支付订单
+         * 设计时确认后(双方确认)
          */
-        BothConfirm_WaitEmployerPay,
+        DesignerConfirm_WaitModify,
+        /**
+         * 等待设计师修改. 修改后,等待雇主支付. 这时会生成一个对应的支付订单
+         */
+        DesignerModify_WaitPay,
         /**
          * 支付完成后, 等待设计师设计
          */
@@ -153,7 +156,7 @@ public class Project {
     /**
      * 抢单数量
      */
-//    private int grab_count;
+    private int grab_count;
     /**
      * 竞标人 竞标设计师
      */
@@ -273,15 +276,17 @@ public class Project {
     }
 
 
-//    @Basic
-//    @Column(name = "grab_count")
-//    public int getGrab_count() {
-//        return grab_count;
-//    }
-//
-//    public void setGrab_count(int grab_count) {
-//        this.grab_count = grab_count;
-//    }
+    @Basic
+    @Column(name = "grab_count")
+    public int getGrab_count() {
+        return grab_count;
+    }
+
+    public void setGrab_count(Integer grab_count) {
+        if (grab_count == null) {
+            this.grab_count = 0;
+        } else this.grab_count = grab_count;
+    }
 
 
     @Basic

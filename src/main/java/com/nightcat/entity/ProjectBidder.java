@@ -1,5 +1,6 @@
 package com.nightcat.entity;
 
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -16,6 +17,8 @@ public class ProjectBidder {
     private String proj_id;
     private String uid;
     private Timestamp create_time = now();
+
+    private boolean close = false;
 
     /**
      * 报价
@@ -101,6 +104,20 @@ public class ProjectBidder {
         this.price = price;
     }
 
+
+    @Basic
+    @Column(name = "is_del")
+    public boolean isClose() {
+        return close;
+    }
+
+    public void setClose(Boolean close) {
+        if (close == null) {
+            this.close = false;
+            return;
+        }
+        this.close = close;
+    }
 
     @Override
     public boolean equals(Object o) {

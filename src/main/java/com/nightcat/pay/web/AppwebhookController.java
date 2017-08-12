@@ -95,10 +95,8 @@ public class AppwebhookController {
             JSONObject jsonObj = JSONObject.fromObject(json.toString());
             System.out.println(jsonObj);
             String sign = jsonObj.getJSONObject("message_detail").getString("sign");
-            System.out.print("sign值："+sign);
             String timestamp = jsonObj.getString("timestamp");
-            System.out.print("timestamp值："+timestamp);
-            boolean status = verifySign(sign,timestamp);
+            boolean status = verifySign(sign, timestamp);
             if (status) { //验证成功
                 String transaction_id = jsonObj.getString("transaction_id");
                 PayOrder orders = appOrderDao.findById(transaction_id);
@@ -111,7 +109,7 @@ public class AppwebhookController {
                         orders.setSTATUS("03");
                         orders.setDATE((Timestamp) new Date());
                         appOrderDao.update(orders);
-                         return "Success";
+                        return "Success";
                     } else {
                         System.out.println("fail3");
                         return "fail";

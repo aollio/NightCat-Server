@@ -8,6 +8,7 @@ import com.framework.annotation.EnumParam;
 import com.nightcat.entity.DesignType;
 import com.nightcat.entity.DesignerProfile;
 import com.nightcat.entity.User;
+import com.nightcat.entity.vo.UserVo;
 import com.nightcat.users.service.DesignerProfileService;
 import com.nightcat.users.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,25 +106,9 @@ public class UserController {
     @GetMapping("/show")
     @Authorization
     public Response show(String uid) {
-        User target = userService.findById(uid);
+        UserVo target = userService.findById(uid);
         Assert.notNull(target, BAD_REQUEST, "用户不存在");
         return Response.ok(target);
     }
-
-    /**
-     * 获取用户信息, 不需要认证. 只返回少数信息
-     */
-    @GetMapping("/show_simple")
-    public Response show_simple(String uid) {
-        Assert.strExist(uid,BAD_REQUEST,"param 'uid' not exist");
-
-        User oriuser = userService.findById(uid);
-        User result = new User();
-        result.setUid(oriuser.getUid());
-        result.setNickname(oriuser.getNickname());
-        result.setImg_url(oriuser.getImg_url());
-        return Response.ok(result);
-    }
-
 
 }
