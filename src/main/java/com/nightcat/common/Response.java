@@ -1,7 +1,6 @@
 package com.nightcat.common;
 
-import com.google.gson.Gson;
-import com.nightcat.common.utility.Util;
+import com.nightcat.utility.Util;
 
 /**
  * Created by Aollio on 2017/4/7.

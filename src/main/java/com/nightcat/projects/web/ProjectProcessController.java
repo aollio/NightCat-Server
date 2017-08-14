@@ -3,8 +3,8 @@ package com.nightcat.projects.web;
 import com.framework.annotation.Authorization;
 import com.framework.annotation.CurrentUser;
 import com.nightcat.common.Response;
-import com.nightcat.common.utility.Assert;
-import com.nightcat.common.utility.Util;
+import com.nightcat.utility.Assert;
+import com.nightcat.utility.Util;
 import com.nightcat.entity.*;
 import com.nightcat.entity.Project.Status;
 import com.nightcat.entity.ProjectComment.Type;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static com.nightcat.common.Response.ok;
 import static com.nightcat.common.constant.HttpStatus.*;
-import static com.nightcat.common.utility.Util.*;
+import static com.nightcat.utility.Util.*;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -211,6 +211,9 @@ public class ProjectProcessController {
     }
 
 
+    /**
+     * 设计师修改
+     */
     @PostMapping("/modify")
     @Authorization
     public Response modify(
@@ -230,7 +233,6 @@ public class ProjectProcessController {
             //修改项目 备注
             @RequestParam(required = false) String modify_mark
     ) {
-
 
         Project project = projServ.findById(id);
         Assert.notNull(project, BAD_REQUEST, "项目不存在");
@@ -275,6 +277,66 @@ public class ProjectProcessController {
         return ok(projServ.toVo(newProj));
     }
 
+    @PostMapping("/money")
+    @Authorization
+    public Response money(@CurrentUser User user,
+                          String id) {
+
+        Assert.strExist(id, BAD_REQUEST, "'id' not exist");
+
+        Project project = projServ.findById(id);
+
+        Assert.notNull(project, BAD_REQUEST, "项目不存在");
+        Assert.isTrue(project.getStatus() == Status.DesignerModify_WaitPay,
+                BAD_REQUEST, "还没有到支付的阶段");
+
+        Assert.equals(project.getCreate_by(), user.getUid(),
+                BAD_REQUEST, "您不是雇主, 无法递交此产品");
+
+        project.setStatus(Status.PayComplete_WaitDesign);
+        projServ.update(project);
+        return ok();
+    }
+
+    /**
+     * 设计师交付
+     */
+    @PostMapping("/commit")
+    @Authorization
+    public Response commit(
+            @CurrentUser User user,
+            String id) {
+
+        Assert.strExist(id, BAD_REQUEST, "'id' not exist");
+
+        Project project = projServ.findById(id);
+        Assert.notNull(project, BAD_REQUEST, "项目不存在");
+        Assert.isTrue(project.getStatus() == Status.PayComplete_WaitDesign,
+                BAD_REQUEST, "项目无法修改");
+        Assert.equals(project.getBidder(), user.getUid(),
+                BAD_REQUEST, "您不是项目设计者,无法递交此产品");
+
+        processServ.commit(project);
+        return ok();
+
+    }
+
+    @PostMapping("/harvest")
+    @Authorization
+    public Response harvest(
+            @CurrentUser User user,
+            String id) {
+        Assert.strExist(id, BAD_REQUEST, "'id' not exist");
+        Project project = projServ.findById(id);
+        Assert.notNull(project, BAD_REQUEST, "项目不存在");
+        Assert.isTrue(project.getStatus() == Status.DesignComplete_WaitHarvest,
+                BAD_REQUEST, "项目无法收货");
+        Assert.equals(project.getCreate_by(), user.getUid(),
+                BAD_REQUEST, "您不是项目创建者, 无法确认收货");
+
+        processServ.harvest(project);
+        return ok();
+    }
 
     @PostMapping("/comment")
     @Authorization
@@ -299,7 +361,7 @@ public class ProjectProcessController {
 
         Project project = projServ.findById(id);
         Assert.notNull(project, BAD_REQUEST, "项目不存在");
-        Assert.isTrue(project.getStatus() == Status.DesignComplete_WaitComment,
+        Assert.isTrue(project.getStatus() == Status.EmployerHarvest_WaitComment,
                 BAD_REQUEST, "项目现在无法评论");
 
         ProjectComment comment = new ProjectComment();
@@ -334,6 +396,20 @@ public class ProjectProcessController {
             Project result = processServ.cancelByDesigner(user, project, cancel_reason);
             return ok(projServ.toVo(result));
         }
+    }
+
+    @PostMapping("/tester")
+    @Authorization
+    public Response tester(
+            @CurrentUser User user,
+            String id
+    ) {
+        Project project = projServ.findById(id);
+        Assert.notNull(project, BAD_REQUEST, "the project not exist");
+        project.setStatus(Status.Platform_InterPose);
+        projServ.update(project);
+        return ok();
+
     }
 
 

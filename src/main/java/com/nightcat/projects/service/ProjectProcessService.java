@@ -1,6 +1,6 @@
 package com.nightcat.projects.service;
 
-import com.nightcat.common.utility.Assert;
+import com.nightcat.utility.Assert;
 import com.nightcat.entity.*;
 import com.nightcat.event.Event;
 import com.nightcat.event.EventManager;
@@ -15,9 +15,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static com.nightcat.common.constant.HttpStatus.BAD_REQUEST;
-import static com.nightcat.common.utility.Util.now;
-import static com.nightcat.common.utility.Util.revise;
-import static com.nightcat.common.utility.Util.uuid;
+import static com.nightcat.utility.Util.now;
+import static com.nightcat.utility.Util.revise;
+import static com.nightcat.utility.Util.uuid;
 import static com.nightcat.projects.web.ProjectProcessController.PROJECT_ALREADY_GRAB;
 import static com.nightcat.projects.web.ProjectProcessController.PROJECT_NOT_PUBLISH;
 
@@ -129,6 +129,27 @@ public class ProjectProcessService {
     }
 
 
+    public void commit(Project project) {
+
+
+        project.setStatus(Project.Status.DesignComplete_WaitHarvest);
+
+        projRep.update(project);
+
+        eventManager.publish(Event.ProjectCommitedByDesigner_Project, project);
+    }
+
+
+    public void harvest(Project project) {
+
+        project.setStatus(Project.Status.EmployerHarvest_WaitComment);
+
+        projRep.update(project);
+
+        //todo 项目完成 , 设计师收到钱
+        eventManager.publish(Event.ProjectHarvestByEmployer_Project, project);
+    }
+
     /**
      * 雇主评论
      */
@@ -140,6 +161,7 @@ public class ProjectProcessService {
         projServ.update(project);
         eventManager.publish(Event.ProjectCommentByEmployer_ProjectComment, comment);
     }
+
 
     //todo
     public Project cancelByEmployer(User user, Project project, String cancel_reason) {

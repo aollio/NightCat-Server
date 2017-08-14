@@ -102,6 +102,7 @@ public class AppWebhookController extends BaseController {
 		            .append(transactionFee);
 		   boolean status = verifySign(toSign.toString(),masterSecret,signature);
 		    if (status) { //验证成功
+				System.out.println("验证成功");
 		        //return "success"; //请不要修改或删除
 				String transaction_id = jsonObj.getString("transaction_id");
 				PayOrder orders = appOrderDao.findById(transaction_id);

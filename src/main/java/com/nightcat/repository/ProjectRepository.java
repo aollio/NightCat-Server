@@ -6,6 +6,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -31,6 +32,7 @@ public class ProjectRepository extends AbstractRepository<Project> {
     public List<Project> findByTypeAndUid(String uid, DesignType type, int limit, Timestamp since_time, Timestamp max_time) {
         Criteria criteria = getCriteriaWithTimeAndType(type, limit, since_time, max_time);
         criteria.add(Restrictions.eq("create_by", uid));
+        criteria.addOrder(Order.desc("create_time"));
         return (List<Project>) criteria.list();
     }
 
@@ -94,6 +96,9 @@ public class ProjectRepository extends AbstractRepository<Project> {
     }
 
     public List<Project> findByBidder(String value) {
-        return super.findBy("bidder", value);
+        Criteria criteria = getCriteria();
+        criteria.add(Restrictions.eq("bidder", value));
+        criteria.addOrder(Order.desc("create_time"));
+        return (List<Project>) criteria.list();
     }
 }

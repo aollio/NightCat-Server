@@ -10,10 +10,23 @@ public class Experience {
     private String uid;
     private String name;
     private String description;
+
+    private String img_url;
+
     private int fav_count;
     private int comment_count;
     private int view_count;
     private Timestamp create_time;
+
+    @Basic
+    @Column(name = "img_url")
+    public String getImg_url() {
+        return img_url;
+    }
+
+    public void setImg_url(String img_url) {
+        this.img_url = img_url;
+    }
 
     @Id
     @Column(name = "id")

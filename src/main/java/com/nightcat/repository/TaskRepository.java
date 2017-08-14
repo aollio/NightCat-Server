@@ -1,6 +1,6 @@
 package com.nightcat.repository;
 
-import com.nightcat.common.utility.Util;
+import com.nightcat.utility.Util;
 import com.nightcat.entity.Task;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.nightcat.common.utility.Util.emptyStr;
-import static com.nightcat.common.utility.Util.uuid;
+import static com.nightcat.utility.Util.emptyStr;
+import static com.nightcat.utility.Util.uuid;
 
 @Repository
 public class TaskRepository extends AbstractRepository<Task> {

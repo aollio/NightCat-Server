@@ -1,4 +1,4 @@
-package com.nightcat.common.utility;
+package com.nightcat.utility;
 
 
 import com.nightcat.common.CatException;
@@ -8,7 +8,6 @@ import com.nightcat.entity.User;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
-import java.util.Locale;
 import java.util.Objects;
 
 /**

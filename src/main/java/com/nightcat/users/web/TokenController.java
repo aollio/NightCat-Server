@@ -1,7 +1,7 @@
 package com.nightcat.users.web;
 
 import com.nightcat.common.Response;
-import com.nightcat.common.utility.Assert;
+import com.nightcat.utility.Assert;
 import com.nightcat.entity.Token;
 import com.nightcat.entity.User;
 import com.nightcat.repository.UserRepository;
@@ -17,7 +17,7 @@ import static com.nightcat.common.constant.HttpStatus.BAD_REQUEST;
  */
 @RestController
 @RequestMapping("/tokens")
-public class TokensController {
+public class TokenController {
 
     @Autowired
     private UserRepository userRepository;

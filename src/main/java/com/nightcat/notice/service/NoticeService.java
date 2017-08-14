@@ -2,17 +2,17 @@ package com.nightcat.notice.service;
 
 import com.nightcat.common.CatException;
 import com.nightcat.entity.Notice;
-import com.nightcat.event.Event;
-import com.nightcat.event.EventExecutor;
-import com.nightcat.event.EventManager;
+import com.nightcat.entity.vo.NoticeVo;
 import com.nightcat.repository.NoticeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.LinkedList;
+import java.util.List;
 
-import static com.nightcat.common.utility.Util.now;
-import static com.nightcat.common.utility.Util.uuid;
+import static com.nightcat.utility.Util.now;
+import static com.nightcat.utility.Util.uuid;
 
 @Service
 public class NoticeService {
@@ -24,6 +24,20 @@ public class NoticeService {
         return new NoticeSender(noticeRepository);
     }
 
+    public List<Notice> findByUid(String uid) {
+        return noticeRepository.findByUid(uid);
+    }
+
+
+    public NoticeVo toVo(Notice notice) {
+        return NoticeVo.from(notice);
+    }
+
+    public List<NoticeVo> toVo(List<Notice> result) {
+        List<NoticeVo> vos = new LinkedList<>();
+        result.forEach(e -> vos.add(NoticeVo.from(e)));
+        return vos;
+    }
 
 
     public static class NoticeSender {

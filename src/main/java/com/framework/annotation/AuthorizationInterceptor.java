@@ -55,13 +55,13 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
         boolean result = manager.checkToken(model);
         //success. set uid to the request
         if (result) {
-            logger.info("user authorization ok, user id is " + model.getUid());
+            logger.info("用户认证成功, 用户uid是:  " + model.getUid());
             request.setAttribute(Constant.CURRENT_USER_ID, model.getUid());
             return true;
         }
 
         if (method.getAnnotation(Authorization.class) != null) {
-            logger.info("user authorization fail, user tokens model is " + model);
+            logger.info("用户认证失败, 相关信息:  " + model);
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().append(Response.error(HttpStatus.UNAUTHORIZATON, "unauentication").toString()).flush();
             return false;

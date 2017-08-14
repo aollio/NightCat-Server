@@ -1,6 +1,6 @@
 package com.nightcat.entity;
 
-import com.nightcat.common.utility.Util;
+import com.nightcat.utility.Util;
 
 import javax.persistence.*;
 import java.sql.Timestamp;

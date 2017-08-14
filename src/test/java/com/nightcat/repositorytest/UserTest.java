@@ -1,10 +1,9 @@
 package com.nightcat.repositorytest;
 
 import com.nightcat.Application;
-import com.nightcat.common.utility.Util;
+import com.nightcat.utility.Util;
 import com.nightcat.entity.User;
 import com.nightcat.repository.UserRepository;
-import com.nightcat.users.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

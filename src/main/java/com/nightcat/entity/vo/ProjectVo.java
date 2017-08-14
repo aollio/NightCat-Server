@@ -1,6 +1,6 @@
 package com.nightcat.entity.vo;
 
-import com.nightcat.common.utility.Util;
+import com.nightcat.utility.Util;
 import com.nightcat.entity.DesignType;
 import com.nightcat.entity.Project;
 import com.nightcat.entity.ProjectImage;
@@ -100,7 +100,6 @@ public class ProjectVo {
     /**
      * 竞标人 竞标设计师
      */
-    private String bidder;
     /**
      * 竞标人 竞标时间
      */
@@ -111,20 +110,12 @@ public class ProjectVo {
 
     private List<String> img_urls = new LinkedList<>();
 
-    private ProjectVo() {
+    private UserVo creator;
+    private UserVo bidder;
+
+    public ProjectVo() {
     }
 
-    public static ProjectVo from(Project project, List<ProjectImage> img_urls) {
-        ProjectVo projectVo = new ProjectVo();
-        Util.less2more(project, projectVo);
-        if (img_urls != null) {
-            img_urls.forEach(e -> {
-                if (e.getProj_id().equals(project.getId()))
-                    projectVo.img_urls.add(e.getImg_url());
-            });
-        }
-        return projectVo;
-    }
 
 
     public String getId() {
@@ -295,11 +286,11 @@ public class ProjectVo {
         this.grab_count = grab_count;
     }
 
-    public String getBidder() {
+    public UserVo getBidder() {
         return bidder;
     }
 
-    public void setBidder(String bidder) {
+    public void setBidder(UserVo bidder) {
         this.bidder = bidder;
     }
 
@@ -325,5 +316,13 @@ public class ProjectVo {
 
     public void setImg_urls(List<String> img_urls) {
         this.img_urls = img_urls;
+    }
+
+    public UserVo getCreator() {
+        return creator;
+    }
+
+    public void setCreator(UserVo creator) {
+        this.creator = creator;
     }
 }

@@ -1,6 +1,6 @@
 package com.nightcat.users.service;
 
-import com.nightcat.common.utility.Util;
+import com.nightcat.utility.Util;
 import com.nightcat.entity.Honor;
 import com.nightcat.repository.HonorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 @Service
 public class HonorService {

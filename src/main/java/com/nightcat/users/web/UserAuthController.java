@@ -1,7 +1,7 @@
 package com.nightcat.users.web;
 
 import com.nightcat.common.Response;
-import com.nightcat.common.utility.Assert;
+import com.nightcat.utility.Assert;
 import com.framework.annotation.Authorization;
 import com.framework.annotation.CurrentUser;
 import com.nightcat.entity.User;

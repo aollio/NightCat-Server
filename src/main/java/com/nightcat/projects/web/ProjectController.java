@@ -3,16 +3,18 @@ package com.nightcat.projects.web;
 import com.nightcat.common.Response;
 import com.nightcat.common.base.BaseController;
 import com.nightcat.common.constant.Constant;
-import com.nightcat.common.utility.Assert;
-import com.nightcat.common.utility.Util;
+import com.nightcat.entity.vo.ProjectVo;
+import com.nightcat.utility.Assert;
+import com.nightcat.utility.Util;
 import com.framework.annotation.Authorization;
 import com.framework.annotation.CurrentUser;
 import com.nightcat.entity.DesignType;
 import com.nightcat.entity.Project;
 import com.nightcat.entity.User;
-import com.nightcat.entity.vo.ProjectVo;
 import com.nightcat.projects.service.ProjectBidderService;
 import com.nightcat.projects.service.ProjectService;
+import com.nightcat.utility.wangyi.SendTemplate;
+import jdk.internal.dynalink.linker.LinkerServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,9 +22,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.Set;
 
 import static com.nightcat.common.Response.ok;
-import static com.nightcat.common.utility.Util.*;
+import static com.nightcat.utility.Util.*;
 import static com.nightcat.common.constant.HttpStatus.*;
 
 @RestController
@@ -86,12 +90,14 @@ public class ProjectController extends BaseController {
 
         Timestamp since_time = timeFromStr(since_time_str);
         Timestamp max_time = emptyStr(max_time_str) ? now() : timeFromStr(max_time_str);
-        return ok(
-                projServ.toVo(
-                                projServ.findTimelineByUid(user.getRole(),
-                                        user.getUid(), designType, limit,
-                                        since_time, max_time))
-        );
+
+        Set<Project> projects = projServ.findTimelineByUid(user.getRole(),
+                user.getUid(), designType, limit,
+                since_time, max_time);
+
+        Collection<ProjectVo> vos = projServ.toVo(projects);
+
+        return ok(vos);
     }
 
     /**

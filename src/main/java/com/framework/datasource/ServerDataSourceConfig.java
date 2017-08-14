@@ -18,7 +18,7 @@ import java.util.Properties;
  * @date 17/04/2017
  */
 @Configuration
-@PropertySource(value = "classpath:/server_jdbc.properties")
+@PropertySource(value = "classpath:/prod_jdbc.properties")
 @Profile("server")
 @EnableTransactionManagement
 public class ServerDataSourceConfig {

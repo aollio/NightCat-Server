@@ -1,7 +1,5 @@
 package com.nightcat.entity;
 
-import com.nightcat.common.utility.Util;
-
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -38,9 +36,14 @@ public class Project {
          */
         PayComplete_WaitDesign,
         /**
-         * 设计完成后, 由雇主进行确认设计完成. 等待评价项目. 这时将款项转给设计师账户
+         * 设计完成后, 等待设计师交付
          */
-        DesignComplete_WaitComment,
+        DesignComplete_WaitHarvest,
+
+        /**
+         * 雇主收货, 等待评价项目. 这时将款项转给设计师账户
+         */
+        EmployerHarvest_WaitComment,
         /**
          * 若在设计过程中, 雇主和设计师之间发生了无法私下协调的问题. 由平台介入协调. 称为会审
          */

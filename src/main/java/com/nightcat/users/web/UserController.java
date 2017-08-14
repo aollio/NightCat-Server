@@ -1,7 +1,7 @@
 package com.nightcat.users.web;
 
 import com.nightcat.common.Response;
-import com.nightcat.common.utility.Assert;
+import com.nightcat.utility.Assert;
 import com.framework.annotation.Authorization;
 import com.framework.annotation.CurrentUser;
 import com.framework.annotation.EnumParam;
@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 
 import static com.nightcat.common.constant.HttpStatus.*;
-import static com.nightcat.common.utility.Util.emptyStr;
-import static com.nightcat.common.utility.Util.now;
+import static com.nightcat.utility.Util.emptyStr;
+import static com.nightcat.utility.Util.now;
 
 @RestController
 @RequestMapping("/users")
@@ -107,6 +107,15 @@ public class UserController {
     @Authorization
     public Response show(String uid) {
         UserVo target = userService.findById(uid);
+        Assert.notNull(target, BAD_REQUEST, "用户不存在");
+        return Response.ok(target);
+    }
+
+    @GetMapping("/show_accid")
+    @Authorization
+    public Response showAccid(String accid) {
+        Assert.strExist(accid, BAD_REQUEST, "accid 不存在");
+        UserVo target = userService.findByAccid(accid);
         Assert.notNull(target, BAD_REQUEST, "用户不存在");
         return Response.ok(target);
     }

@@ -1,4 +1,4 @@
-package com.nightcat.common.utility.wangyi;
+package com.nightcat.utility.wangyi;
 import java.security.MessageDigest;
 import java.util.Random;
 

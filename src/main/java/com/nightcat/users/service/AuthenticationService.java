@@ -1,6 +1,6 @@
 package com.nightcat.users.service;
 
-import com.nightcat.common.utility.Util;
+import com.nightcat.utility.Util;
 import com.nightcat.entity.User;
 import com.nightcat.entity.UserAuthentication;
 import com.nightcat.repository.UserAuthenticationRepository;

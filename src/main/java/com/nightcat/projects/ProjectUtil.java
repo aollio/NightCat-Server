@@ -17,9 +17,15 @@ public class ProjectUtil {
             case DesignerConfirm_WaitModify:
                 return true;
 
+            case DesignerModify_WaitPay:
+                return true;
+
+            case EmployerHarvest_WaitComment:
+                return false;
+
             case PayComplete_WaitDesign:
                 return false;
-            case DesignComplete_WaitComment:
+            case DesignComplete_WaitHarvest:
                 return false;
             case Complete:
                 return false;

@@ -1,7 +1,7 @@
 package com.nightcat.users.service;
 
 import com.nightcat.common.constant.Constant;
-import com.nightcat.common.utility.Util;
+import com.nightcat.utility.Util;
 import com.nightcat.entity.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,8 +35,16 @@ public class RedisTokenService implements TokenService {
         token = uid + "_" + token;
         logger.info("create tokens. uid:" + uid + "  tokens:" + token);
         Token tokenModel = new Token(token, uid);
+
+        String oldtoken = redis.boundValueOps(uid).get();
+
+        if (oldtoken != null) {
+            redis.boundValueOps(uid).expire(Constant.TOKEN_EXPIRES_HOUR, TimeUnit.DAYS);
+            return new Token(oldtoken, uid);
+        }
+
         //set expire time
-        redis.boundValueOps(uid).set(token, Constant.TOKEN_EXPIRES_HOUR, TimeUnit.HOURS);
+        redis.boundValueOps(uid).set(token, Constant.TOKEN_EXPIRES_HOUR, TimeUnit.DAYS);
         return tokenModel;
     }
 
@@ -53,7 +61,7 @@ public class RedisTokenService implements TokenService {
             return false;
         }
 
-        redis.boundValueOps(model.getUid()).expire(Constant.TOKEN_EXPIRES_HOUR, TimeUnit.HOURS);
+        redis.boundValueOps(model.getUid()).expire(Constant.TOKEN_EXPIRES_HOUR, TimeUnit.DAYS);
         logger.info("check model is right, update the tokens expires time. uid: " + model.getUid());
         return true;
     }

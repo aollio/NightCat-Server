@@ -2,7 +2,7 @@ package com.framework.aop;
 
 import com.nightcat.common.base.BaseObject;
 import com.nightcat.common.constant.Constant;
-import com.nightcat.common.utility.Util;
+import com.nightcat.utility.Util;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
@@ -10,8 +10,8 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -49,7 +49,7 @@ public class WebLogAspect extends BaseObject {
             this.ip = request.getRemoteAddr();
             this.host = request.getRemoteHost();
             this.token = request.getHeader(Constant.AUTHORIZATION);
-            this.params = request.getParameterMap();
+            this.params = new HashMap<>(request.getParameterMap());
             if (params.containsKey("file")) {
                 params.put("file", new String[]{"文件参数"});
             }

@@ -1,8 +1,8 @@
 package com.nightcat.im.web;
 
 import com.nightcat.common.base.BaseObject;
-import com.nightcat.common.utility.Util;
-import com.nightcat.common.utility.wangyi.CheckSumBuilder;
+import com.nightcat.utility.Util;
+import com.nightcat.utility.wangyi.CheckSumBuilder;
 import com.nightcat.entity.User;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -19,7 +19,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static com.nightcat.common.utility.Util.uuid;
+import static com.nightcat.utility.Util.strExist;
+import static com.nightcat.utility.Util.uuid;
 
 @Controller
 public class ImService extends BaseObject {
@@ -61,6 +62,7 @@ public class ImService extends BaseObject {
         // 设置请求的参数
         List<NameValuePair> nvps = new ArrayList<NameValuePair>();
         nvps.add(new BasicNameValuePair("accid", uuid()));
+        if (strExist(user.getNickname())) nvps.add(new BasicNameValuePair("name", user.getNickname()));
         try {
             post.setEntity(new UrlEncodedFormEntity(nvps, "utf-8"));
         } catch (UnsupportedEncodingException e) {

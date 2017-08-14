@@ -6,8 +6,8 @@ import com.nightcat.repository.DynamicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import static com.nightcat.common.utility.Util.now;
-import static com.nightcat.common.utility.Util.uuid;
+import static com.nightcat.utility.Util.now;
+import static com.nightcat.utility.Util.uuid;
 
 @Service
 public class DynamicService {

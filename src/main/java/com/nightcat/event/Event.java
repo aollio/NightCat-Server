@@ -23,7 +23,7 @@ public enum Event {
 
     ProejectCancelByDesigner,
 
-    ProjectSelectDesigner_Project, ProjectConfirmByDesigner_Project, ProjectModifyByDesigner_Project, ProjectCommentByEmployer_ProjectComment, Event() {
+    ProjectSelectDesigner_Project, ProjectConfirmByDesigner_Project, ProjectModifyByDesigner_Project, ProjectCommentByEmployer_ProjectComment, ProjectCommitedByDesigner_Project, ProjectHarvestByEmployer_Project, Event() {
     }
 
 }

@@ -2,8 +2,8 @@ package com.nightcat.files.web;
 
 import com.nightcat.common.Response;
 import com.nightcat.common.base.BaseController;
-import com.nightcat.common.utility.Assert;
-import com.nightcat.common.utility.Util;
+import com.nightcat.utility.Assert;
+import com.nightcat.utility.Util;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.MediaType;

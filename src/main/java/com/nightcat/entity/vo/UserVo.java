@@ -1,6 +1,6 @@
 package com.nightcat.entity.vo;
 
-import com.nightcat.common.utility.Util;
+import com.nightcat.utility.Util;
 import com.nightcat.entity.DesignType;
 import com.nightcat.entity.DesignerProfile;
 import com.nightcat.entity.User;
@@ -15,6 +15,9 @@ public class UserVo {
      *
      */
     private String uid;
+
+    private String accid;
+
 
     /**
      * 昵称
@@ -303,6 +306,16 @@ public class UserVo {
     public void setOfficial_school(boolean official_school) {
         this.official_school = official_school;
     }
+
+
+    public String getAccid() {
+        return accid;
+    }
+
+    public void setAccid(String accid) {
+        this.accid = accid;
+    }
+
 
     @Override
     public String toString() {

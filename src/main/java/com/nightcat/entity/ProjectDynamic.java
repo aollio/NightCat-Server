@@ -3,7 +3,7 @@ package com.nightcat.entity;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-import static com.nightcat.common.utility.Util.now;
+import static com.nightcat.utility.Util.now;
 
 /**
  * 项目动态表

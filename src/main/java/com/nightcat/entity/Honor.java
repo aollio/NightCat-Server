@@ -12,6 +12,17 @@ public class Honor {
     private Timestamp get_time;
     private String img_url;
     private Timestamp create_time;
+    private String description;
+
+    @Basic
+    @Column(name = "description")
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     @Id
     @Column(name = "id")

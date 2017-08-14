@@ -4,8 +4,8 @@ package com.nightcat.entity;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-import static com.nightcat.common.utility.Util.now;
-import static com.nightcat.common.utility.Util.uuid;
+import static com.nightcat.utility.Util.now;
+import static com.nightcat.utility.Util.uuid;
 
 /**
  * 项目抢单表

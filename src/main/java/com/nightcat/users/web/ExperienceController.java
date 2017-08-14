@@ -1,8 +1,8 @@
 package com.nightcat.users.web;
 
 import com.nightcat.common.Response;
-import com.nightcat.common.utility.Assert;
-import com.nightcat.common.utility.Util;
+import com.nightcat.utility.Assert;
+import com.nightcat.utility.Util;
 import com.framework.annotation.Authorization;
 import com.framework.annotation.CurrentUser;
 import com.nightcat.entity.Experience;
@@ -20,7 +20,7 @@ public class ExperienceController {
 
 
     @Autowired
-    private UserExpService expService;
+    private UserExpService expServ;
 
 
     @Autowired
@@ -32,13 +32,13 @@ public class ExperienceController {
     @GetMapping
     public Response getExperience(@RequestParam String uid) {
         Assert.strExist(uid, BAD_REQUEST, "用户id不存在");
-        return Response.ok(expService.findByUid(uid));
+        return Response.ok(expServ.toVoExp(expServ.findByUid(uid)));
     }
 
     @GetMapping("/comments")
     public Response getExpComment(String id) {
         Assert.strExist(id, BAD_REQUEST, "用户经历id不存在");
-        return Response.ok(expCmtService.findByExpId(id));
+        return Response.ok(expServ.toVo(expCmtService.findByExpId(id)));
     }
 
     @PostMapping
@@ -62,7 +62,7 @@ public class ExperienceController {
         experience.setUid(user.getUid());
         experience.setCreate_time(Util.now());
 
-        expService.save(experience);
-        return Response.ok(experience);
+        expServ.save(experience);
+        return Response.ok(expServ.toVo(experience));
     }
 }

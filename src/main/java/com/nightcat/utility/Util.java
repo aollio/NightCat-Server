@@ -1,4 +1,4 @@
-package com.nightcat.common.utility;
+package com.nightcat.utility;
 
 
 import com.google.gson.Gson;
@@ -47,7 +47,6 @@ public class Util {
     public static boolean strExist(String str) {
         return !emptyStr(str);
     }
-
 
 
     public static Timestamp timeFromStr(String timestr) {
@@ -148,8 +147,6 @@ public class Util {
 
         Map<String, Object> temp = new HashMap<>();
         try {
-
-
             for (Field field : less.getClass().getDeclaredFields()) {
                 field.setAccessible(true);
                 temp.put(field.getName(), field.get(less));
@@ -163,7 +160,6 @@ public class Util {
                 }
             }
         } catch (Exception ignored) {
-
         }
     }
 

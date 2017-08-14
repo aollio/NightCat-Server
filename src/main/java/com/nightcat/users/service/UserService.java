@@ -1,8 +1,8 @@
 package com.nightcat.users.service;
 
 import com.nightcat.common.base.BaseObject;
-import com.nightcat.common.utility.Assert;
-import com.nightcat.common.utility.Util;
+import com.nightcat.utility.Assert;
+import com.nightcat.utility.Util;
 import com.nightcat.entity.DesignerProfile;
 import com.nightcat.entity.User;
 import com.nightcat.entity.vo.UserVo;
@@ -65,4 +65,11 @@ public class UserService extends BaseObject {
         return UserVo.from(user, profile);
     }
 
+    public UserVo findByAccid(String accid) {
+        User user = userRepository.findByAccid(accid);
+        if (user == null) return null;
+
+        DesignerProfile profile = profileRep.findById(user.getUid());
+        return UserVo.from(user, profile);
+    }
 }

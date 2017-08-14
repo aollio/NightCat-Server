@@ -16,6 +16,5 @@ public class Constant {
 
     public static int TOKEN_EXPIRES_HOUR = 240;
 
-
-    public static int DEFAULT_LIMIT = 20;
+    public static int DEFAULT_LIMIT = 200;
 }
