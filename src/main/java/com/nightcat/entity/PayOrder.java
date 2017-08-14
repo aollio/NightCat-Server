@@ -11,8 +11,12 @@ public class PayOrder {
     private String id;
     private String uid;
 
-    private BigDecimal AMOUNT_TOPAY;
-    private BigDecimal PRICE;
+
+
+
+
+    private int AMOUNT_TOPAY;
+    private int PRICE;
     private Timestamp DATE;
     private String EVENT;
     private String STATUS;
@@ -21,6 +25,23 @@ public class PayOrder {
     private String ORDER_NO;
     private String PAY_TYPE;
     private int ISDEL;
+
+
+    public int getAMOUNT_TOPAY() {
+        return AMOUNT_TOPAY;
+    }
+
+    public void setAMOUNT_TOPAY(int AMOUNT_TOPAY) {
+        this.AMOUNT_TOPAY = AMOUNT_TOPAY;
+    }
+
+    public int getPRICE() {
+        return PRICE;
+    }
+
+    public void setPRICE(int PRICE) {
+        this.PRICE = PRICE;
+    }
 
     @Id
     @Column(name = "id")
@@ -42,21 +63,6 @@ public class PayOrder {
         this.uid = uid;
     }
 
-    public BigDecimal getAMOUNT_TOPAY() {
-        return AMOUNT_TOPAY;
-    }
-
-    public void setAMOUNT_TOPAY(BigDecimal AMOUNT_TOPAY) {
-        this.AMOUNT_TOPAY = AMOUNT_TOPAY;
-    }
-
-    public BigDecimal getPRICE() {
-        return PRICE;
-    }
-
-    public void setPRICE(BigDecimal PRICE) {
-        this.PRICE = PRICE;
-    }
 
     public Timestamp getDATE() {
         return DATE;
@@ -121,6 +127,8 @@ public class PayOrder {
     public void setISDEL(int ISDEL) {
         this.ISDEL = ISDEL;
     }
+
+
 
 
 }
