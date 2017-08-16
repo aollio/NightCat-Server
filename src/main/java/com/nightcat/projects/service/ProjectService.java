@@ -48,10 +48,9 @@ public class ProjectService extends BaseObject {
             return projRep.findByTypeAndUid(uid, type, limit, since_time, max_time);
         }
         if (role == User.Role.DESIGNER) {
-            Set<Project> projects = new HashSet<>();
+            List<Project> projects = new LinkedList<>();
             //todo 可能会造成重复
             projects.addAll(projRep.findByBidder(uid));
-
             bidderRep.findByUid(uid).forEach(bidder -> {
                 Project project = projRep.findById(bidder.getProj_id());
                 //todo 只要是竞标的都返回
