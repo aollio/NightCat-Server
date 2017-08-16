@@ -20,10 +20,10 @@ import static com.nightcat.common.constant.HttpStatus.BAD_REQUEST;
 public class TokenController {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserRepository userRep;
 
     @Autowired
-    private TokenService tokenService;
+    private TokenService tokenServ;
 
     /**
      * 登陆, 返回TOKEN，缺少必选参数时，返回400HTTP状态码Status
@@ -39,14 +39,14 @@ public class TokenController {
 
         User user;
         Token tokenModel;
-        user = userRepository.findByPhone(phone);
+        user = userRep.findByPhone(phone);
 
         //check user password
         Assert.notNull(user, BAD_REQUEST, "用户不存在");
         Assert.equals(user.getPassword(), password, BAD_REQUEST, "密码不正确");
 
 
-        tokenModel = tokenService.createToken(user.getUid());
+        tokenModel = tokenServ.createToken(user.getUid());
         return Response.ok(tokenModel);
     }
 
