@@ -4,6 +4,7 @@ import com.nightcat.common.Response;
 import com.nightcat.common.base.BaseController;
 import com.nightcat.utility.Assert;
 import com.nightcat.utility.Util;
+import com.nightcat.vo.VoService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.MediaType;
@@ -66,4 +67,8 @@ public class FilesController extends BaseController {
         return new FileSystemResource(file);
     }
 
+    @Override
+    protected VoService getVoService() {
+        return null;
+    }
 }

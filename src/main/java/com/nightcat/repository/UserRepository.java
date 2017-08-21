@@ -12,19 +12,48 @@ public class UserRepository extends AbstractRepository<User> {
 
 
     public User findByPhone(String phone) {
-        List<User> users = findBy("phone", phone);
+        List<User> users = query().phone(phone).list();
         if (users.size() == 0) {
             return null;
         } else return users.get(0);
     }
 
     public User findByAccid(String accid) {
-        Criteria criteria = getCriteria();
-        criteria.add(Restrictions.eq("accid", accid));
-        List<User> users = criteria.list();
-        if (users == null || users.size() == 0) {
-            return null;
-        }
+        List<User> users = query().accid(accid).list();
+        if (users == null || users.size() == 0) return null;
         return users.get(0);
+    }
+
+    public List<User> findByLnickname(String nickname) {
+        return query().l_nickname(nickname).list();
+    }
+
+    @Override
+    protected UserQuery query() {
+        return new UserQuery(getCriteria());
+    }
+
+    public static class UserQuery extends Query<User, UserQuery> {
+
+        UserQuery(Criteria criteria) {
+            super(criteria, new UserQuery(criteria));
+        }
+
+        UserQuery l_nickname(String nickname) {
+            like("nickname", nickname);
+            return this;
+        }
+
+        UserQuery accid(String accid) {
+            eq("accid", accid);
+            return this;
+        }
+
+        UserQuery phone(String phone) {
+            eq("phone", phone);
+            return this;
+        }
+
+
     }
 }

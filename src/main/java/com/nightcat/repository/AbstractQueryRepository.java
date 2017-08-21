@@ -1,11 +1,13 @@
 package com.nightcat.repository;
 
 import com.nightcat.common.CatException;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import com.nightcat.common.base.BaseObject;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,9 +23,7 @@ import static com.nightcat.common.ErrorCode.SYSTEM_PERSISTENT_INCORRECT_KEY;
  * Created by finderlo on 16-12-17.
  */
 @Transactional
-public abstract class AbstractReadDao<T> {
-
-    protected Logger logger = LogManager.getLogger(this.getClass());
+public abstract class AbstractQueryRepository<T> extends BaseObject {
 
     @Autowired
     protected SessionFactory sessionFactory;
@@ -42,18 +42,17 @@ public abstract class AbstractReadDao<T> {
         List<T> tList = session.createQuery("from " + bindClassName()).list();
 
         if (tList == null) {
-            logger.info("findAll:MessageType:'" + this.getClass().getSimpleName() + "'" + "findByPhone null");
             return new ArrayList<T>();
         }
         return sort(tList);
     }
 
     public List<T> findBy(String[] keys, String[] values) {
-        return findBy(keys, values, false);
+        return findBy(keys, values, true);
     }
 
     public List<T> findBy(String key, String value) {
-        return findBy(new String[]{key}, new String[]{value}, false);
+        return findBy(new String[]{key}, new String[]{value}, true);
     }
 
     public List<T> findBy(String key, String value, boolean isLikeQuery) {
@@ -61,37 +60,33 @@ public abstract class AbstractReadDao<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public List<T> findBy(String[] keys, String[] values, boolean isLikeQuery) {
+    public List<T> findBy(String[] keys, Object[] values, boolean isLikeQuery) {
 
         if (keys == null || values == null || keys.length == 0 || values.length == 0) {
-            logger.info("findBy: return empty list");
             return new ArrayList<T>();
         }
         int length = keys.length <= values.length ? keys.length : values.length;
-        int enableCount = 0;
         for (int i = 0; i < length; i++) {
             if (!bindKeys().contains(keys[i])) {
                 throw new CatException(SYSTEM_PERSISTENT_INCORRECT_KEY);
             }
         }
 
-        String hql = jointLikeQuery(keys, values, isLikeQuery);
+        Query<T, ? extends Query> query = query();
 
-        if (hql == null) {
-            logger.info("findBy: return empty list");
-            return new ArrayList<T>();
+        for (int i = 0; i < length; i++) {
+            //参数判断关键词匹配
+            if (keys[i] == null || keys[i].trim().equals("") || values[i] == null) {
+                continue;
+            }
+            if (isLikeQuery) {
+                query.like(keys[i], values[i]);
+            } else {
+                query.eq(keys[i], values[i]);
+            }
         }
 
-        Session session = sessionFactory.getCurrentSession();
-
-        List<T> result = session.createQuery(hql).list();
-        StringBuilder builder = new StringBuilder();
-        builder.append("findBy: ")
-                .append(" args: keys: " + Arrays.toString(keys))
-                .append(" values: " + Arrays.toString(values))
-                .append(" likeQuery: " + isLikeQuery)
-                .append(" return size: " + result);
-        logger.info(builder.toString());
+        List<T> result = query.list();
         return sort(result);
     }
 
@@ -107,59 +102,30 @@ public abstract class AbstractReadDao<T> {
         if (id == null || id.trim().equals("")) {
             return null;
         }
+
         HashMap<String, String> idAndValue = new HashMap<>();
         idAndValue.put(getId(), id);
         return findByIds(idAndValue);
     }
 
+    @SuppressWarnings("unchecked")
     public T findByIds(Map<String, String> idAndValues) {
         Session session = sessionFactory.getCurrentSession();
         String hql = jointHqlByIdsQuery(idAndValues);
-        List<T> tList = session.createQuery(hql).list();
+        org.hibernate.Query query = session.createQuery(hql);
+        int i = 0;
+        for (Map.Entry<String, String> entry : idAndValues.entrySet()) {
+            String value = entry.getValue().trim();
+            query.setString(i, value);
+            i++;
+        }
+        List<T> tList = query.list();
         if (tList.isEmpty()) {
-            logger.error("tlist is empty");
             return null;
         }
-        logger.info(tList.get(0));
         return tList.get(0);
     }
 
-    private String jointLikeQuery(String[] keys, String[] values, boolean isLikeQuery) {
-//        String hql = " from UserEntity e where e.usersName like 'xiao%' and e.usersPassword like 'psd%'";
-        String head = "from " + bindClassName();
-
-        int length = keys.length <= values.length ? keys.length : values.length;
-        int enableCount = 0;
-
-        StringBuilder hqlbuilder = new StringBuilder(head);
-        boolean isFirst = true;
-        for (int i = 0; i < length; i++) {
-            if (keys[i] == null || keys[i].trim().equals("") || values[i] == null || values[i].trim().equals("")) {
-                continue;
-            }
-            if (!isFirst) {
-                hqlbuilder.append(" and ");
-            } else {
-                hqlbuilder.append(" e where ");
-                isFirst = false;
-            }
-            hqlbuilder.append("e.");
-            hqlbuilder.append(keys[i]);
-            if (isLikeQuery) {
-                hqlbuilder.append(" like ");
-                values[i] = "%" + values[i] + "%";
-            } else {
-                hqlbuilder.append(" =");
-            }
-            hqlbuilder.append("'").append(values[i]).append("'");
-            enableCount++;
-        }
-        if (enableCount == 0) {
-            return null;
-        }
-        System.out.println(hqlbuilder.toString());
-        return hqlbuilder.toString();
-    }
 
     private String jointHqlByIdsQuery(Map<String, String> idAndValues) {
 
@@ -174,7 +140,7 @@ public abstract class AbstractReadDao<T> {
             } else {
                 isFirst = false;
             }
-            hqlbuilder.append(" e.").append(key).append("=").append("'").append(value).append("'");
+            hqlbuilder.append(" e.").append(key).append("= ?");
         }
         return hql + hqlbuilder.toString();
     }
@@ -188,17 +154,6 @@ public abstract class AbstractReadDao<T> {
             findIds();
         }
         return ids;
-    }
-
-    public Criteria getCriteria() {
-        return sessionFactory.getCurrentSession().createCriteria(bindClass());
-    }
-
-    public Criteria getCriteria(int limit) {
-        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(bindClass());
-        criteria.setFirstResult(0);
-        criteria.setMaxResults(limit);
-        return criteria;
     }
 
     protected String getId() {
@@ -261,4 +216,85 @@ public abstract class AbstractReadDao<T> {
         }
         return findBy(key, val, likeQuery);
     }
+
+    public Criteria getCriteria() {
+        return sessionFactory.getCurrentSession().createCriteria(bindClass());
+    }
+
+    public Criteria getCriteria(int limit) {
+        Criteria criteria = sessionFactory.getCurrentSession().createCriteria(bindClass());
+        criteria.setFirstResult(0);
+        criteria.setMaxResults(limit);
+        return criteria;
+    }
+
+
+    //todo
+    protected Query<T, ? extends Query> query() {
+        return new Query<T, Query>(getCriteria(), new Query(getCriteria()));
+    }
+
+    public static class Query<ENTITY, RETURN extends Query> {
+
+        protected Criteria criteria = null;
+
+        protected RETURN query;
+
+        public Query(Criteria criteria) {
+            this(criteria, null);
+        }
+
+        public Query(Criteria criteria, RETURN query) {
+            this.query = query;
+            if (query != null) {
+                query.criteria = criteria;
+            }
+        }
+
+        public RETURN page(int page) {
+            if (page >= 0)
+                query.criteria.setFirstResult(page);
+            return query;
+        }
+
+        public RETURN limit(int limit) {
+            if (limit > 0)
+                query.criteria.setMaxResults(limit);
+            return query;
+        }
+
+        public RETURN add(Criterion condition) {
+            query.criteria.add(condition);
+            return query;
+        }
+
+        public RETURN eq(String key, Object value) {
+            query.criteria.add(Restrictions.eq(key, value));
+            return query;
+        }
+
+        public RETURN like(String key, Object value) {
+            query.criteria.add(Restrictions.like(key, value));
+            return query;
+        }
+
+        public RETURN desc(String key) {
+            query.criteria.addOrder(Order.desc(key));
+            return query;
+        }
+
+        public RETURN between(String key, Object low, Object high) {
+            query.criteria.add(Restrictions.between(key, low, high));
+            return query;
+        }
+
+
+        @SuppressWarnings("unchecked")
+        public List<ENTITY> list() {
+            return query.criteria.list();
+        }
+
+
+    }
+
 }

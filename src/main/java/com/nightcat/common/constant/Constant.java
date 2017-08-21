@@ -1,6 +1,8 @@
 package com.nightcat.common.constant;
 
 
+import java.util.Random;
+
 /**
  * @author finderlo
  * @date 21/04/2017
@@ -17,4 +19,10 @@ public class Constant {
     public static int TOKEN_EXPIRES_HOUR = 240;
 
     public static int DEFAULT_LIMIT = 200;
+
+    public static Random random = new Random(47);
+
+    public static String randomAvatar() {
+        return random.nextBoolean() ? "http://image.aollio.com/9_05.png" : "http://image.aollio.com/10_03.png";
+    }
 }

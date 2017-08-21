@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "ym_projects")
-public class Project {
+public class Project extends EntityModel {
 
 
     /**
@@ -176,6 +176,22 @@ public class Project {
 
     private String cancel_reason;
 
+    private Timestamp update_time;
+
+
+    @Basic
+    @Column(name = "update_time")
+    public Timestamp getUpdate_time() {
+        return update_time;
+    }
+
+    public void setUpdate_time(Timestamp update_time) {
+        this.update_time = update_time;
+    }
+
+    public void setGrab_count(int grab_count) {
+        this.grab_count = grab_count;
+    }
 
     @Basic
     @Column(name = "cancel_reason")
@@ -424,7 +440,7 @@ public class Project {
     }
 
     @Basic
-    @Column(name = "del", length = 2)
+    @Column(name = "is_del", length = 2)
     public boolean isDel() {
         return del;
     }

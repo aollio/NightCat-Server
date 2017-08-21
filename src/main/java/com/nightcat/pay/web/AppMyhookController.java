@@ -1,6 +1,7 @@
 package com.nightcat.pay.web;
 
 import com.nightcat.common.base.BaseController;
+import com.nightcat.vo.VoService;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -78,4 +79,8 @@ public class AppMyhookController extends BaseController{
         return false;
     }
 
+    @Override
+    protected VoService getVoService() {
+        return null;
+    }
 }

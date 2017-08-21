@@ -1,6 +1,6 @@
 package com.nightcat.users.service;
 
-import com.nightcat.entity.ExpComment;
+import com.nightcat.entity.UserExpComment;
 import com.nightcat.repository.ExpCommentRepository;
 import org.hibernate.Criteria;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,32 +12,33 @@ import java.util.List;
 public class ExpCommentService {
 
     @Autowired
-    private ExpCommentRepository cmtRepository;
+    private ExpCommentRepository commentRep;
 
-    public List<ExpComment>findByExpId(String expId){
-        return cmtRepository.findByExpId(expId);
-    }
-    public void save(ExpComment expComment) {
-        cmtRepository.save(expComment);
+    public List<UserExpComment> findByExpId(String expId) {
+        return commentRep.findByExpId(expId);
     }
 
-    public void saveOrUpdate(ExpComment expComment) {
-        cmtRepository.saveOrUpdate(expComment);
+    public void save(UserExpComment userExpComment) {
+        commentRep.save(userExpComment);
     }
 
-    public void update(ExpComment expComment) {
-        cmtRepository.update(expComment);
+    public void saveOrUpdate(UserExpComment userExpComment) {
+        commentRep.saveOrUpdate(userExpComment);
     }
 
-    public ExpComment findById(String id) {
-        return cmtRepository.findById(id);
+    public void update(UserExpComment userExpComment) {
+        commentRep.update(userExpComment);
+    }
+
+    public UserExpComment findById(String id) {
+        return commentRep.findById(id);
     }
 
     public Criteria getCriteria() {
-        return cmtRepository.getCriteria();
+        return commentRep.getCriteria();
     }
 
     public Criteria getCriteria(int limit) {
-        return cmtRepository.getCriteria(limit);
+        return commentRep.getCriteria(limit);
     }
 }

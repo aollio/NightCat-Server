@@ -11,7 +11,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "system_timing_message")
-public class Task {
+public class Task extends EntityModel {
 
 
     private String id;

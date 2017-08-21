@@ -1,4 +1,4 @@
-package com.nightcat.entity.vo;
+package com.nightcat.vo.model;
 
 import java.sql.Timestamp;
 

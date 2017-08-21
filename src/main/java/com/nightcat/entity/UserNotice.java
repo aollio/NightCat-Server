@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "ym_user_notice")
-public class Notice {
+public class UserNotice extends EntityModel {
 
 
     public enum Type {
@@ -35,10 +35,10 @@ public class Notice {
     private Type type;
     private boolean del;
 
-    public Notice() {
+    public UserNotice() {
     }
 
-    public Notice(String id, String content, String uid, Timestamp create_time, boolean read, Type type, boolean del) {
+    public UserNotice(String id, String content, String uid, Timestamp create_time, boolean read, Type type, boolean del) {
         this.id = id;
         this.content = content;
         this.uid = uid;
@@ -126,7 +126,7 @@ public class Notice {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Notice that = (Notice) o;
+        UserNotice that = (UserNotice) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (content != null ? !content.equals(that.content) : that.content != null) return false;

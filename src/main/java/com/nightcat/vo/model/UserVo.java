@@ -1,4 +1,4 @@
-package com.nightcat.entity.vo;
+package com.nightcat.vo.model;
 
 import com.nightcat.utility.Util;
 import com.nightcat.entity.DesignType;
@@ -113,15 +113,10 @@ public class UserVo {
      */
     private boolean official_school;
 
-    private UserVo() {
+    public UserVo() {
     }
 
-    public static UserVo from(User user, DesignerProfile profile) {
-        UserVo userVo = new UserVo();
-        Util.less2more(user, userVo);
-        Util.less2more(profile, userVo);
-        return userVo;
-    }
+
 
     public String getUid() {
         return uid;

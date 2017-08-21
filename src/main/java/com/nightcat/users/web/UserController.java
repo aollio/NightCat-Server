@@ -1,6 +1,8 @@
 package com.nightcat.users.web;
 
 import com.nightcat.common.Response;
+import com.nightcat.common.base.BaseController;
+import com.nightcat.users.service.UserExpService;
 import com.nightcat.utility.Assert;
 import com.framework.annotation.Authorization;
 import com.framework.annotation.CurrentUser;
@@ -8,7 +10,7 @@ import com.framework.annotation.EnumParam;
 import com.nightcat.entity.DesignType;
 import com.nightcat.entity.DesignerProfile;
 import com.nightcat.entity.User;
-import com.nightcat.entity.vo.UserVo;
+import com.nightcat.vo.VoService;
 import com.nightcat.users.service.DesignerProfileService;
 import com.nightcat.users.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,19 +24,25 @@ import static com.nightcat.utility.Util.now;
 
 @RestController
 @RequestMapping("/users")
-public class UserController {
+public class UserController extends BaseController {
 
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private DesignerProfileService profileService;
 
     @Autowired
-    private DesignerProfileService designerService;
+    private VoService voService;
+
+    @Autowired
+    private UserExpService expService;
 
     /**
      * 注册一个用户
      */
     @PostMapping
+
     public Response register(
             @RequestParam String nickname,
             @RequestParam String password,
@@ -43,7 +51,7 @@ public class UserController {
             @RequestParam(name = "img_url", required = false) String img_url) {
 
         Assert.strExist(nickname, BAD_REQUEST, "nickname is null");
-        Assert.strExist(password, BAD_REQUEST, "passowrd is null");
+        Assert.strExist(password, BAD_REQUEST, "password is null");
         Assert.strExist(phone, BAD_REQUEST, "phone is null");
 
         User user = new User();
@@ -55,7 +63,7 @@ public class UserController {
 
         userService.save(user);
 
-        return Response.ok(user);
+        return okVo(user);
     }
 
     /**
@@ -81,7 +89,7 @@ public class UserController {
             userService.update(user);
         }
 
-        DesignerProfile profile = designerService.findById(user.getUid());
+        DesignerProfile profile = profileService.findById(user.getUid());
         if (profile == null) {
             //用户详情不存在, 创建一个新的记录
             profile = new DesignerProfile();
@@ -96,8 +104,9 @@ public class UserController {
         if (hourly_wage.equals(BigDecimal.ZERO)) profile.setHourly_wage(hourly_wage);
         profile.setType(type);
         if (!emptyStr(summary)) profile.setSummary(summary);
-        designerService.saveOrUpdate(profile);
-        return Response.ok(profile);
+        profileService.saveOrUpdate(profile);
+
+        return okVo(profile);
     }
 
     /**
@@ -106,18 +115,28 @@ public class UserController {
     @GetMapping("/show")
     @Authorization
     public Response show(String uid) {
-        UserVo target = userService.findById(uid);
+        User target = userService.findById(uid);
         Assert.notNull(target, BAD_REQUEST, "用户不存在");
-        return Response.ok(target);
+        return okVo(target);
     }
 
     @GetMapping("/show_accid")
     @Authorization
     public Response showAccid(String accid) {
         Assert.strExist(accid, BAD_REQUEST, "accid 不存在");
-        UserVo target = userService.findByAccid(accid);
+        User target = userService.findByAccid(accid);
         Assert.notNull(target, BAD_REQUEST, "用户不存在");
-        return Response.ok(target);
+        return okVo(target);
     }
 
+    @GetMapping("/comments")
+    @Authorization
+    public Response showComments(@CurrentUser User user) {
+        return okVo(expService.findByUid(user.getUid()));
+    }
+
+    @Override
+    protected VoService getVoService() {
+        return voService;
+    }
 }

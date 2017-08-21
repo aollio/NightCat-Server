@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "ym_project_images")
-public class ProjectImage {
+public class ProjectImage extends EntityModel {
 
     private String id;
     private String proj_id;

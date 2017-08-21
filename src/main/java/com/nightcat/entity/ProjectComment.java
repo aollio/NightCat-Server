@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "ym_project_comments")
-public class ProjectComment {
+public class ProjectComment extends EntityModel{
 
    public enum Type {
         Bad, General, Good
@@ -77,7 +77,7 @@ public class ProjectComment {
     }
 
     @Basic
-    @Column(name = "employer")
+    @Column(name = "is_employer")
     public boolean isEmployer() {
         return employer;
     }

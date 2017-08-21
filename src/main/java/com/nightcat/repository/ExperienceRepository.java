@@ -1,6 +1,6 @@
 package com.nightcat.repository;
 
-import com.nightcat.entity.Experience;
+import com.nightcat.entity.UserExperience;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -8,12 +8,13 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class ExperienceRepository extends AbstractRepository<Experience> {
+@SuppressWarnings("unchecked")
+public class ExperienceRepository extends AbstractRepository<UserExperience> {
 
-    public List<Experience> findByUid(String uid) {
-        Criteria criteria = getCriteria();
-        criteria.add(Restrictions.eq("uid", uid));
-        return criteria.list();
+    public List<UserExperience> findByUid(String uid) {
+        return query()
+                .add(Restrictions.eq("uid", uid))
+                .list();
     }
 
 }

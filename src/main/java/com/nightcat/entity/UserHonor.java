@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "ym_user_honor")
-public class Honor {
+public class UserHonor extends EntityModel {
     private String id;
     private String uid;
     private String name;
@@ -89,7 +89,7 @@ public class Honor {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Honor that = (Honor) o;
+        UserHonor that = (UserHonor) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (uid != null ? !uid.equals(that.uid) : that.uid != null) return false;

@@ -1,9 +1,7 @@
-package com.nightcat.entity.vo;
+package com.nightcat.vo.model;
 
-import com.nightcat.utility.Util;
 import com.nightcat.entity.DesignType;
 import com.nightcat.entity.Project;
-import com.nightcat.entity.ProjectImage;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;

@@ -52,6 +52,7 @@ public class AuthenticationService {
         position_auth.setStatus(UserAuthentication.Status.Comfirming);
         position_auth.setType(UserAuthentication.Type.Position);
         position_auth.setCreate_time(Util.now());
+        position_auth.setId(Util.uuid());
 
         authRepository.save(position_auth);
 
@@ -63,8 +64,10 @@ public class AuthenticationService {
         school_auth.setStatus(UserAuthentication.Status.Comfirming);
         school_auth.setType(UserAuthentication.Type.School);
         school_auth.setCreate_time(Util.now());
+        school_auth.setId(Util.uuid());
 
         authRepository.save(school_auth);
+
     }
 
     public void saveOrUpdate(UserAuthentication userAuthentication) {
@@ -79,9 +82,6 @@ public class AuthenticationService {
         authRepository.update(userAuthentication);
     }
 
-    public List<UserAuthentication> sort(List<UserAuthentication> T) {
-        return authRepository.sort(T);
-    }
 
     public List<UserAuthentication> findAll() {
         return authRepository.findAll();
@@ -105,14 +105,6 @@ public class AuthenticationService {
 
     public UserAuthentication findById(String id) {
         return authRepository.findById(id);
-    }
-
-    public UserAuthentication findByIds(Map<String, String> idAndValues) {
-        return authRepository.findByIds(idAndValues);
-    }
-
-    public List<UserAuthentication> findBy(Map<String, String> attr, boolean likeQuery) {
-        return authRepository.findBy(attr, likeQuery);
     }
 
 

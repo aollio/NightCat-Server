@@ -1,8 +1,8 @@
 package com.nightcat.notice.service;
 
 import com.nightcat.common.CatException;
-import com.nightcat.entity.Notice;
-import com.nightcat.entity.vo.NoticeVo;
+import com.nightcat.entity.UserNotice;
+import com.nightcat.vo.model.NoticeVo;
 import com.nightcat.repository.NoticeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,22 +18,22 @@ import static com.nightcat.utility.Util.uuid;
 public class NoticeService {
 
     @Autowired
-    private NoticeRepository noticeRepository;
+    private NoticeRepository notiRep;
 
     public NoticeSender sender() {
-        return new NoticeSender(noticeRepository);
+        return new NoticeSender(notiRep);
     }
 
-    public List<Notice> findByUid(String uid) {
-        return noticeRepository.findByUid(uid);
+    public List<UserNotice> findByUid(String uid) {
+        return notiRep.findByUid(uid);
     }
 
 
-    public NoticeVo toVo(Notice notice) {
-        return NoticeVo.from(notice);
+    public NoticeVo toVo(UserNotice userNotice) {
+        return NoticeVo.from(userNotice);
     }
 
-    public List<NoticeVo> toVo(List<Notice> result) {
+    public List<NoticeVo> toVo(List<UserNotice> result) {
         List<NoticeVo> vos = new LinkedList<>();
         result.forEach(e -> vos.add(NoticeVo.from(e)));
         return vos;
@@ -47,7 +47,7 @@ public class NoticeService {
         private String uid;
         private Timestamp create_time = now();
         private boolean read = false;
-        private Notice.Type type;
+        private UserNotice.Type type;
         private boolean del = false;
 
         private NoticeRepository noticeRep;
@@ -67,7 +67,7 @@ public class NoticeService {
         }
 
 
-        public NoticeSender type(Notice.Type type) {
+        public NoticeSender type(UserNotice.Type type) {
             this.type = type;
             return this;
         }
@@ -86,10 +86,10 @@ public class NoticeService {
                 throw new CatException("NoticeSender content must be exist");
             }
 
-            Notice notice = new Notice(id, content, uid,
+            UserNotice userNotice = new UserNotice(id, content, uid,
                     create_time, read, type, del);
 
-            this.noticeRep.save(notice);
+            this.noticeRep.save(userNotice);
         }
     }
 

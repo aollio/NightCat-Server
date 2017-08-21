@@ -3,11 +3,8 @@ package com.nightcat.repository;
 import com.nightcat.entity.DesignType;
 import com.nightcat.entity.Project;
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
@@ -22,31 +19,46 @@ public class ProjectRepository extends AbstractRepository<Project> {
     /**
      * 查询方法 只查询状态为发布状态
      */
-    public List<Project> findByType(DesignType type, int limit, Timestamp since_time, Timestamp max_time) {
-        Criteria criteria = getCriteriaWithTimeAndType(type, limit, since_time, max_time);
-        criteria.add(Restrictions.eq("status", Project.Status.Publish));
-        return (List<Project>) criteria.list();
+    public List<Project> findByType(DesignType type,
+                                    int limit, Timestamp since_time, Timestamp max_time) {
+        return query(type, limit, since_time, max_time)
+                .status(Project.Status.Publish)
+                .list();
     }
 
 
     public List<Project> findByTypeAndUid(String uid, DesignType type, int limit, Timestamp since_time, Timestamp max_time) {
-        Criteria criteria = getCriteriaWithTimeAndType(type, limit, since_time, max_time);
-        criteria.add(Restrictions.eq("create_by", uid));
-        criteria.addOrder(Order.desc("create_time"));
-        return (List<Project>) criteria.list();
+        return query(type, limit, since_time, max_time).create_by(uid).list();
+    }
+
+    public List<Project> findByTypeAndDesignerUid(String uid, DesignType type, int limit, Timestamp since_time, Timestamp max_time) {
+        return query(type, limit, since_time, max_time).bidder(uid).list();
+    }
+
+    public List<Project> findByBidder(String value) {
+        return query().bidder(value).list();
     }
 
     /**
      * 查询方法
      */
-    private Criteria getCriteriaWithTimeAndType(DesignType type, int limit, Timestamp since_time, Timestamp max_time) {
+    private ProjectQuery query(DesignType type, int limit, Timestamp since_time, Timestamp max_time) {
 
-        Criteria criteria = getCriteria(limit);
-        if (type != DesignType.UNDEFINDED) criteria.add(Restrictions.like("type", type));
-        criteria.add(Restrictions.between("create_time", since_time, max_time));
-        return criteria;
+        ProjectQuery query = query();
+        query
+                .page(0)
+                .desc()
+                .limit(limit)
+                .type(type)
+                .between("create_time", since_time, max_time);
+
+        return query;
     }
 
+    @Override
+    protected ProjectQuery query() {
+        return new ProjectQuery(getCriteria());
+    }
 
     public String newId() {
         Session session = sessionFactory.getCurrentSession();
@@ -89,16 +101,42 @@ public class ProjectRepository extends AbstractRepository<Project> {
         }
     }
 
-    public List<Project> findByTypeAndDesignerUid(String uid, DesignType type, int limit, Timestamp since_time, Timestamp max_time) {
-        Criteria criteria = getCriteriaWithTimeAndType(type, limit, since_time, max_time);
-        criteria.add(Restrictions.eq("bidder", uid));
-        return (List<Project>) criteria.list();
+
+    public class ProjectQuery extends Query<Project, ProjectQuery> {
+
+        ProjectQuery(Criteria criteria) {
+            super(criteria, new ProjectQuery(criteria));
+        }
+
+
+        ProjectQuery type(DesignType type) {
+            if (type != DesignType.UNDEFINDED)
+                eq("type", type);
+            return this;
+        }
+
+        ProjectQuery bidder(String uid) {
+            eq("bidder", uid);
+            return this;
+        }
+
+        ProjectQuery create_by(String uid) {
+            eq("create_by", uid);
+            return this;
+        }
+
+        ProjectQuery status(Project.Status status) {
+            eq("status", status);
+            return this;
+        }
+
+
+        ProjectQuery desc() {
+            desc("create_time");
+            return this;
+        }
+
+
     }
 
-    public List<Project> findByBidder(String value) {
-        Criteria criteria = getCriteria();
-        criteria.add(Restrictions.eq("bidder", value));
-        criteria.addOrder(Order.desc("create_time"));
-        return (List<Project>) criteria.list();
-    }
 }

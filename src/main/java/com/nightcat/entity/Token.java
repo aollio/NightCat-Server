@@ -6,8 +6,8 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "ym_users_token", schema = "nightcat", catalog = "")
-public class Token {
+@Table(name = "ym_users_token")
+public class Token extends EntityModel {
     private String token;
     private String uid;
     private Timestamp last_active_time;
@@ -21,7 +21,7 @@ public class Token {
     }
 
     @Id
-    @Column(name = "tokens")
+    @Column(name = "token")
     public String getToken() {
         return token;
     }

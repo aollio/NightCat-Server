@@ -1,13 +1,12 @@
 package com.nightcat.users.service;
 
 import com.nightcat.common.base.BaseObject;
+import com.nightcat.common.constant.Constant;
 import com.nightcat.utility.Assert;
 import com.nightcat.utility.Util;
 import com.nightcat.entity.DesignerProfile;
 import com.nightcat.entity.User;
-import com.nightcat.entity.vo.UserVo;
 import com.nightcat.im.web.ImService;
-import com.nightcat.repository.DesignerProfileRepository;
 import com.nightcat.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,57 +18,74 @@ public class UserService extends BaseObject {
 
 
     @Autowired
-    private UserRepository userRepository;
+    private UserRepository userRep;
 
     @Autowired
-    private DesignerProfileRepository profileRep;
+    private DesignerProfileService profileServ;
 
     @Autowired
     private ImService imServ;
 
     public void save(User user) {
-        User olduser = userRepository.findByPhone(user.getPhone());
+        User olduser = userRep.findByPhone(user.getPhone());
         Assert.isNull(olduser, BAD_REQUEST, "手机号已被使用");
 
         user.setUid(Util.uuid());
+
         if (imServ.registerIm(user)) {
             logger.error("注册nim失败");
         }
-        userRepository.save(user);
+
+        if (user.getImg_url() == null) {
+            user.setImg_url(Constant.randomAvatar());
+        }
+
+        if (user.getRole() == User.Role.DESIGNER) {
+            saveDesigner(user);
+        }
+
+        userRep.save(user);
+    }
+
+    private void saveDesigner(User user) {
+        DesignerProfile profile = new DesignerProfile();
+        profile.setUid(user.getUid());
+        profileServ.save(profile);
     }
 
 
     public User findByPhone(String phone) {
-        return userRepository.findByPhone(phone);
+        return userRep.findByPhone(phone);
     }
 
     public void saveOrUpdate(User user) {
-        userRepository.saveOrUpdate(user);
+        userRep.saveOrUpdate(user);
     }
 
     public void delete(User user) {
-        userRepository.delete(user);
+        userRep.delete(user);
     }
 
     public void update(User user) {
-        userRepository.update(user);
+        userRep.update(user);
     }
 
 
-    public UserVo findById(String id) {
+    public User findById(String id) {
 
-        User user = userRepository.findById(id);
+        User user = userRep.findById(id);
         if (user == null) return null;
 
-        DesignerProfile profile = profileRep.findById(id);
-        return UserVo.from(user, profile);
+        DesignerProfile profile = profileServ.findById(id);
+        return user;
     }
 
-    public UserVo findByAccid(String accid) {
-        User user = userRepository.findByAccid(accid);
+    public User findByAccid(String accid) {
+        User user = userRep.findByAccid(accid);
         if (user == null) return null;
 
-        DesignerProfile profile = profileRep.findById(user.getUid());
-        return UserVo.from(user, profile);
+        return user;
     }
+
+
 }

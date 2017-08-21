@@ -1,46 +1,44 @@
 package com.nightcat.entity;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "ym_pay_orders", schema = "nightcat", catalog = "")
-public class PayOrder {
+@Table(name = "ym_pay_orders")
+public class PayOrder extends EntityModel {
 
     private String id;
     private String uid;
 
 
+    private int amount;
+    private int price;
+    private Timestamp create_time;
+    private String event;
+    private String status;
+    private String type;
+    private String object_id;
+    private String order_id;
+    private String pay_type;
+    private int del;
 
-
-
-    private int AMOUNT_TOPAY;
-    private int PRICE;
-    private Timestamp DATE;
-    private String EVENT;
-    private String STATUS;
-    private String TYPE;
-    private String OBJECT_ID;
-    private String ORDER_NO;
-    private String PAY_TYPE;
-    private int ISDEL;
-
-
-    public int getAMOUNT_TOPAY() {
-        return AMOUNT_TOPAY;
+    @Basic
+    @Column(name = "amount")
+    public int getAmount() {
+        return amount;
     }
 
-    public void setAMOUNT_TOPAY(int AMOUNT_TOPAY) {
-        this.AMOUNT_TOPAY = AMOUNT_TOPAY;
+    public void setAmount(int AMOUNT_TOPAY) {
+        this.amount = AMOUNT_TOPAY;
+    }
+    @Basic
+    @Column(name = "price")
+    public int getPrice() {
+        return price;
     }
 
-    public int getPRICE() {
-        return PRICE;
-    }
-
-    public void setPRICE(int PRICE) {
-        this.PRICE = PRICE;
+    public void setPrice(int PRICE) {
+        this.price = PRICE;
     }
 
     @Id
@@ -63,69 +61,83 @@ public class PayOrder {
         this.uid = uid;
     }
 
-
-    public Timestamp getDATE() {
-        return DATE;
+    @Basic
+    @Column(name = "create_time")
+    public Timestamp getCreate_time() {
+        return create_time;
     }
 
-    public void setDATE(Timestamp DATE) {
-        this.DATE = DATE;
+    public void setCreate_time(Timestamp DATE) {
+        this.create_time = DATE;
     }
 
-    public String getEVENT() {
-        return EVENT;
+    @Basic
+    @Column(name = "event")
+    public String getEvent() {
+        return event;
     }
 
-    public void setEVENT(String EVENT) {
-        this.EVENT = EVENT;
+    public void setEvent(String EVENT) {
+        this.event = EVENT;
     }
 
-    public String getSTATUS() {
-        return STATUS;
+    @Basic
+    @Column(name = "status")
+    public String getStatus() {
+        return status;
     }
 
-    public void setSTATUS(String STATUS) {
-        this.STATUS = STATUS;
+    public void setStatus(String STATUS) {
+        this.status = STATUS;
+    }
+    @Basic
+    @Column(name = "type")
+    public String getType() {
+        return type;
     }
 
-    public String getTYPE() {
-        return TYPE;
+    public void setType(String TYPE) {
+        this.type = TYPE;
     }
 
-    public void setTYPE(String TYPE) {
-        this.TYPE = TYPE;
+    @Basic
+    @Column(name = "object_id")
+    public String getObject_id() {
+        return object_id;
     }
 
-    public String getOBJECT_ID() {
-        return OBJECT_ID;
+    public void setObject_id(String OBJECT_ID) {
+        this.object_id = OBJECT_ID;
     }
 
-    public void setOBJECT_ID(String OBJECT_ID) {
-        this.OBJECT_ID = OBJECT_ID;
+    @Basic
+    @Column(name = "order_id")
+    public String getOrder_id() {
+        return order_id;
     }
 
-    public String getORDER_NO() {
-        return ORDER_NO;
+    public void setOrder_id(String ORDER_NO) {
+        this.order_id = ORDER_NO;
     }
 
-    public void setORDER_NO(String ORDER_NO) {
-        this.ORDER_NO = ORDER_NO;
+    @Basic
+    @Column(name = "pay_type")
+    public String getPay_type() {
+        return pay_type;
     }
 
-    public String getPAY_TYPE() {
-        return PAY_TYPE;
+    public void setPay_type(String PAY_TYPE) {
+        this.pay_type = PAY_TYPE;
     }
 
-    public void setPAY_TYPE(String PAY_TYPE) {
-        this.PAY_TYPE = PAY_TYPE;
+    @Basic
+    @Column(name = "is_del")
+    public int getDel() {
+        return del;
     }
 
-    public int getISDEL() {
-        return ISDEL;
-    }
-
-    public void setISDEL(int ISDEL) {
-        this.ISDEL = ISDEL;
+    public void setDel(int ISDEL) {
+        this.del = ISDEL;
     }
 
 

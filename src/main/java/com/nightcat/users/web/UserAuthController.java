@@ -1,11 +1,13 @@
 package com.nightcat.users.web;
 
 import com.nightcat.common.Response;
+import com.nightcat.common.base.BaseController;
 import com.nightcat.utility.Assert;
 import com.framework.annotation.Authorization;
 import com.framework.annotation.CurrentUser;
 import com.nightcat.entity.User;
 import com.nightcat.users.service.AuthenticationService;
+import com.nightcat.vo.VoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,13 +17,16 @@ import static com.nightcat.common.constant.HttpStatus.*;
 
 @RestController
 @RequestMapping("/users/authentication")
-public class UserAuthController {
+public class UserAuthController extends BaseController {
 
     @Autowired
     private AuthenticationService authService;
 
+    @Autowired
+    private VoService voService;
+
     /**
-     * 用户上传认证
+     * 用户上传认证信息
      */
     @PostMapping
     @Authorization
@@ -46,7 +51,12 @@ public class UserAuthController {
         authService.upload(user, realname, id_card, position, position_img_url,
                 school, school_img_url);
 
-        return Response.ok();
+
+        return ok();
     }
 
+    @Override
+    protected VoService getVoService() {
+        return voService;
+    }
 }

@@ -3,7 +3,7 @@ package com.nightcat.notice.web;
 import com.framework.annotation.Authorization;
 import com.framework.annotation.CurrentUser;
 import com.nightcat.common.Response;
-import com.nightcat.entity.Notice;
+import com.nightcat.entity.UserNotice;
 import com.nightcat.entity.User;
 import com.nightcat.notice.service.NoticeService;
 import com.nightcat.repository.NoticeRepository;
@@ -30,7 +30,7 @@ public class NoticeController {
     @GetMapping
     @Authorization
     public Response all(@CurrentUser User user) {
-        List<Notice> result = notoServ.findByUid(user.getUid());
+        List<UserNotice> result = notoServ.findByUid(user.getUid());
         return ok(notoServ.toVo(result));
     }
 

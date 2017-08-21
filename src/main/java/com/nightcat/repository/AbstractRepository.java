@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @Transactional(propagation = Propagation.REQUIRED)
-public abstract class AbstractRepository<T> extends AbstractReadDao<T> {
+public abstract class AbstractRepository<T> extends AbstractQueryRepository<T> {
 
 
     public void save(T t) {

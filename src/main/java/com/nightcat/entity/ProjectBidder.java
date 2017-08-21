@@ -12,7 +12,7 @@ import static com.nightcat.utility.Util.uuid;
  */
 @Entity
 @Table(name = "ym_project_bidders")
-public class ProjectBidder {
+public class ProjectBidder extends EntityModel{
     private String id = uuid();
     private String proj_id;
     private String uid;

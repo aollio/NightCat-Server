@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "ym_wallet_activity")
-public class WalletActivity {
+public class WalletActivity extends EntityModel {
 
 
     private String id;

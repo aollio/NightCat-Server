@@ -1,7 +1,7 @@
 package com.nightcat.users.service;
 
 import com.nightcat.utility.Util;
-import com.nightcat.entity.Honor;
+import com.nightcat.entity.UserHonor;
 import com.nightcat.repository.HonorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,64 +13,65 @@ import java.util.Map;
 public class HonorService {
 
     @Autowired
-    private HonorRepository honorRepository;
+    private HonorRepository honorRep;
 
 
-    public List<Honor> findByUid(String uid) {
-        return honorRepository.findByUid(uid);
+    public List<UserHonor> findByUid(String uid) {
+        return honorRep.findByUid(uid);
     }
 
-    public void save(Honor honor) {
+    public void save(UserHonor honor) {
+        honor.setCreate_time(Util.now());
         honor.setId(Util.uuid());
-        honorRepository.save(honor);
+        honorRep.save(honor);
     }
 
-    public void saveOrUpdate(Honor honor) {
-        honorRepository.saveOrUpdate(honor);
+    public void saveOrUpdate(UserHonor honor) {
+        honorRep.saveOrUpdate(honor);
     }
 
-    public void delete(Honor honor) {
-        honorRepository.delete(honor);
+    public void delete(UserHonor honor) {
+        honorRep.delete(honor);
     }
 
-    public void update(Honor honor) {
-        honorRepository.update(honor);
+    public void update(UserHonor honor) {
+        honorRep.update(honor);
     }
 
-    public List<Honor> sort(List<Honor> T) {
-        return honorRepository.sort(T);
+    public List<UserHonor> sort(List<UserHonor> T) {
+        return honorRep.sort(T);
     }
 
-    public List<Honor> findAll() {
-        return honorRepository.findAll();
+    public List<UserHonor> findAll() {
+        return honorRep.findAll();
     }
 
-    public List<Honor> findBy(String[] keys, String[] values) {
-        return honorRepository.findBy(keys, values);
+    public List<UserHonor> findBy(String[] keys, String[] values) {
+        return honorRep.findBy(keys, values);
     }
 
-    public List<Honor> findBy(String key, String value) {
-        return honorRepository.findBy(key, value);
+    public List<UserHonor> findBy(String key, String value) {
+        return honorRep.findBy(key, value);
     }
 
-    public List<Honor> findBy(String key, String value, boolean isLikeQuery) {
-        return honorRepository.findBy(key, value, isLikeQuery);
+    public List<UserHonor> findBy(String key, String value, boolean isLikeQuery) {
+        return honorRep.findBy(key, value, isLikeQuery);
     }
 
-    public List<Honor> findBy(String[] keys, String[] values, boolean isLikeQuery) {
-        return honorRepository.findBy(keys, values, isLikeQuery);
+    public List<UserHonor> findBy(String[] keys, String[] values, boolean isLikeQuery) {
+        return honorRep.findBy(keys, values, isLikeQuery);
     }
 
-    public Honor findById(String id) {
-        return honorRepository.findById(id);
+    public UserHonor findById(String id) {
+        return honorRep.findById(id);
     }
 
-    public Honor findByIds(Map<String, String> idAndValues) {
-        return honorRepository.findByIds(idAndValues);
+    public UserHonor findByIds(Map<String, String> idAndValues) {
+        return honorRep.findByIds(idAndValues);
     }
 
-    public List<Honor> findBy(Map<String, String> attr, boolean likeQuery) {
-        return honorRepository.findBy(attr, likeQuery);
+    public List<UserHonor> findBy(Map<String, String> attr, boolean likeQuery) {
+        return honorRep.findBy(attr, likeQuery);
     }
 
 

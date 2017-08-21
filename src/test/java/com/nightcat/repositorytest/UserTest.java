@@ -1,6 +1,7 @@
 package com.nightcat.repositorytest;
 
 import com.nightcat.Application;
+import com.nightcat.repository.ProjectRepository;
 import com.nightcat.utility.Util;
 import com.nightcat.entity.User;
 import com.nightcat.repository.UserRepository;
@@ -17,7 +18,7 @@ public class UserTest {
     @Autowired
     UserRepository userService;
 
-    @Test
+//    @Test
     public void test() {
         User emp = new User();
         emp.setUid("450be21f7c714357a1892ca5291a859c");
@@ -40,4 +41,12 @@ public class UserTest {
         userService.save(des);
     }
 
+
+    @Autowired
+    ProjectRepository repository;
+
+    @Test
+    public void pproj(){
+        System.out.println(Util.toJson(repository.findByBidder("des0")));
+    }
 }

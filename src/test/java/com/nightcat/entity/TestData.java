@@ -2,7 +2,6 @@ package com.nightcat.entity;
 
 import com.nightcat.Application;
 import com.nightcat.common.base.BaseObject;
-import com.nightcat.utility.Util;
 import com.nightcat.im.web.ImService;
 import org.hibernate.SessionFactory;
 import org.junit.Test;
@@ -209,26 +208,26 @@ public class TestData extends BaseObject {
             int experi_count = new Random().nextInt(4);
 
             for (int j = 0; j < experi_count; j++) {
-                Experience experience = new Experience();
-                experience.setId(uuid());
-                experience.setUid(user.getUid());
-                experience.setName(randomName());
-                experience.setDescription(randomDesc());
-                experience.setCreate_time(now());
-                experience.setImg_url(random正方形());
+                UserExperience userExperience = new UserExperience();
+                userExperience.setId(uuid());
+                userExperience.setUid(user.getUid());
+                userExperience.setName(randomName());
+                userExperience.setDescription(randomDesc());
+                userExperience.setCreate_time(now());
+                userExperience.setImg_url(random正方形());
 
                 int exp_cmt_count = random.nextInt(4);
 
-                experience.setComment_count(exp_cmt_count);
-                experience.setView_count(exp_cmt_count * 4);
-                experience.setFav_count(exp_cmt_count * 2);
+                userExperience.setComment_count(exp_cmt_count);
+                userExperience.setView_count(exp_cmt_count * 4);
+                userExperience.setFav_count(exp_cmt_count * 2);
 
-                sessionFactory.getCurrentSession().save(experience);
+                sessionFactory.getCurrentSession().save(userExperience);
 
                 for (int k = 0; k < exp_cmt_count; k++) {
-                    ExpComment comment = new ExpComment();
+                    UserExpComment comment = new UserExpComment();
                     comment.setId(uuid());
-                    comment.setExp_id(experience.getId());
+                    comment.setExp_id(userExperience.getId());
                     comment.setComment_time(now());
                     comment.setContent(getCommentContent());
                     comment.setUid((k % 2 == 0 ? "des" : "emp") + random.nextInt(desNickname.length));
@@ -239,7 +238,7 @@ public class TestData extends BaseObject {
             int honor_count = new Random().nextInt(5);
 
             for (int k = 0; k < honor_count; k++) {
-                Honor honor = randomHonor();
+                UserHonor honor = randomHonor();
                 honor.setUid(user.getUid());
                 sessionFactory.getCurrentSession().save(honor);
             }
@@ -253,7 +252,7 @@ public class TestData extends BaseObject {
     }
 
 
-    private Honor randomHonor() {
+    private UserHonor randomHonor() {
         String[] names = new String[]{
                 "ASLA景观专业奖",
                 "将美带入生活",
@@ -277,7 +276,7 @@ public class TestData extends BaseObject {
 
         int ran = random.nextInt(names.length);
 
-        Honor honor = new Honor();
+        UserHonor honor = new UserHonor();
         honor.setId(uuid());
         honor.setCreate_time(now());
         honor.setGet_time(now());

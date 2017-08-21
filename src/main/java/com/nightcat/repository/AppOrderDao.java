@@ -10,7 +10,7 @@ public class AppOrderDao extends AbstractRepository<PayOrder> {
     @Override
     public PayOrder findById(String id) {
         PayOrder result = super.findById(id);
-        if (result.getISDEL() != 1){
+        if (result.getDel() != 1){
             return null;
         }
         return result;

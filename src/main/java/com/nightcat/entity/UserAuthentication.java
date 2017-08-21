@@ -10,7 +10,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "ym_user_authentication")
-public class UserAuthentication {
+public class UserAuthentication extends EntityModel {
     private String id;
     /**
      * 用户uid

@@ -3,7 +3,9 @@ package com.nightcat.projects.web;
 import com.nightcat.common.Response;
 import com.nightcat.common.base.BaseController;
 import com.nightcat.common.constant.Constant;
-import com.nightcat.entity.vo.ProjectVo;
+import com.nightcat.entity.ProjectImage;
+import com.nightcat.vo.VoService;
+import com.nightcat.repository.ProjectImagesRepository;
 import com.nightcat.utility.Assert;
 import com.nightcat.utility.Util;
 import com.framework.annotation.Authorization;
@@ -13,8 +15,6 @@ import com.nightcat.entity.Project;
 import com.nightcat.entity.User;
 import com.nightcat.projects.service.ProjectBidderService;
 import com.nightcat.projects.service.ProjectService;
-import com.nightcat.utility.wangyi.SendTemplate;
-import jdk.internal.dynalink.linker.LinkerServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.Timestamp;
 import java.util.Collection;
-import java.util.Set;
+import java.util.List;
 
 import static com.nightcat.common.Response.ok;
 import static com.nightcat.utility.Util.*;
@@ -35,10 +35,16 @@ public class ProjectController extends BaseController {
 
 
     @Autowired
-    private ProjectService projServ;
+    private ProjectService projectService;
 
     @Autowired
-    private ProjectBidderService bidderServ;
+    private ProjectBidderService bidderService;
+
+    @Autowired
+    private ProjectImagesRepository imgRep;
+
+    @Autowired
+    private VoService voService;
 
     /**
      * 返回项目首页的timeline
@@ -61,9 +67,9 @@ public class ProjectController extends BaseController {
             designType = temp;
         }
 
-        limit = limit == null ? Constant.DEFAULT_LIMIT : limit;
+//        limit = limit == null ? Constant.DEFAULT_LIMIT : limit;
 
-        return ok(projServ.toVo(projServ.findByType(designType, limit, since_time, max_time)));
+        return okVo(projectService.findByType(designType, Constant.DEFAULT_LIMIT, since_time, max_time));
     }
 
 
@@ -80,24 +86,23 @@ public class ProjectController extends BaseController {
 
         DesignType designType = DesignType.UNDEFINDED;
 
-        if (type != null) {
-            DesignType temp = Util.enumFromOrigin(type, DesignType.class);
-            Assert.notNull(temp, BAD_REQUEST, "设计类型不对");
-            designType = temp;
-        }
+//        if (type != null) {
+//            DesignType temp = Util.enumFromOrigin(type, DesignType.class);
+//            Assert.notNull(temp, BAD_REQUEST, "设计类型不对");
+//            designType = temp;
+//        }
 
         limit = limit == null ? Constant.DEFAULT_LIMIT : limit;
 
         Timestamp since_time = timeFromStr(since_time_str);
         Timestamp max_time = emptyStr(max_time_str) ? now() : timeFromStr(max_time_str);
 
-        Collection<Project> projects = projServ.findTimelineByUid(user.getRole(),
+        Collection<Project> projects = projectService.findTimelineByUid(user.getRole(),
                 user.getUid(), designType, limit,
                 since_time, max_time);
 
-        Collection<ProjectVo> vos = projServ.toVo(projects);
 
-        return ok(vos);
+        return okVo(projects);
     }
 
     /**
@@ -107,7 +112,7 @@ public class ProjectController extends BaseController {
     @Authorization
     public Response grabber_list(String id) {
         //todo
-        return ok(bidderServ.findByProjectId(id));
+        return ok(bidderService.findByProjectId(id));
     }
 
 
@@ -118,11 +123,25 @@ public class ProjectController extends BaseController {
     public Response show(String id) {
         Assert.strExist(id, BAD_REQUEST, "参数id不存在");
 
-        Project project = projServ.findById(id);
+        Project project = projectService.findById(id);
 
         Assert.notNull(project, NOT_FOUND, "项目不存在");
-        return ok(projServ.toVo(project));
+        return okVo(project);
+    }
+
+    @Deprecated
+    @GetMapping("/imgs")
+    public Response showImg(String id) {
+        Assert.strExist(id, BAD_REQUEST, "参数id不存在");
+
+        List<ProjectImage> project = imgRep.findByProjId(id);
+
+        return ok(project);
     }
 
 
+    @Override
+    protected VoService getVoService() {
+        return voService;
+    }
 }

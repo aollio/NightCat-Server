@@ -1,6 +1,6 @@
-package com.nightcat.entity.vo;
+package com.nightcat.vo.model;
 
-import com.nightcat.entity.Notice;
+import com.nightcat.entity.UserNotice;
 
 import java.sql.Timestamp;
 
@@ -14,13 +14,13 @@ public class NoticeVo {
 
     private String type;
 
-    public static NoticeVo from(Notice notice) {
+    public static NoticeVo from(UserNotice userNotice) {
         NoticeVo vo = new NoticeVo();
-        vo.setId(notice.getId());
-        vo.setUid(notice.getUid());
-        vo.setContent(notice.getContent());
-        vo.setCreate_time(notice.getCreate_time());
-        vo.setType(notice.getType().getTitle());
+        vo.setId(userNotice.getId());
+        vo.setUid(userNotice.getUid());
+        vo.setContent(userNotice.getContent());
+        vo.setCreate_time(userNotice.getCreate_time());
+        vo.setType(userNotice.getType().getTitle());
         return vo;
     }
 

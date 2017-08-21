@@ -1,6 +1,6 @@
 package com.nightcat.notice;
 
-import com.nightcat.entity.Notice;
+import com.nightcat.entity.UserNotice;
 import com.nightcat.entity.Project;
 import com.nightcat.entity.ProjectBidder;
 import com.nightcat.event.Event;
@@ -33,7 +33,7 @@ public class NoticeEventListener {
             Project project = (Project) context;
             noticeServ
                     .sender()
-                    .type(Notice.Type.PROJECT_CHOOSE)
+                    .type(UserNotice.Type.PROJECT_CHOOSE)
                     .content("您抢单成功了, 项目ID: " + project.getId())
                     .uid(project.getBidder())
                     .send();
@@ -58,7 +58,7 @@ public class NoticeEventListener {
                     .sender()
                     .uid(project.getCreate_by())
                     .content("你的订单被抢单")
-                    .type(Notice.Type.PROJECT_GRABBED)
+                    .type(UserNotice.Type.PROJECT_GRABBED)
                     .send();
         };
     }

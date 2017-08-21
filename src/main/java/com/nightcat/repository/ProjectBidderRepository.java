@@ -2,7 +2,6 @@ package com.nightcat.repository;
 
 import com.nightcat.entity.ProjectBidder;
 import org.hibernate.Criteria;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

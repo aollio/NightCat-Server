@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "ym_user_experience")
-public class Experience {
+public class UserExperience extends EntityModel {
     private String id;
     private String uid;
     private String name;
@@ -113,7 +113,7 @@ public class Experience {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Experience that = (Experience) o;
+        UserExperience that = (UserExperience) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (uid != null ? !uid.equals(that.uid) : that.uid != null) return false;

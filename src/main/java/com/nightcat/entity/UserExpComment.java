@@ -10,7 +10,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "ym_user_experience_comments")
-public class ExpComment {
+public class UserExpComment extends EntityModel {
 
     /**
      * 评论id
@@ -103,7 +103,7 @@ public class ExpComment {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ExpComment that = (ExpComment) o;
+        UserExpComment that = (UserExpComment) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (uid != null ? !uid.equals(that.uid) : that.uid != null) return false;

@@ -1,6 +1,7 @@
 package com.framework.annotation;
 
 import com.nightcat.common.CatException;
+import com.nightcat.common.base.BaseObject;
 import com.nightcat.common.constant.HttpStatus;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -15,10 +16,9 @@ import org.springframework.web.method.support.ModelAndViewContainer;
  * @date 15/05/2017
  */
 @Component
-public class EnumPramMethodArgumentResolver implements HandlerMethodArgumentResolver {
+public class EnumPramMethodArgumentResolver extends BaseObject implements HandlerMethodArgumentResolver {
 
 
-    private static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(EnumPramMethodArgumentResolver.class);
 
     EnumPramMethodArgumentResolver() {
         logger.info("初始化: " + this.getClass().getCanonicalName());

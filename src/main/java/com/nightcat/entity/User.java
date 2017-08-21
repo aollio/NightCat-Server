@@ -1,6 +1,7 @@
 package com.nightcat.entity;
 
 import com.nightcat.utility.Util;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -10,7 +11,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "ym_user")
-public class User {
+public class User extends EntityModel {
 
     private String accid;
 
@@ -59,7 +60,7 @@ public class User {
      * 手机号
      */
     private String phone;
-    private Timestamp create_time;
+    private Timestamp create_time = Util.now();
     /**
      * 上次登录时间
      */
@@ -76,6 +77,8 @@ public class User {
     private String imtoken;
     private boolean del = false;
 
+    @Basic
+    @Column(name = "id_card")
     public String getId_card() {
         return id_card;
     }
@@ -86,7 +89,7 @@ public class User {
 
 
     @Id
-    @Column(name = "id")
+    @Column(name = "uid")
     public String getUid() {
         return uid;
     }

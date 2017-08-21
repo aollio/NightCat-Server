@@ -3,6 +3,7 @@ package com.nightcat.projects.web;
 import com.framework.annotation.Authorization;
 import com.framework.annotation.CurrentUser;
 import com.nightcat.common.Response;
+import com.nightcat.common.base.BaseController;
 import com.nightcat.utility.Assert;
 import com.nightcat.utility.Util;
 import com.nightcat.entity.*;
@@ -12,6 +13,7 @@ import com.nightcat.event.EventManager;
 import com.nightcat.projects.service.ProjectBidderService;
 import com.nightcat.projects.service.ProjectProcessService;
 import com.nightcat.projects.service.ProjectService;
+import com.nightcat.vo.VoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +31,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/projects")
-public class ProjectProcessController {
+public class ProjectProcessController extends BaseController {
 
     /**
      * 设计师抢单.
@@ -54,6 +56,9 @@ public class ProjectProcessController {
 
     @Autowired
     private EventManager eventManager;
+
+    @Autowired
+    private VoService voService;
 
     @PostMapping
     @Authorization
@@ -119,7 +124,7 @@ public class ProjectProcessController {
 
         Project newProj = processServ.publish(project, img_urls);
 
-        return ok(projServ.toVo(newProj));
+        return okVo(newProj);
     }
 
     /**
@@ -274,7 +279,7 @@ public class ProjectProcessController {
 
         Project newProj = processServ.modify(project, img_urls);
 
-        return ok(projServ.toVo(newProj));
+        return okVo(newProj);
     }
 
     @PostMapping("/money")
@@ -391,10 +396,10 @@ public class ProjectProcessController {
 
         if (user.getRole() == User.Role.EMPLOYER) {
             Project result = processServ.cancelByEmployer(user, project, cancel_reason);
-            return ok(projServ.toVo(result));
+            return okVo(result);
         } else {
             Project result = processServ.cancelByDesigner(user, project, cancel_reason);
-            return ok(projServ.toVo(result));
+            return okVo(result);
         }
     }
 
@@ -413,4 +418,8 @@ public class ProjectProcessController {
     }
 
 
+    @Override
+    protected VoService getVoService() {
+        return voService;
+    }
 }

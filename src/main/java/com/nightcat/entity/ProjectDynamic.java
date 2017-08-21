@@ -10,7 +10,7 @@ import static com.nightcat.utility.Util.now;
  */
 @Entity
 @Table(name = "ym_project_dynamic")
-public class ProjectDynamic {
+public class ProjectDynamic extends EntityModel{
     private String id;
     private String proj_id;
     private String uid;
@@ -72,7 +72,7 @@ public class ProjectDynamic {
     }
 
     @Basic
-    @Column(name = "user_id")
+    @Column(name = "uid")
     public String getUid() {
         return uid;
     }
@@ -82,7 +82,7 @@ public class ProjectDynamic {
     }
 
     @Basic
-    @Column(name = "publisher")
+    @Column(name = "is_publisher")
     public boolean isPublisher() {
         return publisher;
     }

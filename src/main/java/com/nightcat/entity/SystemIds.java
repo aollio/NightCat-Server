@@ -1,11 +1,10 @@
 package com.nightcat.entity;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 
 @Table(name = "system_ids")
 @Entity
-public class SystemIds {
+public class SystemIds extends EntityModel{
 
     private String id;
     private int value = 0;

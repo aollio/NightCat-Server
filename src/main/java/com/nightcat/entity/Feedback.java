@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "ym_feedback")
-public class Feedback {
+public class Feedback extends EntityModel {
     private String id;
     private String content;
     private String phone;

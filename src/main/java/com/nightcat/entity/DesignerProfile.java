@@ -9,7 +9,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "ym_designer_profile")
-public class DesignerProfile {
+public class DesignerProfile extends EntityModel {
     /**
      * 用户标识
      */
@@ -22,7 +22,7 @@ public class DesignerProfile {
     /**
      * 设计师类别
      */
-    private DesignType type;
+    private DesignType type = DesignType.UNDEFINDED;
 
 
     /**
@@ -88,7 +88,7 @@ public class DesignerProfile {
 
 
     @Id
-    @Column(name = "uid")
+    @Column(name = "uid", nullable = false)
     public String getUid() {
         return uid;
     }
@@ -109,7 +109,7 @@ public class DesignerProfile {
     }
 
     @Basic
-    @Column(name = "design_type")
+    @Column(name = "design_type", nullable = false)
     public DesignType getType() {
         return type;
     }
@@ -238,6 +238,28 @@ public class DesignerProfile {
         this.school = school;
     }
 
+
+    @Basic
+    @Column(name ="is_official_position")
+    public boolean isOfficial_position() {
+        return official_position;
+    }
+
+    public void setOfficial_position(boolean official_position) {
+        this.official_position = official_position;
+    }
+
+    @Basic
+    @Column(name = "is_official_school")
+    public boolean isOfficial_school() {
+        return official_school;
+    }
+
+    public void setOfficial_school(boolean official_school) {
+        this.official_school = official_school;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -296,19 +318,4 @@ public class DesignerProfile {
         return result;
     }
 
-    public boolean isOfficial_position() {
-        return official_position;
-    }
-
-    public void setOfficial_position(boolean official_position) {
-        this.official_position = official_position;
-    }
-
-    public boolean isOfficial_school() {
-        return official_school;
-    }
-
-    public void setOfficial_school(boolean official_school) {
-        this.official_school = official_school;
-    }
 }

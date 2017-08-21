@@ -1,4 +1,4 @@
-package com.nightcat.entity.vo;
+package com.nightcat.vo.model;
 
 import com.nightcat.utility.Util;
 
@@ -34,6 +34,9 @@ public class ExpCommentVo {
     private String type;
 
     private UserVo creator;
+
+    private ExpVo exp;
+
 
     public String getId() {
         return id;
@@ -89,5 +92,13 @@ public class ExpCommentVo {
 
     public void setCreator(UserVo creator) {
         this.creator = creator;
+    }
+
+    public ExpVo getExp() {
+        return exp;
+    }
+
+    public void setExp(ExpVo exp) {
+        this.exp = exp;
     }
 }
