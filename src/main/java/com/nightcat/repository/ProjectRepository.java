@@ -5,11 +5,16 @@ import com.nightcat.entity.Project;
 import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.List;
+
+import static org.hibernate.criterion.Restrictions.eq;
 
 @Repository
 public class ProjectRepository extends AbstractRepository<Project> {
@@ -55,8 +60,7 @@ public class ProjectRepository extends AbstractRepository<Project> {
         return query;
     }
 
-    @Override
-    protected ProjectQuery query() {
+    public ProjectQuery query() {
         return new ProjectQuery(getCriteria());
     }
 
@@ -102,41 +106,65 @@ public class ProjectRepository extends AbstractRepository<Project> {
     }
 
 
-    public class ProjectQuery extends Query<Project, ProjectQuery> {
+    public class ProjectQuery {
+
+        Criteria criteria;
 
         ProjectQuery(Criteria criteria) {
-            super(criteria, new ProjectQuery(criteria));
+            this.criteria = criteria;
         }
 
 
         ProjectQuery type(DesignType type) {
             if (type != DesignType.UNDEFINDED)
-                eq("type", type);
+                add(eq("type", type));
             return this;
         }
 
         ProjectQuery bidder(String uid) {
-            eq("bidder", uid);
+            add(eq("bidder", uid));
             return this;
         }
 
         ProjectQuery create_by(String uid) {
-            eq("create_by", uid);
+            add(eq("create_by", uid));
             return this;
         }
 
         ProjectQuery status(Project.Status status) {
-            eq("status", status);
+            add(eq("status", status));
             return this;
         }
 
-
         ProjectQuery desc() {
-            desc("create_time");
+            criteria.addOrder(Order.desc("create_time"));
             return this;
+        }
+
+        ProjectQuery page(int page) {
+            criteria.setFirstResult(page);
+            return this;
+        }
+
+        ProjectQuery limit(int limit) {
+            criteria.setMaxResults(limit);
+            return this;
+        }
+
+        ProjectQuery between(String key, Object low, Object high) {
+            add(Restrictions.between(key, low, high));
+            return this;
+        }
+
+        ProjectQuery add(Criterion c) {
+            criteria.add(c);
+            return this;
+        }
+
+        List<Project> list() {
+            return criteria.list();
         }
 
 
     }
-
 }

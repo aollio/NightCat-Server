@@ -9,6 +9,6 @@ import java.util.List;
 public class ExpCommentRepository extends AbstractRepository<UserExpComment> {
 
     public List<UserExpComment> findByExpId(String expId) {
-        return query().eq("exp_id", expId).list();
+        return queryDefault().eq("exp_id", expId).list();
     }
 }

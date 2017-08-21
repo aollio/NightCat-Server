@@ -28,15 +28,16 @@ public class UserRepository extends AbstractRepository<User> {
         return query().l_nickname(nickname).list();
     }
 
-    @Override
     protected UserQuery query() {
         return new UserQuery(getCriteria());
     }
 
-    public static class UserQuery extends Query<User, UserQuery> {
+    public static class UserQuery {
+
+        Criteria criteria;
 
         UserQuery(Criteria criteria) {
-            super(criteria, new UserQuery(criteria));
+            this.criteria = criteria;
         }
 
         UserQuery l_nickname(String nickname) {
@@ -52,6 +53,20 @@ public class UserRepository extends AbstractRepository<User> {
         UserQuery phone(String phone) {
             eq("phone", phone);
             return this;
+        }
+
+        UserQuery eq(String key, Object value) {
+            criteria.add(Restrictions.eq(key, value));
+            return this;
+        }
+
+        UserQuery like(String key, Object value) {
+            criteria.add(Restrictions.like(key, value));
+            return this;
+        }
+
+        List<User> list() {
+            return criteria.list();
         }
 
 

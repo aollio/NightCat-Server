@@ -3,6 +3,7 @@ package com.nightcat.repository;
 import com.nightcat.common.CatException;
 import com.nightcat.common.base.BaseObject;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
@@ -18,6 +19,8 @@ import java.lang.reflect.Type;
 import java.util.*;
 
 import static com.nightcat.common.ErrorCode.SYSTEM_PERSISTENT_INCORRECT_KEY;
+import static org.hibernate.criterion.Restrictions.eq;
+import static org.hibernate.criterion.Restrictions.like;
 
 /**
  * Created by finderlo on 16-12-17.
@@ -72,7 +75,7 @@ public abstract class AbstractQueryRepository<T> extends BaseObject {
             }
         }
 
-        Query<T, ? extends Query> query = query();
+        Criteria query = getCriteria();
 
         for (int i = 0; i < length; i++) {
             //参数判断关键词匹配
@@ -80,9 +83,9 @@ public abstract class AbstractQueryRepository<T> extends BaseObject {
                 continue;
             }
             if (isLikeQuery) {
-                query.like(keys[i], values[i]);
+                query.add(like(keys[i], values[i]));
             } else {
-                query.eq(keys[i], values[i]);
+                query.add(eq(keys[i], values[i]));
             }
         }
 
@@ -229,69 +232,60 @@ public abstract class AbstractQueryRepository<T> extends BaseObject {
     }
 
 
-    //todo
-    protected Query<T, ? extends Query> query() {
-        return new Query<T, Query>(getCriteria(), new Query(getCriteria()));
+
+    public Query<T> queryDefault() {
+        return new Query<>(getCriteria());
     }
 
-    public static class Query<ENTITY, RETURN extends Query> {
+    public static class Query<ENTITY> {
 
         protected Criteria criteria = null;
 
-        protected RETURN query;
-
         public Query(Criteria criteria) {
-            this(criteria, null);
+            this.criteria = criteria;
         }
 
-        public Query(Criteria criteria, RETURN query) {
-            this.query = query;
-            if (query != null) {
-                query.criteria = criteria;
-            }
-        }
-
-        public RETURN page(int page) {
+        public Query page(int page) {
             if (page >= 0)
-                query.criteria.setFirstResult(page);
-            return query;
+                criteria.setFirstResult(page);
+            return this;
         }
 
-        public RETURN limit(int limit) {
+        public Query limit(int limit) {
             if (limit > 0)
-                query.criteria.setMaxResults(limit);
-            return query;
+                criteria.setMaxResults(limit);
+            return this;
         }
 
-        public RETURN add(Criterion condition) {
-            query.criteria.add(condition);
-            return query;
+        public Query add(Criterion condition) {
+            criteria.add(condition);
+            return this;
         }
 
-        public RETURN eq(String key, Object value) {
-            query.criteria.add(Restrictions.eq(key, value));
-            return query;
+        public Query eq(String key, Object value) {
+            criteria.add(Restrictions.eq(key, value));
+            return this;
         }
 
-        public RETURN like(String key, Object value) {
-            query.criteria.add(Restrictions.like(key, value));
-            return query;
+        public Query like(String key, Object value) {
+            criteria.add(Restrictions.like(key, value));
+            return this;
         }
 
-        public RETURN desc(String key) {
-            query.criteria.addOrder(Order.desc(key));
-            return query;
+        public Query desc(String key) {
+            criteria.addOrder(Order.desc(key));
+            return this;
         }
 
-        public RETURN between(String key, Object low, Object high) {
-            query.criteria.add(Restrictions.between(key, low, high));
-            return query;
+        public Query between(String key, Object low, Object high) {
+            criteria.add(Restrictions.between(key, low, high));
+            return this;
         }
 
 
         @SuppressWarnings("unchecked")
         public List<ENTITY> list() {
-            return query.criteria.list();
+            return criteria.list();
         }
 
 

@@ -61,12 +61,12 @@ public class DesignerController extends BaseController {
 
         DesignerProfileRepository.ProfileQuery builder = designerService
                 .query()
-                .nickname(nickname)
+//                .nickname(nickname)
                 .type(designType)
                 .position(position)
-                .official(official1)
-                .limit(limit_int)
-                .page(page_int);
+                .official(official1);
+//                .limit(limit_int)
+//                .page(page_int);
 
         List<DesignerProfile> profileList = builder.list();
         return okVo(profileList);
