@@ -118,8 +118,7 @@ class ProjectProcessController : BaseController() {
             id: String,
             price: Double?,
             cycle: String?,
-            description: String?
-    ): Response {
+            description: String?): Response {
         //check user is a designer
         Assert.isDesigner(user, BaseController.BAD_REQUEST, "only designer can grab project")
 
