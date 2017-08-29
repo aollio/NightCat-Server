@@ -1,5 +1,6 @@
 buildscript {
     ext {
+        kotlinVersion = '1.1.4'
         springBootVersion = '1.5.6.RELEASE'
     }
     repositories {
@@ -7,23 +8,36 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
+        classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
     }
 }
 
+
 apply plugin: 'java'
+apply plugin: 'kotlin'
+apply plugin: 'kotlin-spring'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 
-group = 'com.nightcat'
-description = 'nightcat'
+//apply plugin: 'application'
+//mainClassName = "net.mydomain.kotlinlearn.MainKt"
+group = 'com.yemao'
+description = 'yemao'
 
 springBoot {
-    mainClass = 'com.nightcat.Application'
+    mainClass = 'com.yemao.Application'
 }
 
 version = '1.0.0'
 sourceCompatibility = 1.8
 
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
 
 repositories {
     mavenCentral()
@@ -31,17 +45,21 @@ repositories {
 
 
 dependencies {
-    compile fileTree(dir:'libs',include:['*.jar'])
-    compile('org.springframework.boot:spring-boot-starter:1.5.6.RELEASE')
-    compile('org.springframework.boot:spring-boot-starter-data-jpa:1.5.6.RELEASE')
+    compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile('org.springframework.boot:spring-boot-starter-web:1.5.6.RELEASE')
+    compile("org.jetbrains.kotlin:kotlin-stdlib-jre8:${kotlinVersion}")
+    compile("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
 
-    compile('org.springframework.boot:spring-boot-starter-data-redis:1.5.6.RELEASE')
-    compile('org.springframework.boot:spring-boot-starter-aop:1.5.6.RELEASE')
+
+    compile("org.springframework.boot:spring-boot-starter:${springBootVersion}")
+    compile("org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}")
+    compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+    compile("org.springframework.boot:spring-boot-starter-data-redis:${springBootVersion}")
+    compile("org.springframework.boot:spring-boot-starter-aop:${springBootVersion}")
 
     compile('com.google.code.gson:gson:2.8.0')
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
     runtime('mysql:mysql-connector-java')
-    testCompile('org.springframework.boot:spring-boot-starter-test:1.5.6.RELEASE')
+    testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
+
 }

@@ -1,8 +1,8 @@
 package com.framework.annotation;
 
-import com.nightcat.common.constant.Constant;
-import com.nightcat.entity.User;
-import com.nightcat.repository.UserRepository;
+import com.yemao.common.constant.Constant;
+import com.yemao.users.models.User;
+import com.yemao.users.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;

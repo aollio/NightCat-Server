@@ -1,8 +1,8 @@
 package com.framework.aop;
 
-import com.nightcat.common.base.BaseObject;
-import com.nightcat.common.constant.Constant;
-import com.nightcat.utility.Util;
+import com.yemao.common.base.BaseObject;
+import com.yemao.common.constant.Constant;
+import com.yemao.utility.Util;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
@@ -26,7 +26,7 @@ public class WebLogAspect extends BaseObject {
 
     ThreadLocal<WebLog> webLog = new ThreadLocal<>();
 
-    @Pointcut("execution(public * com.nightcat.*.web..*.*(..))")
+    @Pointcut("execution(public * com.yemao.*.web..*.*(..))")
     public void webLog() {
     }
 

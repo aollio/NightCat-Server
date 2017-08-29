@@ -1,10 +1,10 @@
 package com.framework.annotation;
 
-import com.nightcat.common.Response;
-import com.nightcat.common.constant.Constant;
-import com.nightcat.common.constant.HttpStatus;
-import com.nightcat.entity.Token;
-import com.nightcat.users.service.TokenService;
+import com.yemao.common.Response;
+import com.yemao.common.constant.Constant;
+import com.yemao.common.constant.HttpStatus;
+import com.yemao.users.models.Token;
+import com.yemao.users.service.TokenService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

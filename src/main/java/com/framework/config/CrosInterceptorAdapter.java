@@ -1,6 +1,6 @@
 package com.framework.config;
 
-import com.nightcat.users.service.TokenService;
+import com.yemao.users.service.TokenService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

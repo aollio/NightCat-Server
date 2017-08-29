@@ -2,7 +2,7 @@ package com.framework.config;
 
 import com.framework.annotation.AuthorizationInterceptor;
 import com.framework.annotation.CurrentUserMethodArgumentResolver;
-import com.framework.annotation.EnumPramMethodArgumentResolver;
+import com.framework.annotation.EnumParamMethodArgumentResolver;
 import com.framework.formatter.TimestampFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +21,7 @@ import java.util.List;
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
     @Autowired
-    private EnumPramMethodArgumentResolver enumPramMethodArgumentResolver;
+    private EnumParamMethodArgumentResolver enumPramMethodArgumentResolver;
 
     @Autowired
     private CurrentUserMethodArgumentResolver currentUserMethodArgumentResolver;

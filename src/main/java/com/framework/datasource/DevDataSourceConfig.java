@@ -20,7 +20,7 @@ import java.util.Properties;
  */
 @Configuration
 @PropertySource(value = "classpath:/dev_jdbc.properties")
-@Profile({"test"})
+@Profile({"dev"})
 @EnableTransactionManagement
 public class DevDataSourceConfig {
 
