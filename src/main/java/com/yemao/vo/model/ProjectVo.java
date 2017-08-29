@@ -1,9 +1,8 @@
 package com.yemao.vo.model;
 
 import com.yemao.entity.DesignType;
-import com.yemao.projects.models.Depth;
 import com.yemao.projects.models.Project;
-import com.yemao.projects.models.Status;
+import com.yemao.projects.models.Project.*;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;

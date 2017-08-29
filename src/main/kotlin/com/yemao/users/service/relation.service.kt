@@ -5,7 +5,7 @@ import com.yemao.common.base.BaseObject
 import com.yemao.event.Event
 import com.yemao.event.EventManager
 import com.yemao.repository.AbstractQueryRepository
-import com.yemao.repository.RelationRepository
+import com.yemao.users.repository.RelationRepository
 import com.yemao.users.models.Relation
 import com.yemao.utility.Assert
 import org.springframework.beans.factory.annotation.Autowired

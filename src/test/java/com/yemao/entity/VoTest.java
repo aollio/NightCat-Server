@@ -2,7 +2,7 @@ package com.yemao.entity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yemao.Application;
-import com.yemao.repository.DesignerProfileRepository;
+import com.yemao.users.repository.ProfileRepository;
 import com.yemao.users.repository.UserRepository;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class VoTest {
     UserRepository userRepository;
 
     @Autowired
-    DesignerProfileRepository designerProfileRepository;
+    ProfileRepository profileRepository;
 
     @Autowired
     ObjectMapper objectMapper;

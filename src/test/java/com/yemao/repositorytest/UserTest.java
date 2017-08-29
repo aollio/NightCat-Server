@@ -2,7 +2,7 @@ package com.yemao.repositorytest;
 
 import com.yemao.Application;
 import com.yemao.entity.DesignType;
-import com.yemao.repository.DesignerProfileRepository;
+import com.yemao.users.repository.ProfileRepository;
 import com.yemao.users.models.Official;
 import com.yemao.users.models.Position;
 import com.yemao.users.models.Role;
@@ -50,7 +50,7 @@ public class UserTest {
 
 
     @Autowired
-    DesignerProfileRepository repository;
+    ProfileRepository repository;
 
     @Autowired
     DesignerController designerController;

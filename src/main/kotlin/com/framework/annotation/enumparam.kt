@@ -17,7 +17,7 @@ import com.yemao.common.constant.HttpStatus.*
  */
 @Target(VALUE_PARAMETER)
 @Retention(AnnotationRetention.RUNTIME)
-annotation class EnumParam(val default: Int = 0, val required: Boolean = true)
+annotation class EnumParam(val defaultValue: Int = 0, val required: Boolean = true)
 
 @Component
 class EnumParamMethodArgumentResolver :
@@ -56,11 +56,11 @@ class EnumParamMethodArgumentResolver :
 
         try {
             return enum.enumConstants
-                    .filter { (it as Enum<*>).ordinal == enum_param.default }
+                    .filter { (it as Enum<*>).ordinal == enum_param.defaultValue }
                     .forEach { return it }
         } catch (e: Exception) {
             throw CatException(BAD_REQUEST,
-                    """the param $name has a wrong default param origin value.
+                    """the param $name has a wrong defaultValue param origin value.
                         | Enum :${parameter.parameterType.canonicalName}""".trimMargin())
         }
     }

@@ -1,6 +1,8 @@
 package com.yemao.vo.model;
 
 import com.yemao.users.models.*;
+import com.yemao.users.models.User.*;
+import com.yemao.users.models.Profile.*;
 import com.yemao.utility.Util;
 import com.yemao.entity.DesignType;
 
@@ -25,7 +27,7 @@ public class UserVo {
     /**
      * 性别
      */
-    private Sex sex = Sex.UNDEFINED;
+    private User.Sex sex = User.Sex.UNDEFINED;
     /**
      * 头像url
      */

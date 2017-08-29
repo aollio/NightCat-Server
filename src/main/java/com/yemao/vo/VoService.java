@@ -5,7 +5,7 @@ import com.yemao.entity.EntityModel;
 import com.yemao.notice.models.Notice;
 import com.yemao.projects.models.Project;
 import com.yemao.projects.models.ProjectImage;
-import com.yemao.repository.ProjectImagesRepository;
+import com.yemao.projects.repository.ProjectImagesRepository;
 import com.yemao.users.models.*;
 import com.yemao.users.service.ExperienceService;
 import com.yemao.users.service.ProfileService;
@@ -112,7 +112,7 @@ public class VoService extends BaseObject {
         vo.setStatus(p.getStatus());
         vo.setCreate_by(p.getCreate_by());
         vo.setCreate_time(p.getCreate_time());
-        vo.setGood(p.getGood());
+        vo.setGood(p.isGood());
         vo.setModify_by(p.getModify_by());
         vo.setModify_mark(p.getModify_by());
         vo.setDue_time(p.getDue_time());
