@@ -7,10 +7,6 @@ env.user = 'root'
 env.sudo_user = 'root'
 # 服务器地址
 env.hosts = ['106.15.192.136']
-# 服务器用户名
-db_user = 'root'
-# 服务器密码
-db_password = 'Jianlianyemao-123'
 
 # 编译后的文件名称
 Tar_File = 'yemao-server-1.0.0.jar'

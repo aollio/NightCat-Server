@@ -1,6 +1,0 @@
-#!/bin/sh
-cd ~/Projects/yemao-server
-gradle build -x test
-cd ~/Projects/yemao-server/build/libs
-scp yemao-server-1.0.0.jar root@106.15.192.136:/root/yemao-test/main.jar
-ssh root@106.15.192.136 /root/yemao-test/server restart 
